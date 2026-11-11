@@ -526,7 +526,8 @@ void ui_display_register_wallet_policy_flow(void) {
     // Cleartext spending-path block, when available.
     if (g_ui_state.register_wallet_policy.n_cleartext_lines > 0 &&
         g_ui_state.register_wallet_policy.cleartext_lines != NULL) {
-        static char path_labels[CT_MAX_LINES][sizeof("Spending path #99")];
+        char (*path_labels)[sizeof("Spending path #99")] =
+            g_ui_state.register_wallet_policy.path_labels;
         size_t n = g_ui_state.register_wallet_policy.n_cleartext_lines;
 
         LEDGER_ASSERT(n <= CT_MAX_LINES, "Too many cleartext lines");

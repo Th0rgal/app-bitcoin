@@ -28,6 +28,7 @@
 /* Local headers */
 #include "crypto.h"
 #include "debug.h"
+#include "lean_kernels/liblean_ledger_bitcoin.h"
 
 void merkle_compute_element_hash(const uint8_t *in,
                                  size_t in_len,
@@ -50,7 +51,8 @@ void merkle_combine_hashes(const uint8_t left[static CX_SHA256_SIZE],
     cx_sha256_hash_iovec(iovec, 3, out);
 }
 
-// TODO: make this O(log n), or possibly O(1). Currently O(log^2 n).
+// O(log n) top-down Merkle direction descent backed by verified Lean freestanding kernels
+// (`llb_merkle_advance_state` + `llb_merkle_state_dir`, replacing the O(log^2 n) ceil_lg loop).
 int merkle_get_ith_direction(size_t size, size_t index, size_t i) {
     if (size <= 1 || index >= size) {
         return -1;
@@ -61,29 +63,26 @@ int merkle_get_ith_direction(size_t size, size_t index, size_t i) {
         return -1;
     }
 #endif
-    uint8_t n_directions = 0;
-    while (size > 1) {
-        uint8_t depth = ceil_lg(size);
-
-        // bitmask of the direction from the current node, where 0 = left, 1 = right;
-        // also the number of leaves of the left subtree. Unsigned: depth can reach 32.
-        uint32_t mask = 1U << (depth - 1);
-
-        uint8_t is_right_child = (index & mask) != 0 ? 1 : 0;
-
-        if (n_directions == i) {
-            return is_right_child;
-        }
-
-        ++n_directions;
-
-        if (is_right_child) {
-            size -= mask;
-            index -= mask;
-        } else {
-            size = mask;
-        }
+#if SIZE_MAX > UINT32_MAX
+    if (size > (size_t) UINT32_MAX) {
+        return -1;
+    }
+#endif
+    if (i >= 32U) {
+        return -1;
     }
 
-    return -1;
+    uint64_t state = ((uint64_t) (uint32_t) size << 32) | (uint64_t) (uint32_t) index;
+    for (size_t step = 0;; step++) {
+        uint64_t next = llb_merkle_advance_state(state);
+        if ((uint32_t) (next >> 32) == (uint32_t) (state >> 32)) {
+            return -1;
+        }
+        if (step == i) {
+            // Left child sets next_size = mask (keep index unchanged, except when size - mask == size? Never, mask >= 1),
+            // Right child decrements size by mask AND decrements index by mask >= 1!
+            return ((uint32_t) next != (uint32_t) state) ? 1 : 0;
+        }
+        state = next;
+    }
 }

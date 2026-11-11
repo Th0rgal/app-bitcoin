@@ -22,6 +22,7 @@
 
 /* Local headers */
 #include "constants.h"
+#include "lean_kernels/liblean_ledger_bitcoin.h"
 
 /**
  * BIP-0370 "Determining Lock Time".
@@ -99,6 +100,14 @@ static inline bool locktime_time_in_range(uint32_t time_locktime) {
  */
 static inline locktime_status_t locktime_acc_add_input(locktime_acc_t *acc,
                                                        const locktime_input_t *in) {
+    uint64_t checked = llb_psbt_locktime_step(1ULL << 63,
+                                               in->has_height_locktime ? 1U : 0U,
+                                               in->height_locktime,
+                                               in->has_time_locktime ? 1U : 0U,
+                                               in->time_locktime);
+    if (checked == 0ULL) {
+        return LOCKTIME_ERR_RANGE;
+    }
     if (in->has_height_locktime && !locktime_height_in_range(in->height_locktime)) {
         return LOCKTIME_ERR_RANGE;
     }

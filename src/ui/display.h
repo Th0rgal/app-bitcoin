@@ -112,6 +112,7 @@ typedef struct {
     const char (*cleartext_lines)[CT_MAX_LINE_LEN + 1];
     size_t n_cleartext_lines;
     size_t n_keys;
+    char path_labels[CT_MAX_LINES][sizeof("Spending path #99")];
     char keys_label[MAX_N_KEYS_IN_WALLET_POLICY][MAX_KEY_LABEL_LENGTH];
     const char *keys_info[MAX_N_KEYS_IN_WALLET_POLICY];
 } ui_register_wallet_policy_state_t;

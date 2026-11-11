@@ -13,6 +13,7 @@
 /* Local headers */
 #include "segwit_addr.h"
 #include "../crypto.h"
+#include "lean_kernels/liblean_ledger_bitcoin.h"
 
 size_t get_push_script_size(uint32_t n) {
     if (n <= 16)
@@ -54,7 +55,7 @@ int get_script_type(const uint8_t script[], size_t script_len) {
 
     // match if it is a potentially valid future segwit scriptPubKey as per BIP-0141
     if (script_len >= 4 && script_len <= 42 &&
-        (script[0] == 0 || (script[0] >= OP_1 && script[0] <= OP_16))) {
+        llb_witness_opcode_to_version(script[0]) != 0xFFU) {
         uint8_t push_len = script[1];
         if (script_len == 1 + 1 + push_len) {
             return SCRIPT_TYPE_UNKNOWN_SEGWIT;
@@ -90,7 +91,7 @@ int get_script_address(const uint8_t script[], size_t script_len, char *out, siz
             uint8_t prog_len = script[1];  // length of the witness program
 
             // witness program version
-            int version = (script[0] == 0 ? 0 : script[0] - 80);
+            int version = (int) llb_witness_opcode_to_version(script[0]);
 
             // make sure that the output buffer is long enough
             if (out_len < 73 + strlen(COIN_NATIVE_SEGWIT_PREFIX)) {

@@ -31,6 +31,7 @@
 #include "io_ext.h"
 #include "menu.h"
 #include "sw.h"
+#include "lean_kernels/liblean_ledger_bitcoin.h"
 
 static unsigned char const BSM_SIGN_MAGIC[] = {'\x18', 'B', 'i', 't', 'c', 'o', 'i', 'n', ' ',
                                                'S',    'i', 'g', 'n', 'e', 'd', ' ', 'M', 'e',
@@ -52,7 +53,7 @@ void handler_sign_message(dispatcher_context_t *dc, uint8_t protocol_version) {
         return;
     }
 
-    if (bip32_path_len > MAX_BIP32_PATH_STEPS || message_length >= (1LL << 32)) {
+    if (!llb_bip32_bolos_depth_ok(bip32_path_len) || message_length >= (1LL << 32)) {
         SEND_SW(dc, SW_INCORRECT_DATA);
         return;
     }
@@ -60,9 +61,11 @@ void handler_sign_message(dispatcher_context_t *dc, uint8_t protocol_version) {
     /* Setting message loading information screen */
     ui_set_processing_screen_text(GA_LOADING_MESSAGE);
 
-    char path_str[MAX_SERIALIZED_BIP32_PATH_LENGTH + 1] = "(Master key)";
+    char path_str[MAX_SERIALIZED_BIP32_PATH_LENGTH + 1];
     if (bip32_path_len > 0) {
         bip32_path_format(bip32_path, bip32_path_len, path_str, sizeof(path_str));
+    } else {
+        memcpy(path_str, "(Master key)", sizeof("(Master key)"));
     }
 
     cx_sha256_t msg_hash_context;    // used to compute sha256(message)

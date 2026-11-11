@@ -30,83 +30,31 @@
 #include "io_ext.h"
 #include "menu.h"
 #include "sw.h"
-
-#define H 0x80000000ul
+#include "lean_kernels/liblean_ledger_bitcoin.h"
 
 static bool is_path_safe_for_pubkey_export(const uint32_t bip32_path[], size_t bip32_path_len) {
-    // Exception for Electrum: it historically used "m/4541509h/1112098098h"
-    // to derive encryption keys, so we whitelist it.
-    if (bip32_path_len == 2 && bip32_path[0] == (4541509 ^ H) &&
-        bip32_path[1] == (1112098098 ^ H)) {
-        return true;
-    }
-
-    if (bip32_path_len < 3) {
+    if (bip32_path_len > 255U) {
         return false;
     }
-    uint32_t purpose = bip32_path[0] & 0x7FFFFFFF;
-
-    // most standard paths use 3 hardened derivation steps, but bip48 uses 4.
-    size_t hardened_der_len;
-    switch (purpose) {
-        case 44:
-        case 49:
-        case 84:
-        case 86:
-        case 87:
-            hardened_der_len = 3;
+    uint32_t p0 = (bip32_path_len > 0U) ? bip32_path[0] : 0U;
+    uint32_t p1 = (bip32_path_len > 1U) ? bip32_path[1] : 0U;
+    uint32_t p2 = (bip32_path_len > 2U) ? bip32_path[2] : 0U;
+    uint32_t p3 = (bip32_path_len > 3U) ? bip32_path[3] : 0U;
+    size_t tail_start = (llb_bip32_unharden(p0) == 48U) ? 4U : 3U;
+    uint8_t tail_unhardened = 1U;
+    for (size_t i = tail_start; i < bip32_path_len; i++) {
+        if (llb_bip32_is_hardened(bip32_path[i])) {
+            tail_unhardened = 0U;
             break;
-        case 45:
-            // BIP-45 prescribes simply length 1, but we instead support existing deployed
-            // use cases with path "m/45'/coin_type'/account'
-            hardened_der_len = 3;
-            break;
-        case 48:
-            hardened_der_len = 4;
-            break;
-        default:
-            return false;
-    }
-
-    // bip32_path_len should be at least the hardened_der_len
-    // (but it could have additional unhardened derivation steps)
-    if (bip32_path_len < hardened_der_len) {
-        return false;
-    }
-
-    for (unsigned int i = 0; i < hardened_der_len; i++) {
-        if (bip32_path[i] < 0x80000000) {
-            return false;
         }
     }
-    // extra steps should not be hardened
-    for (unsigned int i = hardened_der_len; i < bip32_path_len; i++) {
-        if (bip32_path[i] >= 0x80000000) {
-            return false;
-        }
-    }
-
-    uint32_t coin_type = bip32_path[1] & 0x7FFFFFFF;
-    if (coin_type != BIP44_COIN_TYPE) {
-        return false;
-    }
-
-    uint32_t account = bip32_path[2] & 0x7FFFFFFF;
-
-    // Account shouldn't be too large
-    if (account > MAX_BIP44_ACCOUNT_RECOMMENDED) {
-        return false;
-    }
-
-    // For BIP48, there is also the script type, with only standardized values 1' and 2'
-    if (purpose == 48) {
-        uint32_t script_type = bip32_path[3] & 0x7FFFFFFF;
-        if (script_type != 1 && script_type != 2) {
-            return false;
-        }
-    }
-
-    return true;
+    return llb_bip32_pubkey_export_prefix_ok(p0,
+                                             p1,
+                                             p2,
+                                             p3,
+                                             (uint8_t) bip32_path_len,
+                                             (uint32_t) BIP44_COIN_TYPE,
+                                             tail_unhardened) != 0U;
 }
 
 void handler_get_extended_pubkey(dispatcher_context_t *dc, uint8_t protocol_version) {
@@ -122,7 +70,7 @@ void handler_get_extended_pubkey(dispatcher_context_t *dc, uint8_t protocol_vers
         return;
     }
 
-    if (display > 1 || bip32_path_len > MAX_BIP32_PATH_STEPS) {
+    if (display > 1 || !llb_bip32_bolos_depth_ok(bip32_path_len)) {
         SEND_SW(dc, SW_INCORRECT_DATA);
         return;
     }
@@ -169,9 +117,11 @@ void handler_get_extended_pubkey(dispatcher_context_t *dc, uint8_t protocol_vers
     }
     pubkey_str[pubkey_str_len] = 0;
 
-    char path_str[MAX_SERIALIZED_BIP32_PATH_LENGTH + 1] = "(Master key)";
+    char path_str[MAX_SERIALIZED_BIP32_PATH_LENGTH + 1];
     if (bip32_path_len > 0) {
         bip32_path_format(bip32_path, bip32_path_len, path_str, sizeof(path_str));
+    } else {
+        memcpy(path_str, "(Master key)", sizeof("(Master key)"));
     }
 
     if (display && !ui_display_pubkey(dc, path_str, pubkey_str)) {

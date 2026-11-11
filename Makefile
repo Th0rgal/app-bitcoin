@@ -206,7 +206,32 @@ endif
 # Converting build warnings to errors
 CFLAGS   += -Werror
 
+# Freestanding Lean 4 kernels emitted by turbo-lean (`lean-native emit-freestanding-c-lib`),
+# compiled directly into LTO bitcode with the exact BOLOS ROPI/RWPI flags so hot scalar kernels
+# inline across translation units with zero runtime, zero heap, and zero ROPI veneer overhead.
+LLB_KERNEL_OBJ := $(OBJ_DIR)/app/src/lean_kernels/liblean_ledger_bitcoin.o
+OBJECTS_APP += $(LLB_KERNEL_OBJ)
+
 include $(BOLOS_SDK)/Makefile.standard_app
+
+# Drop unused `%ll` printf support unless LLB_KEEP_UPSTREAM_DEFINES=1 is set for same-flags control:
+# format_sats_amount uses the verified Lean division-free kernels (`llb_sats_div_1e8`/`llb_sats_mod_1e8`)
+# and no source file in app-bitcoin uses `%lld`/`%llu`, saving os_printf.o + __aeabi_uldivmod.
+LLB_KEEP_UPSTREAM_DEFINES ?= 0
+ifeq ($(LLB_KEEP_UPSTREAM_DEFINES),0)
+    DEFINES := $(filter-out HAVE_SNPRINTF_FORMAT_LL,$(DEFINES))
+endif
+
+ifeq ($(TARGET_NAME),TARGET_NANOX)
+    LLB_KERNEL_IR := $(APP_DIR)/src/lean_kernels/liblean_ledger_bitcoin_thumbv6m.ll
+else
+    LLB_KERNEL_IR := $(APP_DIR)/src/lean_kernels/liblean_ledger_bitcoin_thumbv8m.main.ll
+endif
+
+$(LLB_KERNEL_OBJ): $(LLB_KERNEL_IR) $(BUILD_DEPENDENCIES) prepare
+	@echo "[LL]   $@"
+	@mkdir -p $(dir $@)
+	$(L)$(CC) -c $(filter-out -std=% -W%,$(CFLAGS)) -Wno-override-module -o $@ $<
 
 # Makes a detailed report of code and data size in debug/size-report.txt
 # More useful for production builds with DEBUG=0

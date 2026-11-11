@@ -473,7 +473,7 @@ bool fill_keyexpr_info_if_internal(dispatcher_context_t *dc,
             keyexpr_info->psbt_root_key_derivation_length = 0;
 
             // sort the keys in ascending order
-            qsort(keys, musig_info->n, sizeof(plain_pk_t), compare_plain_pk);
+            musig_sort_plain_pk(keys, (size_t) musig_info->n);
 
             musig_keyagg_context_t musig_ctx;
             if (0 > musig_key_agg(keys, musig_info->n, &musig_ctx)) {

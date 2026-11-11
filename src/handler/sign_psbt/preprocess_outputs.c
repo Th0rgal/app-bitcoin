@@ -35,6 +35,7 @@
 #include "psbt_fields.h"
 #include "sign_psbt_cache.h"
 #include "sw.h"
+#include "lean_kernels/liblean_ledger_bitcoin.h"
 
 /**
  * Callback to process all the keys of the current output map.
@@ -138,7 +139,7 @@ bool __attribute__((noinline)) preprocess_outputs(
             return false;
         }
 
-        if (value > BITCOIN_TOTAL_SUPPLY) {
+        if (!llb_valid_amount(value)) {
             // sanity check to avoid overflows in amounts
             PRINTF("Output amount exceed Bitcoin total supply!\n");
             SEND_SW(dc, SW_INCORRECT_DATA);

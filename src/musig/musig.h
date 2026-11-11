@@ -4,9 +4,11 @@
 #include <stdint.h>
 #include <string.h>
 
+#include "lean_kernels/liblean_ledger_bitcoin.h"
+
 #define MUSIG_PUBNONCE_SIZE 66
 
-static uint8_t BIP_328_CHAINCODE[32] = {
+static const uint8_t BIP_328_CHAINCODE[32] = {
     0x86, 0x80, 0x87, 0xCA, 0x02, 0xA6, 0xF9, 0x74, 0xC4, 0x59, 0x89, 0x24, 0xC3, 0x6B, 0x57, 0x76,
     0x2D, 0x32, 0xCB, 0x45, 0x71, 0x71, 0x67, 0xE3, 0x00, 0x62, 0x2C, 0x71, 0x67, 0xE3, 0x89, 0x65};
 
@@ -59,6 +61,22 @@ typedef struct musig_session_context_s {
 // algorithm of BIP-327.
 static inline int compare_plain_pk(const void *a, const void *b) {
     return memcmp(a, b, sizeof(plain_pk_t));
+}
+
+// Deterministic, zero-recursion insertion sort for BIP-327 KeySort on bounded MuSig2 arrays.
+// Swaps 33-byte entries byte-wise in place so callers allocate 0 extra stack bytes.
+static inline __attribute__((always_inline)) void musig_sort_plain_pk(plain_pk_t keys[], size_t n_keys) {
+    if (n_keys > UINT32_MAX) {
+        return;
+    }
+    llb_sort_fixed_bytes((uint8_t *) keys, (uint32_t) n_keys, (uint32_t) sizeof(plain_pk_t));
+}
+
+static inline __attribute__((always_inline)) void musig_sort_u16(uint16_t arr[], size_t n) {
+    if (n > UINT32_MAX) {
+        return;
+    }
+    llb_sort_u16(arr, (uint32_t) n);
 }
 
 /**

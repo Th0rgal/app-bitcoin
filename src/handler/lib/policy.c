@@ -17,6 +17,7 @@
 #include "script.h"
 #include "segwit_addr.h"
 #include "wallet.h"
+#include "lean_kernels/liblean_ledger_bitcoin.h"
 
 // The last opcode must be processed as a VERIFY flag
 #define PROCESSOR_FLAG_V 1
@@ -489,7 +490,7 @@ __attribute__((warn_unused_result)) static int get_derived_pubkey(
         }
 
         // sort the keys in ascending order
-        qsort(keys, musig_info->n, sizeof(plain_pk_t), compare_plain_pk);
+        musig_sort_plain_pk(keys, musig_info->n);
 
         musig_keyagg_context_t musig_ctx;
         if (0 > musig_key_agg(keys, musig_info->n, &musig_ctx)) {
@@ -1897,13 +1898,6 @@ static int is_taptree_miniscript_sane(const policy_node_tree_t *taptree) {
     return 0;
 }
 
-static int compare_uint16(const void *a, const void *b) {
-    uint16_t num1 = *(const uint16_t *) a;
-    uint16_t num2 = *(const uint16_t *) b;
-
-    return (num1 > num2) - (num1 < num2);
-}
-
 bool are_key_placeholders_identical(const policy_node_keyexpr_t *kp1,
                                     const policy_node_keyexpr_t *kp2) {
     if (kp1->type != kp2->type) {
@@ -1930,8 +1924,8 @@ bool are_key_placeholders_identical(const policy_node_keyexpr_t *kp1,
         memcpy(key_indexes_j_sorted, key_indexes_j, musig_info_j->n * sizeof(uint16_t));
 
         // sort the arrays
-        qsort(key_indexes_i_sorted, musig_info_i->n, sizeof(uint16_t), compare_uint16);
-        qsort(key_indexes_j_sorted, musig_info_j->n, sizeof(uint16_t), compare_uint16);
+        musig_sort_u16(key_indexes_i_sorted, (size_t) musig_info_i->n);
+        musig_sort_u16(key_indexes_j_sorted, (size_t) musig_info_j->n);
 
         if (memcmp(key_indexes_i_sorted,
                    key_indexes_j_sorted,
@@ -1954,8 +1948,12 @@ static int check_older_node_cb(const policy_node_t *node, void *callback_state) 
     (void) callback_state;
     if (node->type == TOKEN_OLDER) {
         const policy_node_with_uint32_t *older = (const policy_node_with_uint32_t *) node;
-        uint32_t n = older->n & ~(uint32_t) SEQUENCE_LOCKTIME_TYPE_FLAG;
-        if (n < 1 || n > 65535) {
+        if (!llb_miniscript_older_ok(older->n)) {
+            return -1;
+        }
+    } else if (node->type == TOKEN_AFTER) {
+        const policy_node_with_uint32_t *after = (const policy_node_with_uint32_t *) node;
+        if (!llb_miniscript_after_ok(after->n)) {
             return -1;
         }
     }
@@ -2044,7 +2042,7 @@ int is_policy_sane(dispatcher_context_t *dispatcher_context,
             memcpy(key_indexes_i_sorted, key_indexes_i, musig_info_i->n * sizeof(uint16_t));
 
             // sort the arrays
-            qsort(key_indexes_i_sorted, musig_info_i->n, sizeof(uint16_t), compare_uint16);
+            musig_sort_u16(key_indexes_i_sorted, (size_t) musig_info_i->n);
 
             for (int j = 0; j < musig_info_i->n - 1; j++) {
                 if (key_indexes_i_sorted[j] == key_indexes_i_sorted[j + 1]) {

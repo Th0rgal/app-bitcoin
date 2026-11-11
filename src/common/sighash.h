@@ -5,6 +5,7 @@
 
 /* Local headers */
 #include "constants.h"
+#include "lean_kernels/liblean_ledger_bitcoin.h"
 
 /**
  * Classification result for a sighash type.
@@ -36,17 +37,17 @@ typedef enum {
  * @return                The classification of the sighash type
  */
 static inline sighash_class_t classify_sighash(uint32_t sighash_type, int segwit_version) {
+    if (sighash_type > 0xFFU) {
+        return SIGHASH_CLASS_UNSUPPORTED;
+    }
+    uint8_t sh = (uint8_t) sighash_type;
     // SIGHASH_DEFAULT is only valid for Taproot (segwit v1+)
-    if (((segwit_version > 0) && (sighash_type == SIGHASH_DEFAULT)) ||
-        (sighash_type == SIGHASH_ALL)) {
+    if (((segwit_version > 0) && (sh == SIGHASH_DEFAULT) && llb_taproot_sighash_valid(sh)) ||
+        (sh == SIGHASH_ALL)) {
         return SIGHASH_CLASS_SAFE;
     }
 
-    if ((segwit_version >= 0) &&
-        ((sighash_type == SIGHASH_NONE) || (sighash_type == SIGHASH_SINGLE) ||
-         (sighash_type == (SIGHASH_ANYONECANPAY | SIGHASH_ALL)) ||
-         (sighash_type == (SIGHASH_ANYONECANPAY | SIGHASH_NONE)) ||
-         (sighash_type == (SIGHASH_ANYONECANPAY | SIGHASH_SINGLE)))) {
+    if ((segwit_version >= 0) && (sh != SIGHASH_DEFAULT) && llb_sighash_type_valid(sh)) {
         return SIGHASH_CLASS_NON_SAFE;
     }
 

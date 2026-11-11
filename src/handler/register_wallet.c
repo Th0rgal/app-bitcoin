@@ -43,6 +43,7 @@
 #include "sw.h"
 #include "wallet.h"
 #include "common/cleartext.h"
+#include "lean_kernels/liblean_ledger_bitcoin.h"
 
 static bool is_policy_acceptable(const policy_node_t *policy);
 static bool is_policy_name_acceptable(const char *name, size_t name_len);
@@ -335,12 +336,11 @@ static bool is_policy_name_acceptable(const char *name, size_t name_len) {
     // between 1 and MAX_WALLET_NAME_LENGTH characters
     if (name_len == 0 || name_len > MAX_WALLET_NAME_LENGTH) return false;
 
-    // first and last characters must not be whitespace
-    if (name[0] == ' ' || name[name_len - 1] == ' ') return false;
-
-    // only allow ascii characters in the range from 0x20 to 0x7E (inclusive)
-    for (unsigned int i = 0; i < name_len; i++)
-        if (name[i] < 0x20 || name[i] > 0x7E) return false;
+    // first/last characters in 0x21..0x7E, interior characters in 0x20..0x7E
+    for (size_t i = 0; i < name_len; i++) {
+        uint8_t is_edge = (i == 0 || i + 1 == name_len) ? 1U : 0U;
+        if (!llb_wallet_name_char_ok((uint8_t) name[i], is_edge)) return false;
+    }
 
     return true;
 }

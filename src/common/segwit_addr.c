@@ -26,6 +26,7 @@
 #include <string.h>
 
 #include "segwit_addr.h"
+#include "lean_kernels/liblean_ledger_bitcoin.h"
 
 static uint32_t bech32_polymod_step(uint32_t pre) {
     uint8_t b = pre >> 25;
@@ -38,10 +39,9 @@ static uint32_t bech32_polymod_step(uint32_t pre) {
 }
 
 static uint32_t bech32_final_constant(bech32_encoding enc) {
-    if (enc == BECH32_ENCODING_BECH32) return 1;
-    if (enc == BECH32_ENCODING_BECH32M) return 0x2bc830a3;
-    assert(0);
-    return 0; // suppress compiler warning on missing return value
+    uint32_t c = llb_bech32_final_constant((uint8_t) enc);
+    assert(c != 0);
+    return c;
 }
 
 // `const` array (not a string-literal pointer) so the alphabet lands in
@@ -184,9 +184,8 @@ int segwit_addr_encode(char *output, const char *hrp, int witver, const uint8_t 
     uint8_t data[65];
     size_t datalen = 0;
     bech32_encoding enc = BECH32_ENCODING_BECH32;
-    if (witver > 16) return 0;
-    if (witver == 0 && witprog_len != 20 && witprog_len != 32) return 0;
-    if (witprog_len < 2 || witprog_len > 40) return 0;
+    if (witver < 0 || witver > 16 || witprog_len > 40) return 0;
+    if (!llb_segwit_program_valid((uint8_t) witver, (uint8_t) witprog_len)) return 0;
     if (witver > 0) enc = BECH32_ENCODING_BECH32M;
     data[0] = witver;
     convert_bits(data + 1, &datalen, 5, witprog, witprog_len, 8, 1);
@@ -202,13 +201,11 @@ int segwit_addr_decode(int* witver, uint8_t* witdata, size_t* witdata_len, const
     if (enc == BECH32_ENCODING_NONE) return 0;
     if (data_len == 0 || data_len > 65) return 0;
     if (strncmp(hrp, hrp_actual, 84) != 0) return 0;
-    if (data[0] > 16) return 0;
     if (data[0] == 0 && enc != BECH32_ENCODING_BECH32) return 0;
     if (data[0] > 0 && enc != BECH32_ENCODING_BECH32M) return 0;
     *witdata_len = 0;
     if (!convert_bits(witdata, witdata_len, 8, data + 1, data_len - 1, 5, 0)) return 0;
-    if (*witdata_len < 2 || *witdata_len > 40) return 0;
-    if (data[0] == 0 && *witdata_len != 20 && *witdata_len != 32) return 0;
+    if (*witdata_len > 40 || !llb_segwit_program_valid(data[0], (uint8_t) *witdata_len)) return 0;
     *witver = data[0];
     return 1;
 }

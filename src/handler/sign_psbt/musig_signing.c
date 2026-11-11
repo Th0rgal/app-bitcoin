@@ -129,7 +129,7 @@ bool compute_musig_per_input_info(dispatcher_context_t *dc,
     }
 
     // sort the keys in ascending order
-    qsort(out->keys, musig_info->n, sizeof(plain_pk_t), compare_plain_pk);
+    musig_sort_plain_pk(out->keys, (size_t) musig_info->n);
 
     // we already computed the aggregate (pre-tweaks) xpub in the keyexpr_info
     memcpy(&ext_pubkey, &keyexpr_info->pubkey, sizeof(serialized_extended_pubkey_t));
@@ -468,15 +468,12 @@ bool __attribute__((noinline)) sign_sighash_musig_and_yield(dispatcher_context_t
     musig_pubnonce_t nonces[MAX_PUBKEYS_PER_MUSIG];
 
     for (int i = 0; i < musig_info->n; i++) {
-        uint8_t musig_ith_psbt_id_key[1 + 33 + 33 + 32];
-        uint8_t *musig_ith_psbt_id = musig_ith_psbt_id_key + 1;
-        // copy from musig_my_psbt_id_key, but replace the corresponding pubkey
-        memcpy(musig_ith_psbt_id_key, musig_my_psbt_id_key, sizeof(musig_my_psbt_id_key));
-        memcpy(musig_ith_psbt_id, musig_per_input_info.keys[i], sizeof(plain_pk_t));
+        // Update the participant pubkey in-place inside musig_my_psbt_id_key (no longer read later)
+        memcpy(musig_my_psbt_id, musig_per_input_info.keys[i], sizeof(plain_pk_t));
 
         if (sizeof(musig_pubnonce_t) != call_get_merkleized_map_value(dc,
                                                                       &input->in_out.map,
-                                                                      musig_ith_psbt_id_key,
+                                                                      musig_my_psbt_id_key,
                                                                       1 + psbt_id_len,
                                                                       nonces[i].raw,
                                                                       sizeof(musig_pubnonce_t))) {

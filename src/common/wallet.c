@@ -17,6 +17,7 @@
 #include "sw.h"
 
 #include "../crypto.h"
+#include "lean_kernels/liblean_ledger_bitcoin.h"
 
 typedef struct {
     PolicyNodeType type;
@@ -1718,6 +1719,12 @@ static int parse_script(buffer_t *in_buf,
 
             if (node->n < 1 || node->n >= (1u << 31)) {
                 return WITH_ERROR(-1, "n must satisfy 1 <= n < 2^31 in older/after");
+            }
+            if (token == TOKEN_OLDER && !llb_miniscript_older_ok(node->n)) {
+                return WITH_ERROR(-1, "older() argument out of BIP-68 consensus range");
+            }
+            if (token == TOKEN_AFTER && !llb_miniscript_after_ok(node->n)) {
+                return WITH_ERROR(-1, "after() argument out of BIP-379 range");
             }
 
             node->base.flags.is_miniscript = 1;

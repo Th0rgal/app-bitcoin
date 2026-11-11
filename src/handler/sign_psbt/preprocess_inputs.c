@@ -42,6 +42,7 @@
 #include "sighash.h"
 #include "sign_psbt_cache.h"
 #include "sw.h"
+#include "lean_kernels/liblean_ledger_bitcoin.h"
 
 /**
  * Callback to process all the keys of the current input map.
@@ -248,7 +249,7 @@ bool __attribute__((noinline)) preprocess_inputs(
             }
 
             // sanity check before accumulating, to avoid overflowing the total
-            if (input.prevout_amount > BITCOIN_TOTAL_SUPPLY) {
+            if (!llb_valid_amount(input.prevout_amount)) {
                 PRINTF("Input amount exceeds Bitcoin total supply!\n");
                 SEND_SW(dc, SW_INCORRECT_DATA);
                 return false;
@@ -272,11 +273,12 @@ bool __attribute__((noinline)) preprocess_inputs(
 
             if (input.has_nonWitnessUtxo) {
                 // we already know the scriptPubKey, but we double check that it matches
-                if (input.in_out.scriptPubKey_len != wit_utxo_scriptPubkey_len ||
-                    memcmp(input.in_out.scriptPubKey,
-                           wit_utxo_scriptPubkey,
-                           wit_utxo_scriptPubkey_len) != 0 ||
-                    input.prevout_amount != wit_utxo_prevout_amount) {
+                if (!llb_check_dual_utxo(wit_utxo_prevout_amount,
+                                         wit_utxo_scriptPubkey,
+                                         (uint32_t) wit_utxo_scriptPubkey_len,
+                                         input.prevout_amount,
+                                         input.in_out.scriptPubKey,
+                                         (uint32_t) input.in_out.scriptPubKey_len)) {
                     PRINTF(
                         "scriptPubKey or amount in non-witness utxo doesn't match with witness "
                         "utxo\n");
@@ -288,7 +290,7 @@ bool __attribute__((noinline)) preprocess_inputs(
             } else {
                 // we extract the scriptPubKey and prevout amount from the witness utxo
                 // sanity check before accumulating, to avoid overflowing the total
-                if (wit_utxo_prevout_amount > BITCOIN_TOTAL_SUPPLY) {
+                if (!llb_valid_amount(wit_utxo_prevout_amount)) {
                     PRINTF("Input amount exceeds Bitcoin total supply!\n");
                     SEND_SW(dc, SW_INCORRECT_DATA);
                     return false;
