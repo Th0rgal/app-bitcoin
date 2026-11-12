@@ -188,8 +188,8 @@ static void test_llb_bip32_segwit_sighash_and_policy_name(void **state) {
     assert_int_equal(llb_check_dual_utxo(100ULL, a, 4, 101ULL, b, 4), 0);
 
     uint8_t scratch[128] = {0};
-    uint8_t ops[] = {0x00, 0x01, 0x10};
-    assert_int_equal(llb_miniscript_check_postfix(ops, 3, 0, 0, scratch), 1);
+    uint8_t ops[] = {0x00, 0x01, 0x10, 0x21};
+    assert_int_equal(llb_miniscript_check_postfix(ops, 4, 0, 0, scratch), 1);
 
     uint64_t st = llb_psbt_locktime_init();
     st = llb_psbt_locktime_step(st, 1, 10000U, 0, 0);
@@ -199,7 +199,7 @@ static void test_llb_bip32_segwit_sighash_and_policy_name(void **state) {
     uint8_t cs[] = {0x02, 0x01, 0x02};
     uint64_t packed = llb_read_compact_size_checked(cs, 3, 10);
     assert_int_equal((uint32_t) packed, 2U);
-    assert_int_equal((uint32_t) (packed >> 32), 3U);
+    assert_int_equal((uint32_t) (packed >> 32), 1U);
 
     uint16_t xs[] = {3, 1, 2};
     llb_sort_u16(xs, 3);

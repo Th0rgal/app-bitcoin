@@ -21,7 +21,7 @@ void format_sats_amount(const char *coin_name,
                                        ticker_len,
                                        0U,
                                        (uint8_t *) out,
-                                       (uint32_t) MAX_AMOUNT_LENGTH);
+                                       (uint32_t) (MAX_AMOUNT_LENGTH + 1));
     if (n > MAX_AMOUNT_LENGTH) {
         n = 0;
     }
