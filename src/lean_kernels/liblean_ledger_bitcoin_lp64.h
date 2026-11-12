@@ -68,35 +68,25 @@ uint64_t llb_sats_div_1e8(uint64_t amount);
 uint32_t llb_sats_mod_1e8(uint64_t amount);
 uint64_t llb_merkle_advance_state(uint64_t st);
 uint8_t llb_merkle_state_dir(uint64_t st);
-uint8_t llb_bip32_pubkey_export_prefix_ok(uint32_t p0, uint32_t p1, uint32_t p2, uint32_t p3,
-                                          uint8_t pathLen, uint32_t expectedCoinType,
-                                          uint8_t tailUnhardened);
+uint8_t llb_bip32_pubkey_export_prefix_ok(uint32_t p0, uint32_t p1, uint32_t p2, uint32_t p3, uint8_t pathLen, uint32_t expectedCoinType, uint8_t tailUnhardened);
 uint32_t llb_bech32_final_constant(uint8_t enc);
 uint8_t llb_wallet_name_char_ok(uint8_t c, uint8_t isEdge);
 uint8_t llb_miniscript_older_ok(uint32_t n);
 uint8_t llb_miniscript_after_ok(uint32_t n);
-uint8_t llb_miniscript_check_postfix(const uint8_t *ops, uint32_t opsLen, uint8_t isTapscript,
-                                     uint8_t requireFlags, uint8_t *scratch);
+uint8_t llb_miniscript_andor_branches_valid(uint8_t notifOp, uint8_t elseOp, uint8_t endifOp);
+uint8_t llb_miniscript_check_postfix(const uint8_t* ops, uint32_t opsLen, uint8_t isTapscript, uint8_t requireFlags, uint8_t* scratch);
 uint64_t llb_psbt_locktime_init(void);
-uint64_t llb_psbt_determine_locktime(const uint8_t *heightsAndTimesLe, uint32_t numInputs,
-                                     uint32_t fallbackLocktime);
-uint64_t llb_psbt_locktime_step(uint64_t state, uint8_t hasH, uint32_t h, uint8_t hasT,
-                                uint32_t t);
-uint64_t llb_psbt_locktime_finalize(uint64_t state, uint32_t fallbackLocktime);
-uint8_t llb_bytes_eq(const uint8_t *a, const uint8_t *b, uint32_t len);
-uint8_t llb_check_dual_utxo(uint64_t witAmount, const uint8_t *witSpk, uint32_t witSpkLen,
-                            uint64_t nonWitAmount, const uint8_t *nonWitSpk,
-                            uint32_t nonWitSpkLen);
-uint64_t llb_sum_amounts_le64(const uint8_t *amountsLe, uint32_t count);
-uint8_t llb_bip32_check_export_path(const uint32_t *path, uint8_t pathLen,
-                                    uint32_t expectedCoinType);
-uint64_t llb_read_compact_size_checked(const uint8_t *buf, uint32_t bufLen, uint32_t maxVal);
-void llb_sort_fixed_bytes(uint8_t *buf, uint32_t count, uint32_t stride);
-void llb_sort_u16(uint16_t *arr, uint32_t count);
-uint32_t llb_format_sats_ascii(uint64_t amount, const uint8_t *ticker, uint32_t tickerLen,
-                               uint8_t padFrac8, uint8_t *out, uint32_t outCap);
-uint8_t llb_miniscript_andor_branches_valid(uint8_t notifOpcode, uint8_t elseOpcode,
-                                            uint8_t endifOpcode);
+uint64_t llb_psbt_locktime_step(uint64_t st, uint8_t hasH, uint32_t h, uint8_t hasT, uint32_t t);
+uint64_t llb_psbt_locktime_finalize(uint64_t st, uint32_t fallbackLocktime);
+uint64_t llb_psbt_determine_locktime(const uint8_t* buf, uint32_t numInputs, uint32_t fallbackLocktime);
+uint8_t llb_bytes_eq(const uint8_t* a, const uint8_t* b, uint32_t len);
+uint8_t llb_check_dual_utxo(uint64_t witAmount, const uint8_t* witSpk, uint32_t witSpkLen, uint64_t nonWitAmount, const uint8_t* nonWitSpk, uint32_t nonWitSpkLen);
+uint64_t llb_sum_amounts_le64(const uint8_t* amounts, uint32_t count);
+uint8_t llb_bip32_check_export_path(const uint32_t* path, uint8_t pathLen, uint32_t expectedCoinType);
+uint64_t llb_read_compact_size_checked(const uint8_t* buf, uint32_t bufLen, uint32_t maxVal);
+void llb_sort_fixed_bytes(uint8_t* buf, uint32_t count, uint32_t stride);
+void llb_sort_u16(uint16_t* arr, uint32_t count);
+uint32_t llb_format_sats_ascii(uint64_t amount, const uint8_t* ticker, uint32_t tickerLen, uint8_t padFrac8, uint8_t* out, uint32_t outCap);
 #ifdef __cplusplus
 }
 #endif

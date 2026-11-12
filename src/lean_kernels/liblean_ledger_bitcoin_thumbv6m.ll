@@ -1,3068 +1,3645 @@
 ; ModuleID = '/var/lib/sandboxed-node/.scratch/e42fdc4f-ce56-40b8-9b3e-c267ef038ce3/opencode/worktrees/lean-ledger-bitcoin/ffi/bolos/build/lto/liblean_ledger_bitcoin_thumbv6m.ll.pre.ll'
-source_filename = "/var/lib/sandboxed-node/.scratch/e42fdc4f-ce56-40b8-9b3e-c267ef038ce3/opencode/worktrees/lean-ledger-bitcoin/ffi/bolos/src/lean_kernels.c"
+source_filename = "BitcoinLedger/FreestandingKernels.lean.lean"
 target datalayout = "e-m:e-p:32:32-Fi8-i64:64-v128:64:128-a:0:32-n32-S64"
-target triple = "thumbv6m-none-unknown-eabi"
+target triple = "thumbv6m-none-eabi"
 
-@switch.table.llb_bolos_sw_for_error = private unnamed_addr constant [19 x i16] [i16 26368, i16 27271, i16 27904, i16 28160, i16 27270, i16 27013, i16 27010, i16 27392, i16 27264, i16 27264, i16 27266, i16 27266, i16 27264, i16 27264, i16 27264, i16 27264, i16 -20473, i16 -20480, i16 -20472], align 2
-@switch.table.llb_miniscript_check_postfix = private unnamed_addr constant [5 x i8] c"dD\FA\F2\F8", align 1
-@switch.table.llb_miniscript_check_postfix.1 = private unnamed_addr constant [5 x i8] c"\87\85\86\86\86", align 1
+; Function Attrs: minsize nofree norecurse nosync nounwind optsize memory(argmem: readwrite)
+define internal fastcc void @l___private_LeanNativeInput_0__BitcoinLedger_FreestandingKernels_copyTicker(ptr noundef readonly captures(none) %arg_v0, i32 noundef %arg_v1, ptr noundef writeonly captures(none) %arg_v2, i32 noundef %arg_v3) unnamed_addr #0 {
+entry:
+  %arg_ext_v1 = zext i32 %arg_v1 to i64
+  %0 = getelementptr i8, ptr %arg_v2, i32 %arg_v3
+  br label %loop_hdr_4
 
-; Function Attrs: mustprogress nofree norecurse nosync nounwind optsize willreturn memory(none)
-define hidden noundef i32 @llb_version_packed() local_unnamed_addr #0 {
-  ret i32 132097
+loop_hdr_4:                                       ; preds = %loop_body_5, %entry
+  %loop_idx_8 = phi i64 [ 0, %entry ], [ %loop_next_9, %loop_body_5 ]
+  %loop_cmp_10 = icmp samesign ult i64 %loop_idx_8, %arg_ext_v1
+  br i1 %loop_cmp_10, label %loop_body_5, label %loop_exit_7
+
+loop_body_5:                                      ; preds = %loop_hdr_4
+  %loop_idx_8.tr = trunc i64 %loop_idx_8 to i32
+  %rld_gep_21 = getelementptr inbounds nuw i8, ptr %arg_v0, i32 %loop_idx_8.tr
+  %rld_i8_22 = load i8, ptr %rld_gep_21, align 1
+  %rst_gep_27 = getelementptr i8, ptr %0, i32 %loop_idx_8.tr
+  store i8 %rld_i8_22, ptr %rst_gep_27, align 1
+  %loop_next_9 = add nuw nsw i64 %loop_idx_8, 1
+  br label %loop_hdr_4
+
+loop_exit_7:                                      ; preds = %loop_hdr_4
+  ret void
 }
 
-; Function Attrs: alwaysinline mustprogress nofree norecurse nosync nounwind optsize willreturn memory(none)
-define hidden noundef zeroext i8 @llb_valid_amount(i64 noundef %0) local_unnamed_addr #1 {
-  %2 = icmp ult i64 %0, 2100000000000001
-  %3 = zext i1 %2 to i8
-  ret i8 %3
+; Function Attrs: minsize nofree norecurse nosync nounwind optsize memory(argmem: read)
+define hidden zeroext range(i8 0, 2) i8 @llb_check_dual_utxo(i64 noundef %arg_v0, ptr noundef readonly captures(none) %arg_v1, i32 noundef %arg_v2, i64 noundef %arg_v3, ptr noundef readonly captures(none) %arg_v4, i32 noundef %arg_v5) local_unnamed_addr #1 {
+entry:
+  %cmp_le_3 = icmp ult i64 %arg_v0, 2100000000000001
+  br i1 %cmp_le_3, label %ite_then_6, label %common.ret
+
+ite_then_6:                                       ; preds = %entry
+  %cmp_eq_12 = icmp eq i64 %arg_v0, %arg_v3
+  %cmp_eq_22 = icmp eq i32 %arg_v2, %arg_v5
+  %or.cond = and i1 %cmp_eq_12, %cmp_eq_22
+  br i1 %or.cond, label %ite_then_24, label %common.ret
+
+common.ret:                                       ; preds = %entry, %ite_then_6, %ite_then_24
+  %common.ret.op = phi i8 [ %call_31, %ite_then_24 ], [ 0, %ite_then_6 ], [ 0, %entry ]
+  ret i8 %common.ret.op
+
+ite_then_24:                                      ; preds = %ite_then_6
+  %call_31 = tail call zeroext i8 @llb_bytes_eq(ptr %arg_v1, ptr %arg_v4, i32 %arg_v2)
+  br label %common.ret
 }
 
-; Function Attrs: alwaysinline mustprogress nofree norecurse nosync nounwind optsize willreturn memory(none)
-define hidden zeroext i8 @llb_checked_add_sats_ok(i64 noundef %0, i64 noundef %1) local_unnamed_addr #1 {
-  %3 = icmp ult i64 %0, 2100000000000001
-  %4 = sub nuw nsw i64 2100000000000000, %0
-  %5 = icmp uge i64 %4, %1
-  %6 = select i1 %3, i1 %5, i1 false
-  %7 = zext i1 %6 to i8
-  ret i8 %7
+; Function Attrs: alwaysinline minsize mustprogress nofree norecurse nosync nounwind optsize willreturn memory(none)
+define hidden zeroext range(i8 0, 2) i8 @llb_valid_amount(i64 noundef %arg_v0) local_unnamed_addr #2 {
+entry:
+  %cmp_le_2 = icmp ult i64 %arg_v0, 2100000000000001
+  %ret_tr_5 = zext i1 %cmp_le_2 to i8
+  ret i8 %ret_tr_5
 }
 
-; Function Attrs: alwaysinline mustprogress nofree norecurse nosync nounwind optsize willreturn memory(none)
-define hidden i64 @llb_checked_add_sats_val(i64 noundef %0, i64 noundef %1) local_unnamed_addr #1 {
-  %3 = icmp ugt i64 %0, 2100000000000000
-  %4 = sub nuw nsw i64 2100000000000000, %0
-  %5 = icmp ult i64 %4, %1
-  %6 = select i1 %3, i1 true, i1 %5
-  %7 = add i64 %1, %0
-  %8 = select i1 %6, i64 0, i64 %7
-  ret i64 %8
+; Function Attrs: minsize nofree norecurse nosync nounwind optsize memory(argmem: read)
+define hidden zeroext range(i8 0, 2) i8 @llb_bytes_eq(ptr noundef readonly captures(none) %arg_v0, ptr noundef readonly captures(none) %arg_v1, i32 noundef %arg_v2) local_unnamed_addr #1 {
+entry:
+  %arg_ext_v2 = zext i32 %arg_v2 to i64
+  br label %loop_hdr_4
+
+loop_hdr_4:                                       ; preds = %loop_body_5, %entry
+  %slot_v12.0.off0 = phi i8 [ 1, %entry ], [ %slot_v12.0.off0., %loop_body_5 ]
+  %loop_idx_8 = phi i64 [ 0, %entry ], [ %loop_next_9, %loop_body_5 ]
+  %loop_cmp_10 = icmp samesign ult i64 %loop_idx_8, %arg_ext_v2
+  br i1 %loop_cmp_10, label %loop_body_5, label %loop_exit_7
+
+loop_body_5:                                      ; preds = %loop_hdr_4
+  %0 = trunc i64 %loop_idx_8 to i32
+  %rld_gep_15 = getelementptr inbounds nuw i8, ptr %arg_v0, i32 %0
+  %rld_i8_16 = load i8, ptr %rld_gep_15, align 1
+  %rld_gep_20 = getelementptr inbounds nuw i8, ptr %arg_v1, i32 %0
+  %rld_i8_21 = load i8, ptr %rld_gep_20, align 1
+  %cmp_eq_28 = icmp eq i8 %rld_i8_16, %rld_i8_21
+  %slot_v12.0.off0. = select i1 %cmp_eq_28, i8 %slot_v12.0.off0, i8 0
+  %loop_next_9 = add nuw nsw i64 %loop_idx_8, 1
+  br label %loop_hdr_4
+
+loop_exit_7:                                      ; preds = %loop_hdr_4
+  ret i8 %slot_v12.0.off0
 }
 
-; Function Attrs: mustprogress nofree norecurse nosync nounwind optsize willreturn memory(none)
-define hidden noundef zeroext i8 @llb_checked_sub_sats_ok(i64 noundef %0, i64 noundef %1) local_unnamed_addr #0 {
-  %3 = icmp ult i64 %0, 2100000000000001
-  %4 = icmp ule i64 %1, %0
-  %5 = and i1 %3, %4
-  %6 = zext i1 %5 to i8
-  ret i8 %6
+; Function Attrs: minsize nofree norecurse nosync nounwind optsize memory(argmem: write)
+define internal fastcc void @l___private_LeanNativeInput_0__BitcoinLedger_FreestandingKernels_emitDec(ptr noundef writeonly captures(none) %arg_v0, i32 noundef %arg_v1, i32 noundef %arg_v2, i32 noundef %arg_v3) unnamed_addr #3 {
+entry:
+  %arg_ext_v3 = zext i32 %arg_v3 to i64
+  %0 = getelementptr i8, ptr %arg_v0, i32 %arg_v1
+  br label %loop_hdr_4
+
+loop_hdr_4:                                       ; preds = %loop_body_5, %entry
+  %slot_v16.0.in = phi i32 [ %arg_v2, %entry ], [ %2, %loop_body_5 ]
+  %loop_idx_8 = phi i64 [ 0, %entry ], [ %loop_next_9, %loop_body_5 ]
+  %loop_cmp_10 = icmp samesign ult i64 %loop_idx_8, %arg_ext_v3
+  br i1 %loop_cmp_10, label %loop_body_5, label %loop_exit_7
+
+loop_body_5:                                      ; preds = %loop_hdr_4
+  %loop_idx_8.tr = trunc i64 %loop_idx_8 to i32
+  %1 = xor i32 %loop_idx_8.tr, -1
+  %m64_a0l_33 = and i32 %slot_v16.0.in, 65535
+  %m64_a0h_34 = lshr i32 %slot_v16.0.in, 16
+  %m64_p00_37 = mul nuw i32 %m64_a0l_33, 52429
+  %m64_p01_38 = mul nuw i32 %m64_a0l_33, 52428
+  %m64_p10_39 = mul nuw i32 %m64_a0h_34, 52429
+  %m64_p11_40 = mul nuw i32 %m64_a0h_34, 52428
+  %m64_p00h_41 = lshr i32 %m64_p00_37, 16
+  %m64_p01l_42 = and i32 %m64_p01_38, 65532
+  %m64_p10l_43 = and i32 %m64_p10_39, 65535
+  %m64_m1a_44 = add nuw nsw i32 %m64_p00h_41, %m64_p01l_42
+  %m64_m1_45 = add nuw nsw i32 %m64_m1a_44, %m64_p10l_43
+  %m64_p01h_49 = lshr i32 %m64_p01_38, 16
+  %m64_p10h_50 = lshr i32 %m64_p10_39, 16
+  %m64_m1h_51 = lshr i32 %m64_m1_45, 16
+  %m64_c1_52 = add nuw i32 %m64_p01h_49, %m64_p11_40
+  %m64_c2_53 = add nuw i32 %m64_c1_52, %m64_p10h_50
+  %m64_hib_54 = add nuw i32 %m64_c2_53, %m64_m1h_51
+  %2 = lshr i32 %m64_hib_54, 3
+  %m64_p00_80.neg = mul i32 %2, 246
+  %alu_110.narrow = add i32 %m64_p00_80.neg, %slot_v16.0.in
+  %rst_gep_122 = getelementptr i8, ptr %0, i32 %1
+  %3 = trunc i32 %alu_110.narrow to i8
+  %rst_tr8_123 = add i8 %3, 48
+  store i8 %rst_tr8_123, ptr %rst_gep_122, align 1
+  %loop_next_9 = add nuw nsw i64 %loop_idx_8, 1
+  br label %loop_hdr_4
+
+loop_exit_7:                                      ; preds = %loop_hdr_4
+  ret void
 }
 
-; Function Attrs: mustprogress nofree norecurse nosync nounwind optsize willreturn memory(none)
-define hidden noundef i64 @llb_checked_sub_sats_val(i64 noundef %0, i64 noundef %1) local_unnamed_addr #0 {
-  %3 = icmp ugt i64 %0, 2100000000000000
-  %4 = icmp ugt i64 %1, %0
-  %5 = or i1 %3, %4
-  %6 = sub i64 %0, %1
-  %7 = select i1 %5, i64 0, i64 %6
-  ret i64 %7
+; Function Attrs: alwaysinline minsize mustprogress nofree norecurse nosync nounwind optsize willreturn memory(none)
+define hidden zeroext range(i8 0, 2) i8 @llb_checked_add_sats_ok(i64 noundef %arg_v0, i64 noundef %arg_v1) local_unnamed_addr #2 {
+entry:
+  %cmp_le_2 = icmp ult i64 %arg_v0, 2100000000000001
+  %alu_4 = sub i64 2100000000000000, %arg_v0
+  %cmp_le_8 = icmp ule i64 %arg_v1, %alu_4
+  %narrow = and i1 %cmp_le_2, %cmp_le_8
+  %ret_tr_16 = zext i1 %narrow to i8
+  ret i8 %ret_tr_16
 }
 
-; Function Attrs: mustprogress nofree norecurse nosync nounwind optsize willreturn memory(none)
-define hidden noundef zeroext i8 @llb_varint_encoded_len(i64 noundef %0) local_unnamed_addr #0 {
-  %2 = icmp ult i64 %0, 253
-  br i1 %2, label %8, label %3
+; Function Attrs: minsize nofree norecurse nosync nounwind optsize memory(argmem: read)
+define internal fastcc zeroext range(i8 0, 2) i8 @l_BitcoinLedger_FreestandingKernels_bip32TailClear(ptr noundef readonly captures(none) %arg_v0, i32 noundef range(i32 3, 5) %arg_v1, i32 noundef range(i32 0, 11) %arg_v2) unnamed_addr #1 {
+entry:
+  %arg_ext_v1 = zext nneg i32 %arg_v1 to i64
+  %arg_ext_v2 = zext nneg i32 %arg_v2 to i64
+  br label %loop_hdr_4
 
-3:                                                ; preds = %1
-  %4 = icmp ult i64 %0, 65536
-  br i1 %4, label %8, label %5
+loop_hdr_4:                                       ; preds = %loop_body_5, %entry
+  %slot_v10.0.off0 = phi i8 [ 1, %entry ], [ %slot_v10.0.off0., %loop_body_5 ]
+  %loop_idx_8 = phi i64 [ %arg_ext_v1, %entry ], [ %loop_next_9, %loop_body_5 ]
+  %loop_cmp_10 = icmp samesign ult i64 %loop_idx_8, %arg_ext_v2
+  br i1 %loop_cmp_10, label %loop_body_5, label %loop_exit_7
 
-5:                                                ; preds = %3
-  %6 = icmp ult i64 %0, 4294967296
-  %7 = select i1 %6, i8 5, i8 9
-  br label %8
+loop_body_5:                                      ; preds = %loop_hdr_4
+  %0 = trunc i64 %loop_idx_8 to i32
+  %rld_gep_15 = getelementptr inbounds nuw i32, ptr %arg_v0, i32 %0
+  %rld_i32_16 = load i32, ptr %rld_gep_15, align 4
+  %ite_cond_32.not = icmp sgt i32 %rld_i32_16, -1
+  %slot_v10.0.off0. = select i1 %ite_cond_32.not, i8 %slot_v10.0.off0, i8 0
+  %loop_next_9 = add nuw nsw i64 %loop_idx_8, 1
+  br label %loop_hdr_4
 
-8:                                                ; preds = %5, %3, %1
-  %9 = phi i8 [ 1, %1 ], [ 3, %3 ], [ %7, %5 ]
-  ret i8 %9
+loop_exit_7:                                      ; preds = %loop_hdr_4
+  ret i8 %slot_v10.0.off0
 }
 
-; Function Attrs: mustprogress nofree norecurse nosync nounwind optsize willreturn memory(none)
-define hidden noundef zeroext i8 @llb_varint_prefix_is_canonical(i8 noundef zeroext %0, i64 noundef %1) local_unnamed_addr #0 {
-  %3 = icmp ult i8 %0, -3
-  br i1 %3, label %4, label %7
+; Function Attrs: alwaysinline minsize mustprogress nofree norecurse nosync nounwind optsize willreturn memory(none)
+define hidden zeroext range(i8 0, 2) i8 @llb_bip32_is_hardened(i32 noundef %arg_v0) local_unnamed_addr #2 {
+entry:
+  %arg_v0.lobit = lshr i32 %arg_v0, 31
+  %ret_tr_13 = trunc nuw nsw i32 %arg_v0.lobit to i8
+  ret i8 %ret_tr_13
+}
 
-4:                                                ; preds = %2
-  %5 = zext i8 %0 to i64
-  %6 = icmp eq i64 %5, %1
-  br label %16
+; Function Attrs: minsize nofree norecurse nosync nounwind optsize memory(argmem: readwrite)
+define hidden void @llb_sort_u16(ptr noundef captures(none) %arg_v0, i32 noundef %arg_v1) local_unnamed_addr #0 {
+entry:
+  %arg_ext_v1 = zext i32 %arg_v1 to i64
+  %cmp_le_5 = icmp ult i32 %arg_v1, 2
+  br i1 %cmp_le_5, label %common.ret, label %loop_hdr_14
 
-7:                                                ; preds = %2
-  switch i8 %0, label %14 [
-    i8 -3, label %8
-    i8 -2, label %11
+common.ret:                                       ; preds = %loop_hdr_14, %entry
+  ret void
+
+loop_hdr_14:                                      ; preds = %entry, %l___private_LeanNativeInput_0__BitcoinLedger_FreestandingKernels_sortU16Pass.exit
+  %loop_idx_18 = phi i64 [ %loop_next_19, %l___private_LeanNativeInput_0__BitcoinLedger_FreestandingKernels_sortU16Pass.exit ], [ 1, %entry ]
+  %loop_cmp_20 = icmp samesign ult i64 %loop_idx_18, %arg_ext_v1
+  br i1 %loop_cmp_20, label %loop_body_15, label %common.ret
+
+loop_body_15:                                     ; preds = %loop_hdr_14
+  %alu_15.i = add nuw nsw i64 %loop_idx_18, 4294967295
+  br label %loop_hdr_4.i
+
+loop_hdr_4.i:                                     ; preds = %loop_latch_6.i, %loop_body_15
+  %loop_idx_8.i = phi i64 [ 0, %loop_body_15 ], [ %loop_next_9.i, %loop_latch_6.i ]
+  %loop_cmp_10.i = icmp samesign ult i64 %loop_idx_8.i, %loop_idx_18
+  br i1 %loop_cmp_10.i, label %loop_body_5.i, label %l___private_LeanNativeInput_0__BitcoinLedger_FreestandingKernels_sortU16Pass.exit
+
+loop_body_5.i:                                    ; preds = %loop_hdr_4.i
+  %alu_21.i = sub nuw nsw i64 %alu_15.i, %loop_idx_8.i
+  %0 = trunc i64 %alu_21.i to i32
+  %rld_gep_25.i = getelementptr inbounds nuw i16, ptr %arg_v0, i32 %0
+  %rld_i16_26.i = load i16, ptr %rld_gep_25.i, align 2
+  %rld_gep_34.i = getelementptr i8, ptr %rld_gep_25.i, i32 2
+  %rld_i16_35.i = load i16, ptr %rld_gep_34.i, align 2
+  %cmp_lt_42.i = icmp ult i16 %rld_i16_35.i, %rld_i16_26.i
+  br i1 %cmp_lt_42.i, label %ite_then_44.i, label %loop_latch_6.i
+
+ite_then_44.i:                                    ; preds = %loop_body_5.i
+  store i16 %rld_i16_35.i, ptr %rld_gep_25.i, align 2
+  store i16 %rld_i16_26.i, ptr %rld_gep_34.i, align 2
+  br label %loop_latch_6.i
+
+loop_latch_6.i:                                   ; preds = %ite_then_44.i, %loop_body_5.i
+  %loop_next_9.i = add nuw nsw i64 %loop_idx_8.i, 1
+  br label %loop_hdr_4.i
+
+l___private_LeanNativeInput_0__BitcoinLedger_FreestandingKernels_sortU16Pass.exit: ; preds = %loop_hdr_4.i
+  %loop_next_19 = add nuw nsw i64 %loop_idx_18, 1
+  br label %loop_hdr_14
+}
+
+; Function Attrs: minsize mustprogress nofree norecurse nosync nounwind optsize willreturn memory(none)
+define hidden i32 @llb_sats_mod_1e8(i64 noundef %arg_v0) local_unnamed_addr #4 {
+entry:
+  %alu_3 = lshr i64 %arg_v0, 32
+  %m64_a0_10 = trunc i64 %arg_v0 to i32
+  %m64_a0l_16 = and i32 %m64_a0_10, 65535
+  %m64_a0h_17 = lshr i32 %m64_a0_10, 16
+  %m64_p00_20 = mul nuw i32 %m64_a0l_16, 52989
+  %m64_p01_21 = mul nuw i32 %m64_a0l_16, 33889
+  %m64_p10_22 = mul nuw i32 %m64_a0h_17, 52989
+  %m64_p11_23 = mul nuw i32 %m64_a0h_17, 33889
+  %m64_p00h_24 = lshr i32 %m64_p00_20, 16
+  %m64_p01l_25 = and i32 %m64_p01_21, 65535
+  %m64_p10l_26 = and i32 %m64_p10_22, 65535
+  %m64_m1a_27 = add nuw nsw i32 %m64_p00h_24, %m64_p01l_25
+  %m64_m1_28 = add nuw nsw i32 %m64_m1a_27, %m64_p10l_26
+  %m64_p01h_32 = lshr i32 %m64_p01_21, 16
+  %m64_p10h_33 = lshr i32 %m64_p10_22, 16
+  %m64_m1h_34 = lshr i32 %m64_m1_28, 16
+  %m64_c1_35 = add nuw i32 %m64_p01h_32, %m64_p11_23
+  %m64_c2_36 = add nuw i32 %m64_c1_35, %m64_p10h_33
+  %m64_hib_37 = add nuw i32 %m64_c2_36, %m64_m1h_34
+  %m64_hi64_43 = zext i32 %m64_hib_37 to i64
+  %m64_p00_60 = mul nuw nsw i32 %m64_a0l_16, 30481
+  %m64_p01_61 = mul nuw i32 %m64_a0l_16, 43980
+  %m64_p10_62 = mul nuw nsw i32 %m64_a0h_17, 30481
+  %m64_p11_63 = mul nuw i32 %m64_a0h_17, 43980
+  %m64_p00h_64 = lshr i32 %m64_p00_60, 16
+  %m64_p01l_65 = and i32 %m64_p01_61, 65532
+  %m64_p10l_66 = and i32 %m64_p10_62, 65535
+  %m64_m1a_67 = add nuw nsw i32 %m64_p00h_64, %m64_p01l_65
+  %m64_m1_68 = add nuw nsw i32 %m64_m1a_67, %m64_p10l_66
+  %m64_p00l_69 = and i32 %m64_p00_60, 65535
+  %m64_m1sh_70 = shl i32 %m64_m1_68, 16
+  %m64_lo32_71 = or disjoint i32 %m64_m1sh_70, %m64_p00l_69
+  %m64_p01h_72 = lshr i32 %m64_p01_61, 16
+  %m64_p10h_73 = lshr i32 %m64_p10_62, 16
+  %m64_m1h_74 = lshr i32 %m64_m1_68, 16
+  %m64_c1_75 = add nuw i32 %m64_p01h_72, %m64_p11_63
+  %m64_c2_76 = add nuw i32 %m64_c1_75, %m64_p10h_73
+  %m64_hib_77 = add nuw i32 %m64_c2_76, %m64_m1h_74
+  %m64_lo64_82 = zext i32 %m64_lo32_71 to i64
+  %m64_hi64_83 = zext i32 %m64_hib_77 to i64
+  %m64_a0_90 = trunc nuw i64 %alu_3 to i32
+  %m64_a0l_96 = and i32 %m64_a0_90, 65535
+  %m64_a0h_97 = lshr i32 %m64_a0_90, 16
+  %m64_p00_100 = mul nuw i32 %m64_a0l_96, 52989
+  %m64_p01_101 = mul nuw i32 %m64_a0l_96, 33889
+  %m64_p10_102 = mul nuw i32 %m64_a0h_97, 52989
+  %m64_p11_103 = mul nuw i32 %m64_a0h_97, 33889
+  %m64_p00h_104 = lshr i32 %m64_p00_100, 16
+  %m64_p01l_105 = and i32 %m64_p01_101, 65535
+  %m64_p10l_106 = and i32 %m64_p10_102, 65535
+  %m64_m1a_107 = add nuw nsw i32 %m64_p00h_104, %m64_p01l_105
+  %m64_m1_108 = add nuw nsw i32 %m64_m1a_107, %m64_p10l_106
+  %m64_p00l_109 = and i32 %m64_p00_100, 65535
+  %m64_m1sh_110 = shl i32 %m64_m1_108, 16
+  %m64_lo32_111 = or disjoint i32 %m64_m1sh_110, %m64_p00l_109
+  %m64_p01h_112 = lshr i32 %m64_p01_101, 16
+  %m64_p10h_113 = lshr i32 %m64_p10_102, 16
+  %m64_m1h_114 = lshr i32 %m64_m1_108, 16
+  %m64_c1_115 = add nuw i32 %m64_p01h_112, %m64_p11_103
+  %m64_c2_116 = add nuw i32 %m64_c1_115, %m64_p10h_113
+  %m64_hib_117 = add nuw i32 %m64_c2_116, %m64_m1h_114
+  %m64_lo64_122 = zext i32 %m64_lo32_111 to i64
+  %m64_hi64_123 = zext i32 %m64_hib_117 to i64
+  %m64_p00_140 = mul nuw nsw i32 %m64_a0l_96, 30481
+  %m64_p01_141 = mul nuw i32 %m64_a0l_96, 43980
+  %m64_p10_142 = mul nuw nsw i32 %m64_a0h_97, 30481
+  %m64_p11_143 = mul nuw i32 %m64_a0h_97, 43980
+  %m64_p00h_144 = lshr i32 %m64_p00_140, 16
+  %m64_p01l_145 = and i32 %m64_p01_141, 65532
+  %m64_p10l_146 = and i32 %m64_p10_142, 65535
+  %m64_m1a_147 = add nuw nsw i32 %m64_p00h_144, %m64_p01l_145
+  %m64_m1_148 = add nuw nsw i32 %m64_m1a_147, %m64_p10l_146
+  %m64_p00l_149 = and i32 %m64_p00_140, 65535
+  %m64_m1sh_150 = shl i32 %m64_m1_148, 16
+  %m64_lo32_151 = or disjoint i32 %m64_m1sh_150, %m64_p00l_149
+  %m64_p01h_152 = lshr i32 %m64_p01_141, 16
+  %m64_p10h_153 = lshr i32 %m64_p10_142, 16
+  %m64_m1h_154 = lshr i32 %m64_m1_148, 16
+  %m64_c1_155 = add nuw i32 %m64_p01h_152, %m64_p11_143
+  %m64_c2_156 = add nuw i32 %m64_c1_155, %m64_p10h_153
+  %m64_hib_157 = add nuw i32 %m64_c2_156, %m64_m1h_154
+  %m64_lo64_162 = zext i32 %m64_lo32_151 to i64
+  %m64_hi64_163 = zext i32 %m64_hib_157 to i64
+  %m64_hish_164 = shl nuw i64 %m64_hi64_163, 32
+  %alu_174 = add nuw nsw i64 %m64_hi64_43, %m64_lo64_82
+  %alu_181 = add nuw nsw i64 %alu_174, %m64_lo64_122
+  %alu_193 = lshr i64 %alu_181, 32
+  %alu_129 = add nuw nsw i64 %m64_lo64_162, %m64_hi64_83
+  %alu_186 = add nuw nsw i64 %alu_129, %m64_hi64_123
+  %alu_191 = add nuw i64 %alu_186, %m64_hish_164
+  %alu_196 = add nuw i64 %alu_191, %alu_193
+  %alu_199 = lshr i64 %alu_196, 26
+  %m64_a0_208 = trunc i64 %alu_199 to i32
+  %m64_a0l_214 = and i32 %m64_a0_208, 65535
+  %m64_a0h_215 = lshr i32 %m64_a0_208, 16
+  %m64_p00_218 = mul nuw i32 %m64_a0l_214, 57600
+  %m64_p01_219 = mul i32 %m64_a0_208, 1525
+  %m64_p10_220 = mul nuw i32 %m64_a0h_215, 57600
+  %m64_m1a_225 = add i32 %m64_p10_220, %m64_p01_219
+  %m64_p00l_227 = and i32 %m64_p00_218, 65280
+  %m64_m1_2267 = shl i32 %m64_m1a_225, 16
+  %m64_p00h_2228 = add i32 %m64_p00_218, %m64_m1_2267
+  %m64_m1sh_228 = and i32 %m64_p00h_2228, -65536
+  %0 = or disjoint i32 %m64_p00l_227, %m64_m1sh_228
+  %alu_248.narrow = sub i32 %m64_a0_10, %0
+  ret i32 %alu_248.narrow
+}
+
+; Function Attrs: minsize mustprogress nofree norecurse nosync nounwind optsize willreturn memory(none)
+define hidden range(i64 0, 184467440845) i64 @llb_sats_div_1e8(i64 noundef %arg_v0) local_unnamed_addr #4 {
+entry:
+  %alu_3 = lshr i64 %arg_v0, 32
+  %m64_a0_10 = trunc i64 %arg_v0 to i32
+  %m64_a0l_16 = and i32 %m64_a0_10, 65535
+  %m64_a0h_17 = lshr i32 %m64_a0_10, 16
+  %m64_p00_20 = mul nuw i32 %m64_a0l_16, 52989
+  %m64_p01_21 = mul nuw i32 %m64_a0l_16, 33889
+  %m64_p10_22 = mul nuw i32 %m64_a0h_17, 52989
+  %m64_p11_23 = mul nuw i32 %m64_a0h_17, 33889
+  %m64_p00h_24 = lshr i32 %m64_p00_20, 16
+  %m64_p01l_25 = and i32 %m64_p01_21, 65535
+  %m64_p10l_26 = and i32 %m64_p10_22, 65535
+  %m64_m1a_27 = add nuw nsw i32 %m64_p00h_24, %m64_p01l_25
+  %m64_m1_28 = add nuw nsw i32 %m64_m1a_27, %m64_p10l_26
+  %m64_p01h_32 = lshr i32 %m64_p01_21, 16
+  %m64_p10h_33 = lshr i32 %m64_p10_22, 16
+  %m64_m1h_34 = lshr i32 %m64_m1_28, 16
+  %m64_c1_35 = add nuw i32 %m64_p01h_32, %m64_p11_23
+  %m64_c2_36 = add nuw i32 %m64_c1_35, %m64_p10h_33
+  %m64_hib_37 = add nuw i32 %m64_c2_36, %m64_m1h_34
+  %m64_hi64_43 = zext i32 %m64_hib_37 to i64
+  %m64_p00_60 = mul nuw nsw i32 %m64_a0l_16, 30481
+  %m64_p01_61 = mul nuw i32 %m64_a0l_16, 43980
+  %m64_p10_62 = mul nuw nsw i32 %m64_a0h_17, 30481
+  %m64_p11_63 = mul nuw i32 %m64_a0h_17, 43980
+  %m64_p00h_64 = lshr i32 %m64_p00_60, 16
+  %m64_p01l_65 = and i32 %m64_p01_61, 65532
+  %m64_p10l_66 = and i32 %m64_p10_62, 65535
+  %m64_m1a_67 = add nuw nsw i32 %m64_p00h_64, %m64_p01l_65
+  %m64_m1_68 = add nuw nsw i32 %m64_m1a_67, %m64_p10l_66
+  %m64_p00l_69 = and i32 %m64_p00_60, 65535
+  %m64_m1sh_70 = shl i32 %m64_m1_68, 16
+  %m64_lo32_71 = or disjoint i32 %m64_m1sh_70, %m64_p00l_69
+  %m64_p01h_72 = lshr i32 %m64_p01_61, 16
+  %m64_p10h_73 = lshr i32 %m64_p10_62, 16
+  %m64_m1h_74 = lshr i32 %m64_m1_68, 16
+  %m64_c1_75 = add nuw i32 %m64_p01h_72, %m64_p11_63
+  %m64_c2_76 = add nuw i32 %m64_c1_75, %m64_p10h_73
+  %m64_hib_77 = add nuw i32 %m64_c2_76, %m64_m1h_74
+  %m64_lo64_82 = zext i32 %m64_lo32_71 to i64
+  %m64_hi64_83 = zext i32 %m64_hib_77 to i64
+  %m64_a0_90 = trunc nuw i64 %alu_3 to i32
+  %m64_a0l_96 = and i32 %m64_a0_90, 65535
+  %m64_a0h_97 = lshr i32 %m64_a0_90, 16
+  %m64_p00_100 = mul nuw i32 %m64_a0l_96, 52989
+  %m64_p01_101 = mul nuw i32 %m64_a0l_96, 33889
+  %m64_p10_102 = mul nuw i32 %m64_a0h_97, 52989
+  %m64_p11_103 = mul nuw i32 %m64_a0h_97, 33889
+  %m64_p00h_104 = lshr i32 %m64_p00_100, 16
+  %m64_p01l_105 = and i32 %m64_p01_101, 65535
+  %m64_p10l_106 = and i32 %m64_p10_102, 65535
+  %m64_m1a_107 = add nuw nsw i32 %m64_p00h_104, %m64_p01l_105
+  %m64_m1_108 = add nuw nsw i32 %m64_m1a_107, %m64_p10l_106
+  %m64_p00l_109 = and i32 %m64_p00_100, 65535
+  %m64_m1sh_110 = shl i32 %m64_m1_108, 16
+  %m64_lo32_111 = or disjoint i32 %m64_m1sh_110, %m64_p00l_109
+  %m64_p01h_112 = lshr i32 %m64_p01_101, 16
+  %m64_p10h_113 = lshr i32 %m64_p10_102, 16
+  %m64_m1h_114 = lshr i32 %m64_m1_108, 16
+  %m64_c1_115 = add nuw i32 %m64_p01h_112, %m64_p11_103
+  %m64_c2_116 = add nuw i32 %m64_c1_115, %m64_p10h_113
+  %m64_hib_117 = add nuw i32 %m64_c2_116, %m64_m1h_114
+  %m64_lo64_122 = zext i32 %m64_lo32_111 to i64
+  %m64_hi64_123 = zext i32 %m64_hib_117 to i64
+  %m64_p00_140 = mul nuw nsw i32 %m64_a0l_96, 30481
+  %m64_p01_141 = mul nuw i32 %m64_a0l_96, 43980
+  %m64_p10_142 = mul nuw nsw i32 %m64_a0h_97, 30481
+  %m64_p11_143 = mul nuw i32 %m64_a0h_97, 43980
+  %m64_p00h_144 = lshr i32 %m64_p00_140, 16
+  %m64_p01l_145 = and i32 %m64_p01_141, 65532
+  %m64_p10l_146 = and i32 %m64_p10_142, 65535
+  %m64_m1a_147 = add nuw nsw i32 %m64_p00h_144, %m64_p01l_145
+  %m64_m1_148 = add nuw nsw i32 %m64_m1a_147, %m64_p10l_146
+  %m64_p00l_149 = and i32 %m64_p00_140, 65535
+  %m64_m1sh_150 = shl i32 %m64_m1_148, 16
+  %m64_lo32_151 = or disjoint i32 %m64_m1sh_150, %m64_p00l_149
+  %m64_p01h_152 = lshr i32 %m64_p01_141, 16
+  %m64_p10h_153 = lshr i32 %m64_p10_142, 16
+  %m64_m1h_154 = lshr i32 %m64_m1_148, 16
+  %m64_c1_155 = add nuw i32 %m64_p01h_152, %m64_p11_143
+  %m64_c2_156 = add nuw i32 %m64_c1_155, %m64_p10h_153
+  %m64_hib_157 = add nuw i32 %m64_c2_156, %m64_m1h_154
+  %m64_lo64_162 = zext i32 %m64_lo32_151 to i64
+  %m64_hi64_163 = zext i32 %m64_hib_157 to i64
+  %m64_hish_164 = shl nuw i64 %m64_hi64_163, 32
+  %alu_174 = add nuw nsw i64 %m64_hi64_43, %m64_lo64_82
+  %alu_181 = add nuw nsw i64 %alu_174, %m64_lo64_122
+  %alu_193 = lshr i64 %alu_181, 32
+  %alu_129 = add nuw nsw i64 %m64_lo64_162, %m64_hi64_83
+  %alu_186 = add nuw nsw i64 %alu_129, %m64_hi64_123
+  %alu_191 = add nuw i64 %alu_186, %m64_hish_164
+  %alu_196 = add nuw i64 %alu_191, %alu_193
+  %alu_199 = lshr i64 %alu_196, 26
+  ret i64 %alu_199
+}
+
+; Function Attrs: minsize nofree norecurse nosync nounwind optsize memory(argmem: readwrite)
+define hidden void @llb_sort_fixed_bytes(ptr noundef captures(none) %arg_v0, i32 noundef %arg_v1, i32 noundef %arg_v2) local_unnamed_addr #0 {
+entry:
+  %arg_ext_v1 = zext i32 %arg_v1 to i64
+  %cmp_le_5 = icmp ult i32 %arg_v1, 2
+  br i1 %cmp_le_5, label %common.ret, label %ite_else_8
+
+common.ret:                                       ; preds = %loop_hdr_24, %ite_else_8, %entry
+  ret void
+
+ite_else_8:                                       ; preds = %entry
+  %cmp_eq_15 = icmp eq i32 %arg_v2, 0
+  br i1 %cmp_eq_15, label %common.ret, label %loop_hdr_24.preheader
+
+loop_hdr_24.preheader:                            ; preds = %ite_else_8
+  %arg_ext_v1.i.i = zext i32 %arg_v2 to i64
+  %m64_b0l_33.i.i = and i32 %arg_v2, 65535
+  %m64_b0h_34.i.i = and i32 %arg_v2, -65536
+  %factor.op.mul13.i = shl i32 %arg_v2, 16
+  br label %loop_hdr_24
+
+loop_hdr_24:                                      ; preds = %loop_hdr_24.preheader, %l___private_LeanNativeInput_0__BitcoinLedger_FreestandingKernels_sortBytesPass.exit
+  %loop_idx_28 = phi i64 [ %loop_next_29, %l___private_LeanNativeInput_0__BitcoinLedger_FreestandingKernels_sortBytesPass.exit ], [ 1, %loop_hdr_24.preheader ]
+  %loop_cmp_30 = icmp samesign ult i64 %loop_idx_28, %arg_ext_v1
+  br i1 %loop_cmp_30, label %loop_body_25, label %common.ret
+
+loop_body_25:                                     ; preds = %loop_hdr_24
+  %alu_17.i = add nuw nsw i64 %loop_idx_28, 4294967295
+  br label %loop_hdr_4.i
+
+loop_hdr_4.i:                                     ; preds = %loop_latch_6.i, %loop_body_25
+  %loop_idx_8.i = phi i64 [ 0, %loop_body_25 ], [ %loop_next_9.i, %loop_latch_6.i ]
+  %loop_cmp_10.i = icmp samesign ult i64 %loop_idx_8.i, %loop_idx_28
+  br i1 %loop_cmp_10.i, label %loop_body_5.i, label %l___private_LeanNativeInput_0__BitcoinLedger_FreestandingKernels_sortBytesPass.exit
+
+loop_body_5.i:                                    ; preds = %loop_hdr_4.i
+  %alu_23.i = sub nuw nsw i64 %alu_17.i, %loop_idx_8.i
+  %call_tr_29.i = trunc i64 %alu_23.i to i32
+  %m64_a0l_31.i.i = and i32 %call_tr_29.i, 65535
+  %m64_a0h_32.i.i = lshr i32 %call_tr_29.i, 16
+  %m64_p00_35.i.i = mul nuw i32 %m64_a0l_31.i.i, %m64_b0l_33.i.i
+  %m64_p01_36.i.reass.i = mul i32 %m64_b0h_34.i.i, %call_tr_29.i
+  %m64_p10_37.i.reass.i = mul i32 %m64_a0h_32.i.i, %factor.op.mul13.i
+  %m64_m1a_42.i.i = add i32 %m64_p10_37.i.reass.i, %m64_p01_36.i.reass.i
+  %m64_p00l_44.i.i = and i32 %m64_p00_35.i.i, 65535
+  %m64_p00h_3912.i.i = add i32 %m64_m1a_42.i.i, %m64_p00_35.i.i
+  %m64_m1sh_45.i.i = and i32 %m64_p00h_3912.i.i, -65536
+  %0 = getelementptr i8, ptr %arg_v0, i32 %m64_p00l_44.i.i
+  %1 = getelementptr i8, ptr %0, i32 %m64_m1sh_45.i.i
+  %2 = add i32 %call_tr_29.i, 1
+  %m64_a0l_87.i.i = and i32 %2, 65535
+  %m64_a0h_88.i.i = lshr i32 %2, 16
+  %m64_p00_91.i.i = mul nuw i32 %m64_a0l_87.i.i, %m64_b0l_33.i.i
+  %m64_p01_92.i.reass.i = mul i32 %2, %m64_b0h_34.i.i
+  %m64_p10_93.i.reass.i = mul i32 %m64_a0h_88.i.i, %factor.op.mul13.i
+  %m64_m1a_98.i.i = add i32 %m64_p10_93.i.reass.i, %m64_p01_92.i.reass.i
+  %m64_p00l_100.i.i = and i32 %m64_p00_91.i.i, 65535
+  %m64_p00h_9514.i.i = add i32 %m64_m1a_98.i.i, %m64_p00_91.i.i
+  %m64_m1sh_101.i.i = and i32 %m64_p00h_9514.i.i, -65536
+  %3 = getelementptr i8, ptr %arg_v0, i32 %m64_p00l_100.i.i
+  %4 = getelementptr i8, ptr %3, i32 %m64_m1sh_101.i.i
+  br label %loop_hdr_4.i.i
+
+loop_hdr_4.i.i:                                   ; preds = %loop_latch_6.i.i, %loop_body_5.i
+  %slot_v23.0.i.i = phi i64 [ 2, %loop_body_5.i ], [ %slot_v23.1.i.i, %loop_latch_6.i.i ]
+  %loop_idx_8.i.i = phi i64 [ 0, %loop_body_5.i ], [ %loop_next_9.i.i, %loop_latch_6.i.i ]
+  %loop_cmp_10.i.i = icmp samesign ult i64 %loop_idx_8.i.i, %arg_ext_v1.i.i
+  br i1 %loop_cmp_10.i.i, label %loop_body_5.i.i, label %l___private_LeanNativeInput_0__BitcoinLedger_FreestandingKernels_recGreater.exit.i
+
+loop_body_5.i.i:                                  ; preds = %loop_hdr_4.i.i
+  %cmp_eq_15.i.i = icmp eq i64 %slot_v23.0.i.i, 2
+  br i1 %cmp_eq_15.i.i, label %ite_then_17.i.i, label %loop_latch_6.i.i
+
+ite_then_17.i.i:                                  ; preds = %loop_body_5.i.i
+  %loop_idx_8.tr.i.i = trunc i64 %loop_idx_8.i.i to i32
+  %rld_gep_69.i.i = getelementptr i8, ptr %1, i32 %loop_idx_8.tr.i.i
+  %rld_i8_70.i.i = load i8, ptr %rld_gep_69.i.i, align 1
+  %rld_gep_125.i.i = getelementptr i8, ptr %4, i32 %loop_idx_8.tr.i.i
+  %rld_i8_126.i.i = load i8, ptr %rld_gep_125.i.i, align 1
+  %cmp_lt_133.i.i = icmp ult i8 %rld_i8_70.i.i, %rld_i8_126.i.i
+  br i1 %cmp_lt_133.i.i, label %loop_latch_6.i.i, label %ite_else_136.i.i
+
+ite_else_136.i.i:                                 ; preds = %ite_then_17.i.i
+  %cmp_lt_144.i.i = icmp ult i8 %rld_i8_126.i.i, %rld_i8_70.i.i
+  %..i.i = select i1 %cmp_lt_144.i.i, i64 1, i64 2
+  br label %loop_latch_6.i.i
+
+loop_latch_6.i.i:                                 ; preds = %ite_else_136.i.i, %ite_then_17.i.i, %loop_body_5.i.i
+  %slot_v23.1.i.i = phi i64 [ 0, %ite_then_17.i.i ], [ %..i.i, %ite_else_136.i.i ], [ %slot_v23.0.i.i, %loop_body_5.i.i ]
+  %loop_next_9.i.i = add nuw nsw i64 %loop_idx_8.i.i, 1
+  br label %loop_hdr_4.i.i
+
+l___private_LeanNativeInput_0__BitcoinLedger_FreestandingKernels_recGreater.exit.i: ; preds = %loop_hdr_4.i.i
+  %cmp_eq_154.i.not.i = icmp eq i64 %slot_v23.0.i.i, 1
+  br i1 %cmp_eq_154.i.not.i, label %loop_hdr_4.i7.i, label %loop_latch_6.i
+
+loop_hdr_4.i7.i:                                  ; preds = %l___private_LeanNativeInput_0__BitcoinLedger_FreestandingKernels_recGreater.exit.i, %loop_body_5.i10.i
+  %loop_idx_8.i8.i = phi i64 [ %loop_next_9.i12.i, %loop_body_5.i10.i ], [ 0, %l___private_LeanNativeInput_0__BitcoinLedger_FreestandingKernels_recGreater.exit.i ]
+  %loop_cmp_10.i9.i = icmp samesign ult i64 %loop_idx_8.i8.i, %arg_ext_v1.i.i
+  br i1 %loop_cmp_10.i9.i, label %loop_body_5.i10.i, label %loop_latch_6.i
+
+loop_body_5.i10.i:                                ; preds = %loop_hdr_4.i7.i
+  %loop_idx_8.tr.i11.i = trunc i64 %loop_idx_8.i8.i to i32
+  %rld_gep_113.i.i = getelementptr i8, ptr %1, i32 %loop_idx_8.tr.i11.i
+  %rld_i8_114.i.i = load i8, ptr %rld_gep_113.i.i, align 1
+  %rld_gep_118.i.i = getelementptr i8, ptr %4, i32 %loop_idx_8.tr.i11.i
+  %rld_i8_119.i.i = load i8, ptr %rld_gep_118.i.i, align 1
+  store i8 %rld_i8_119.i.i, ptr %rld_gep_113.i.i, align 1
+  store i8 %rld_i8_114.i.i, ptr %rld_gep_118.i.i, align 1
+  %loop_next_9.i12.i = add nuw nsw i64 %loop_idx_8.i8.i, 1
+  br label %loop_hdr_4.i7.i
+
+loop_latch_6.i:                                   ; preds = %loop_hdr_4.i7.i, %l___private_LeanNativeInput_0__BitcoinLedger_FreestandingKernels_recGreater.exit.i
+  %loop_next_9.i = add nuw nsw i64 %loop_idx_8.i, 1
+  br label %loop_hdr_4.i
+
+l___private_LeanNativeInput_0__BitcoinLedger_FreestandingKernels_sortBytesPass.exit: ; preds = %loop_hdr_4.i
+  %loop_next_29 = add nuw nsw i64 %loop_idx_28, 1
+  br label %loop_hdr_24
+}
+
+; Function Attrs: alwaysinline minsize mustprogress nofree norecurse nosync nounwind optsize willreturn memory(none)
+define hidden zeroext range(i8 0, 2) i8 @llb_miniscript_after_ok(i32 noundef %arg_v0) local_unnamed_addr #2 {
+entry:
+  %alu_182 = icmp sgt i32 %arg_v0, 0
+  %ret_tr_27 = zext i1 %alu_182 to i8
+  ret i8 %ret_tr_27
+}
+
+; Function Attrs: alwaysinline minsize mustprogress nofree norecurse nosync nounwind optsize willreturn memory(none)
+define hidden zeroext range(i8 -128, 48) i8 @llb_witness_opcode_to_version(i8 noundef zeroext %arg_v0) local_unnamed_addr #2 {
+entry:
+  %cmp_eq_3 = icmp eq i8 %arg_v0, 0
+  %0 = add nsw i8 %arg_v0, -80
+  %1 = add i8 %arg_v0, -81
+  %2 = icmp ult i8 %1, 16
+  %narrow4 = select i1 %2, i8 %0, i8 -1
+  %narrow = select i1 %cmp_eq_3, i8 0, i8 %narrow4
+  ret i8 %narrow
+}
+
+; Function Attrs: minsize mustprogress nofree norecurse nosync nounwind optsize willreturn memory(none)
+define hidden zeroext range(i8 0, 2) i8 @llb_bip32_standard_purpose_ok(i32 noundef %arg_v0) local_unnamed_addr #4 {
+entry:
+  %ite_cond_12.not = icmp sgt i32 %arg_v0, -1
+  br i1 %ite_cond_12.not, label %common.ret, label %ite_then_13
+
+ite_then_13:                                      ; preds = %entry
+  %0 = and i32 %arg_v0, 2147483647
+  switch i32 %0, label %ite_else_181 [
+    i32 44, label %common.ret
+    i32 49, label %common.ret
+    i32 84, label %common.ret
+    i32 86, label %common.ret
+    i32 87, label %common.ret
+    i32 45, label %common.ret
   ]
 
-8:                                                ; preds = %7
-  %9 = add i64 %1, -253
-  %10 = icmp ult i64 %9, 65283
-  br label %16
+common.ret:                                       ; preds = %ite_then_13, %ite_then_13, %ite_then_13, %ite_then_13, %ite_then_13, %ite_then_13, %entry, %ite_else_181
+  %common.ret.op.shrunk = phi i1 [ false, %ite_else_181 ], [ true, %ite_then_13 ], [ false, %entry ], [ true, %ite_then_13 ], [ true, %ite_then_13 ], [ true, %ite_then_13 ], [ true, %ite_then_13 ], [ true, %ite_then_13 ]
+  %common.ret.op = zext i1 %common.ret.op.shrunk to i8
+  ret i8 %common.ret.op
 
-11:                                               ; preds = %7
-  %12 = add i64 %1, -65536
-  %13 = icmp ult i64 %12, 4294901760
-  br label %16
-
-14:                                               ; preds = %7
-  %15 = icmp ugt i64 %1, 4294967295
-  br label %16
-
-16:                                               ; preds = %14, %11, %8, %4
-  %17 = phi i1 [ %6, %4 ], [ %10, %8 ], [ %13, %11 ], [ %15, %14 ]
-  %18 = zext i1 %17 to i8
-  ret i8 %18
+ite_else_181:                                     ; preds = %ite_then_13
+  br label %common.ret
 }
 
-; Function Attrs: alwaysinline mustprogress nofree norecurse nosync nounwind optsize willreturn memory(none)
-define hidden noundef zeroext i8 @llb_bip32_is_hardened(i32 noundef %0) local_unnamed_addr #1 {
-  %2 = lshr i32 %0, 31
-  %3 = trunc i32 %2 to i8
-  ret i8 %3
+; Function Attrs: alwaysinline minsize mustprogress nofree norecurse nosync nounwind optsize willreturn memory(none)
+define hidden noundef range(i32 0, -2147483648) i32 @llb_bip32_unharden(i32 noundef %arg_v0) local_unnamed_addr #2 {
+entry:
+  %0 = and i32 %arg_v0, 2147483647
+  ret i32 %0
 }
 
-; Function Attrs: mustprogress nofree norecurse nosync nounwind optsize willreturn memory(none)
-define hidden noundef i32 @llb_bip32_harden(i32 noundef %0) local_unnamed_addr #0 {
-  %2 = or i32 %0, -2147483648
-  ret i32 %2
-}
+; Function Attrs: minsize mustprogress nofree norecurse nosync nounwind optsize willreturn memory(argmem: read)
+define hidden range(i64 0, 25769803776) i64 @llb_read_compact_size_checked(ptr noundef readonly captures(none) %arg_v0, i32 noundef %arg_v1, i32 noundef %arg_v2) local_unnamed_addr #5 {
+entry:
+  %arg_ext_v2 = zext i32 %arg_v2 to i64
+  %cmp_eq_3 = icmp eq i32 %arg_v1, 0
+  br i1 %cmp_eq_3, label %common.ret, label %ite_else_6
 
-; Function Attrs: alwaysinline mustprogress nofree norecurse nosync nounwind optsize willreturn memory(none)
-define hidden noundef i32 @llb_bip32_unharden(i32 noundef %0) local_unnamed_addr #1 {
-  %2 = and i32 %0, 2147483647
-  ret i32 %2
-}
+common.ret:                                       ; preds = %ite_else_20, %ite_else_802, %ite_then_1004, %ite_then_691, %ite_then_465, %ite_then_547, %ite_then_355, %ite_then_106, %entry, %ite_then_1014, %ite_then_557, %ite_then_116
+  %common.ret.op = phi i64 [ %alu_120, %ite_then_116 ], [ %alu_561, %ite_then_557 ], [ %alu_1018, %ite_then_1014 ], [ 0, %entry ], [ 0, %ite_then_106 ], [ 0, %ite_then_355 ], [ 0, %ite_then_547 ], [ 0, %ite_then_465 ], [ 0, %ite_then_691 ], [ 0, %ite_then_1004 ], [ 0, %ite_else_802 ], [ 0, %ite_else_20 ]
+  ret i64 %common.ret.op
 
-; Function Attrs: alwaysinline mustprogress nofree norecurse nosync nounwind optsize willreturn memory(none)
-define hidden noundef zeroext i8 @llb_bip32_bolos_depth_ok(i8 noundef zeroext %0) local_unnamed_addr #1 {
-  %2 = icmp ult i8 %0, 11
-  %3 = zext i1 %2 to i8
-  ret i8 %3
-}
+ite_else_6:                                       ; preds = %entry
+  %rld_i8_12 = load i8, ptr %arg_v0, align 1
+  %rld_val_13 = zext i8 %rld_i8_12 to i64
+  %cmp_le_17 = icmp ult i8 %rld_i8_12, -3
+  br i1 %cmp_le_17, label %ite_then_106, label %ite_else_20
 
-; Function Attrs: mustprogress nofree norecurse nosync nounwind optsize willreturn memory(none)
-define hidden noundef zeroext i8 @llb_bip32_vanadium_depth_ok(i8 noundef zeroext %0) local_unnamed_addr #0 {
-  %2 = icmp ult i8 %0, 17
-  %3 = zext i1 %2 to i8
-  ret i8 %3
-}
+ite_then_106:                                     ; preds = %ite_else_6
+  %cmp_le_114.not = icmp samesign ugt i64 %rld_val_13, %arg_ext_v2
+  br i1 %cmp_le_114.not, label %common.ret, label %ite_then_116
 
-; Function Attrs: mustprogress nofree norecurse nosync nounwind optsize willreturn memory(none)
-define hidden noundef zeroext i8 @llb_bip32_standard_purpose_ok(i32 noundef %0) local_unnamed_addr #0 {
-  %2 = icmp sgt i32 %0, -1
-  br i1 %2, label %9, label %3
+ite_then_116:                                     ; preds = %ite_then_106
+  %alu_120 = or disjoint i64 %rld_val_13, 4294967296
+  br label %common.ret
 
-3:                                                ; preds = %1
-  %4 = and i32 %0, 2147483647
-  switch i32 %4, label %5 [
-    i32 44, label %6
-    i32 49, label %6
-    i32 84, label %6
-    i32 86, label %6
-    i32 87, label %6
-    i32 45, label %6
+ite_else_20:                                      ; preds = %ite_else_6
+  switch i8 %rld_i8_12, label %common.ret [
+    i8 -3, label %ite_then_355
+    i8 -2, label %ite_then_691
   ]
 
-5:                                                ; preds = %3
-  br label %6
+ite_then_355:                                     ; preds = %ite_else_20
+  %cmp_lt_361 = icmp ult i32 %arg_v1, 3
+  br i1 %cmp_lt_361, label %common.ret, label %ite_then_465
 
-6:                                                ; preds = %5, %3, %3, %3, %3, %3, %3
-  %7 = phi i1 [ true, %3 ], [ false, %5 ], [ true, %3 ], [ true, %3 ], [ true, %3 ], [ true, %3 ], [ true, %3 ]
-  %8 = zext i1 %7 to i8
-  br label %9
+ite_then_465:                                     ; preds = %ite_then_355
+  %rld_gep_470 = getelementptr inbounds nuw i8, ptr %arg_v0, i32 1
+  %rld_i8_471 = load i8, ptr %rld_gep_470, align 1
+  %rld_val_472 = zext i8 %rld_i8_471 to i64
+  %rld_gep_477 = getelementptr inbounds nuw i8, ptr %arg_v0, i32 2
+  %rld_i8_478 = load i8, ptr %rld_gep_477, align 1
+  %rld_val_479 = zext i8 %rld_i8_478 to i64
+  %alu_483 = shl nuw nsw i64 %rld_val_479, 8
+  %alu_486 = or disjoint i64 %alu_483, %rld_val_472
+  %cmp_le_503 = icmp samesign ugt i64 %alu_486, 252
+  br i1 %cmp_le_503, label %ite_then_547, label %common.ret
 
-9:                                                ; preds = %6, %1
-  %10 = phi i8 [ %8, %6 ], [ 0, %1 ]
-  ret i8 %10
+ite_then_547:                                     ; preds = %ite_then_465
+  %cmp_le_555.not = icmp samesign ugt i64 %alu_486, %arg_ext_v2
+  br i1 %cmp_le_555.not, label %common.ret, label %ite_then_557
+
+ite_then_557:                                     ; preds = %ite_then_547
+  %alu_561 = or disjoint i64 %alu_486, 12884901888
+  br label %common.ret
+
+ite_then_691:                                     ; preds = %ite_else_20
+  %cmp_lt_697 = icmp ult i32 %arg_v1, 5
+  br i1 %cmp_lt_697, label %common.ret, label %ite_else_802
+
+ite_else_802:                                     ; preds = %ite_then_691
+  %rld_gep_903 = getelementptr inbounds nuw i8, ptr %arg_v0, i32 1
+  %rld_i8_904 = load i8, ptr %rld_gep_903, align 1
+  %rld_val_905 = zext i8 %rld_i8_904 to i64
+  %rld_gep_910 = getelementptr inbounds nuw i8, ptr %arg_v0, i32 2
+  %rld_i8_911 = load i8, ptr %rld_gep_910, align 1
+  %rld_val_912 = zext i8 %rld_i8_911 to i64
+  %alu_916 = shl nuw nsw i64 %rld_val_912, 8
+  %alu_919 = or disjoint i64 %alu_916, %rld_val_905
+  %rld_gep_922 = getelementptr inbounds nuw i8, ptr %arg_v0, i32 3
+  %rld_i8_923 = load i8, ptr %rld_gep_922, align 1
+  %rld_val_924 = zext i8 %rld_i8_923 to i64
+  %alu_928 = shl nuw nsw i64 %rld_val_924, 16
+  %alu_931 = or disjoint i64 %alu_919, %alu_928
+  %rld_gep_934 = getelementptr inbounds nuw i8, ptr %arg_v0, i32 4
+  %rld_i8_935 = load i8, ptr %rld_gep_934, align 1
+  %rld_val_936 = zext i8 %rld_i8_935 to i64
+  %alu_940 = shl nuw nsw i64 %rld_val_936, 24
+  %alu_943 = or disjoint i64 %alu_931, %alu_940
+  %cmp_le_975 = icmp samesign ugt i64 %alu_943, 65535
+  br i1 %cmp_le_975, label %ite_then_1004, label %common.ret
+
+ite_then_1004:                                    ; preds = %ite_else_802
+  %cmp_le_1012.not = icmp samesign ugt i64 %alu_943, %arg_ext_v2
+  br i1 %cmp_le_1012.not, label %common.ret, label %ite_then_1014
+
+ite_then_1014:                                    ; preds = %ite_then_1004
+  %alu_1018 = or disjoint i64 %alu_943, 21474836480
+  br label %common.ret
 }
 
-; Function Attrs: mustprogress nocallback nofree nosync nounwind willreturn memory(argmem: readwrite)
-declare void @llvm.lifetime.start.p0(i64 immarg, ptr nocapture) #2
-
-; Function Attrs: mustprogress nocallback nofree nosync nounwind willreturn memory(argmem: readwrite)
-declare void @llvm.lifetime.end.p0(i64 immarg, ptr nocapture) #2
-
-; Function Attrs: alwaysinline mustprogress nofree norecurse nosync nounwind optsize willreturn memory(none)
-define hidden zeroext i8 @llb_witness_opcode_to_version(i8 noundef zeroext %0) local_unnamed_addr #1 {
-  %2 = icmp eq i8 %0, 0
-  %3 = add i8 %0, -81
-  %4 = icmp ult i8 %3, 16
-  %5 = add nsw i8 %0, -80
-  %6 = select i1 %4, i8 %5, i8 -1
-  %7 = select i1 %2, i8 0, i8 %6
-  ret i8 %7
+; Function Attrs: minsize mustprogress nofree norecurse nosync nounwind optsize willreturn memory(none)
+define hidden zeroext range(i8 0, 2) i8 @llb_varint_prefix_is_canonical(i8 noundef zeroext %arg_v0, i64 noundef %arg_v1) local_unnamed_addr #4 {
+entry:
+  %arg_ext_v0 = zext i8 %arg_v0 to i64
+  %cmp_le_3 = icmp ult i8 %arg_v0, -3
+  %cmp_eq_9 = icmp eq i64 %arg_v1, %arg_ext_v0
+  %cmp_eq_13 = icmp eq i8 %arg_v0, -3
+  %0 = add i64 %arg_v1, -253
+  %sel_24.v = icmp ult i64 %0, 65283
+  %cmp_eq_28 = icmp eq i8 %arg_v0, -2
+  %1 = add i64 %arg_v1, -65536
+  %sel_39.v = icmp ult i64 %1, 4294901760
+  %cmp_le_42 = icmp ugt i64 %arg_v1, 4294967295
+  %sel_47.v = select i1 %cmp_eq_28, i1 %sel_39.v, i1 %cmp_le_42
+  %sel_52.v = select i1 %cmp_eq_13, i1 %sel_24.v, i1 %sel_47.v
+  %sel_57.v = select i1 %cmp_le_3, i1 %cmp_eq_9, i1 %sel_52.v
+  %ret_tr_60 = zext i1 %sel_57.v to i8
+  ret i8 %ret_tr_60
 }
 
-; Function Attrs: alwaysinline mustprogress nofree norecurse nosync nounwind optsize willreturn memory(none)
-define hidden noundef zeroext i8 @llb_segwit_program_valid(i8 noundef zeroext %0, i8 noundef zeroext %1) local_unnamed_addr #1 {
-  %3 = icmp eq i8 %0, 0
-  br i1 %3, label %4, label %8
-
-4:                                                ; preds = %2
-  %5 = icmp eq i8 %1, 20
-  %6 = icmp eq i8 %1, 32
-  %7 = or i1 %5, %6
-  br label %13
-
-8:                                                ; preds = %2
-  %9 = icmp ult i8 %0, 17
-  br i1 %9, label %10, label %13
-
-10:                                               ; preds = %8
-  %11 = add i8 %1, -2
-  %12 = icmp ult i8 %11, 39
-  br label %13
-
-13:                                               ; preds = %10, %8, %4
-  %14 = phi i1 [ %7, %4 ], [ %12, %10 ], [ false, %8 ]
-  %15 = zext i1 %14 to i8
-  ret i8 %15
+; Function Attrs: alwaysinline minsize mustprogress nofree norecurse nosync nounwind optsize willreturn memory(none)
+define hidden zeroext range(i8 0, 2) i8 @llb_miniscript_andor_branches_valid(i8 noundef zeroext %arg_v0, i8 noundef zeroext %arg_v1, i8 noundef zeroext %arg_v2) local_unnamed_addr #2 {
+entry:
+  %cmp_eq_3 = icmp eq i8 %arg_v0, 100
+  %cmp_eq_7 = icmp eq i8 %arg_v1, 103
+  %alu_181 = and i1 %cmp_eq_3, %cmp_eq_7
+  %cmp_eq_28 = icmp eq i8 %arg_v2, 104
+  %alu_392 = and i1 %alu_181, %cmp_eq_28
+  %ret_tr_48 = zext i1 %alu_392 to i8
+  ret i8 %ret_tr_48
 }
 
-; Function Attrs: mustprogress nofree norecurse nosync nounwind optsize willreturn memory(none)
-define hidden i32 @llb_bech32_polymod_step(i32 noundef %0, i8 noundef zeroext %1) local_unnamed_addr #0 {
-  %3 = shl i32 %0, 5
-  %4 = and i32 %3, 1073741792
-  %5 = zext i8 %1 to i32
-  %6 = xor i32 %4, %5
-  %7 = and i32 %0, 33554432
-  %8 = icmp eq i32 %7, 0
-  %9 = xor i32 %6, 996825010
-  %10 = select i1 %8, i32 %6, i32 %9
-  %11 = and i32 %0, 67108864
-  %12 = icmp eq i32 %11, 0
-  %13 = xor i32 %10, 642813549
-  %14 = select i1 %12, i32 %10, i32 %13
-  %15 = and i32 %0, 134217728
-  %16 = icmp eq i32 %15, 0
-  %17 = xor i32 %14, 513874426
-  %18 = select i1 %16, i32 %14, i32 %17
-  %19 = and i32 %0, 268435456
-  %20 = icmp eq i32 %19, 0
-  %21 = xor i32 %18, 1027748829
-  %22 = select i1 %20, i32 %18, i32 %21
-  %23 = and i32 %0, 536870912
-  %24 = icmp eq i32 %23, 0
-  %25 = xor i32 %22, 705979059
-  %26 = select i1 %24, i32 %22, i32 %25
-  ret i32 %26
+; Function Attrs: minsize mustprogress nofree norecurse nosync nounwind optsize willreturn memory(argmem: write)
+define internal fastcc range(i64 72057594037927936, 0) i64 @l___private_LeanNativeInput_0__BitcoinLedger_FreestandingKernels_msPush(ptr noundef writeonly captures(none) %arg_v0, i64 noundef %arg_v1, i16 noundef zeroext range(i16 -32768, 0) %arg_v2) unnamed_addr #6 {
+entry:
+  %alu_2 = lshr i64 %arg_v1, 56
+  %alu_6 = and i64 %alu_2, 127
+  %cmp_le_15 = icmp samesign ugt i64 %alu_6, 63
+  br i1 %cmp_le_15, label %common.ret, label %ite_else_18
+
+common.ret:                                       ; preds = %entry, %ite_else_18
+  %common.ret.op = phi i64 [ %alu_43, %ite_else_18 ], [ -9223372036854775808, %entry ]
+  ret i64 %common.ret.op
+
+ite_else_18:                                      ; preds = %entry
+  %call_tr_23 = trunc nuw nsw i64 %alu_6 to i32
+  %alu_5.i = shl nuw nsw i32 %call_tr_23, 1
+  %rst_gep_13.i = getelementptr inbounds nuw i8, ptr %arg_v0, i32 %alu_5.i
+  %rst_tr8_14.i = trunc i16 %arg_v2 to i8
+  store i8 %rst_tr8_14.i, ptr %rst_gep_13.i, align 1
+  %0 = lshr i16 %arg_v2, 8
+  %rst_gep_33.i = getelementptr inbounds nuw i8, ptr %rst_gep_13.i, i32 1
+  %rst_tr8_34.i = trunc nuw i16 %0 to i8
+  store i8 %rst_tr8_34.i, ptr %rst_gep_33.i, align 1
+  %alu_34 = and i64 %arg_v1, -9151314442816847873
+  %alu_30 = shl nuw nsw i64 %alu_6, 56
+  %alu_39 = add nuw nsw i64 %alu_30, 72057594037927936
+  %alu_43 = or disjoint i64 %alu_39, %alu_34
+  br label %common.ret
 }
 
-; Function Attrs: mustprogress nofree norecurse nosync nounwind optsize willreturn memory(none)
-define hidden zeroext i8 @llb_minimal_push_opcode_ok(i8 noundef zeroext %0, i8 noundef zeroext %1, i32 noundef %2) local_unnamed_addr #0 {
-  %4 = zext i8 %0 to i32
-  switch i8 %0, label %11 [
-    i8 0, label %5
-    i8 79, label %7
+; Function Attrs: alwaysinline minsize mustprogress nofree norecurse nosync nounwind optsize willreturn memory(none)
+define hidden zeroext range(i8 0, 2) i8 @llb_miniscript_older_ok(i32 noundef %arg_v0) local_unnamed_addr #2 {
+entry:
+  %arg_ext_v0 = zext i32 %arg_v0 to i64
+  %alu_2 = and i64 %arg_ext_v0, 4290707456
+  %cmp_eq_7 = icmp eq i64 %alu_2, 0
+  %alu_10 = and i64 %arg_ext_v0, 65535
+  %cmp_le_15.not = icmp ne i64 %alu_10, 0
+  %alu_262 = and i1 %cmp_eq_7, %cmp_le_15.not
+  %ret_tr_35 = zext i1 %alu_262 to i8
+  ret i8 %ret_tr_35
+}
+
+; Function Attrs: minsize nofree norecurse nosync nounwind optsize memory(none)
+define internal fastcc i32 @l_BitcoinLedger_FreestandingKernels_fracSigLen(i32 noundef %arg_v0) unnamed_addr #7 {
+entry:
+  %arg_ext_v0 = zext i32 %arg_v0 to i64
+  br label %loop_hdr_6
+
+loop_hdr_6:                                       ; preds = %loop_latch_8, %entry
+  %slot_v46.0 = phi i64 [ %arg_ext_v0, %entry ], [ %slot_v46.1, %loop_latch_8 ]
+  %loop_idx_10 = phi i64 [ 0, %entry ], [ %loop_next_11, %loop_latch_8 ]
+  %loop_cmp_12 = icmp samesign ult i64 %loop_idx_10, 8
+  br i1 %loop_cmp_12, label %loop_body_7, label %loop_exit_9
+
+loop_body_7:                                      ; preds = %loop_hdr_6
+  %m64_a0_29 = trunc i64 %slot_v46.0 to i32
+  %m64_a0l_35 = and i32 %m64_a0_29, 65535
+  %m64_a0h_36 = lshr i32 %m64_a0_29, 16
+  %m64_p00_39 = mul nuw i32 %m64_a0l_35, 52429
+  %m64_p01_40 = mul nuw i32 %m64_a0l_35, 52428
+  %m64_p10_41 = mul nuw i32 %m64_a0h_36, 52429
+  %m64_p11_42 = mul nuw i32 %m64_a0h_36, 52428
+  %m64_p00h_43 = lshr i32 %m64_p00_39, 16
+  %m64_p01l_44 = and i32 %m64_p01_40, 65532
+  %m64_p10l_45 = and i32 %m64_p10_41, 65535
+  %m64_m1a_46 = add nuw nsw i32 %m64_p00h_43, %m64_p01l_44
+  %m64_m1_47 = add nuw nsw i32 %m64_m1a_46, %m64_p10l_45
+  %m64_p01h_51 = lshr i32 %m64_p01_40, 16
+  %m64_p10h_52 = lshr i32 %m64_p10_41, 16
+  %m64_m1h_53 = lshr i32 %m64_m1_47, 16
+  %m64_c1_54 = add nuw i32 %m64_p01h_51, %m64_p11_42
+  %m64_c2_55 = add nuw i32 %m64_c1_54, %m64_p10h_52
+  %m64_hib_56 = add nuw i32 %m64_c2_55, %m64_m1h_53
+  %0 = lshr i32 %m64_hib_56, 3
+  %m64_a0l_78 = and i32 %0, 65535
+  %m64_a0h_79 = lshr i32 %m64_hib_56, 19
+  %m64_p00_82 = mul nuw nsw i32 %m64_a0l_78, 10
+  %m64_p00l_91 = and i32 %m64_p00_82, 65534
+  %m64_m1_9016 = mul nuw i32 %m64_a0h_79, 655360
+  %m64_p00h_8617 = add i32 %m64_p00_82, %m64_m1_9016
+  %m64_m1sh_92 = and i32 %m64_p00h_8617, -65536
+  %m64_lo32_93 = or disjoint i32 %m64_m1sh_92, %m64_p00l_91
+  %cmp_eq_118 = icmp eq i32 %m64_lo32_93, %m64_a0_29
+  br i1 %cmp_eq_118, label %ite_then_120, label %loop_latch_8
+
+ite_then_120:                                     ; preds = %loop_body_7
+  %alu_16 = and i64 %slot_v46.0, 4294967295
+  %alu_65 = zext nneg i32 %0 to i64
+  %cmp_eq_24.not = icmp eq i64 %alu_16, 0
+  %1 = and i64 %slot_v46.0, -4294967296
+  %alu_144 = add i64 %1, 4294967296
+  %alu_193 = or disjoint i64 %alu_144, %alu_65
+  %alu_207 = select i1 %cmp_eq_24.not, i64 %slot_v46.0, i64 %alu_193
+  br label %loop_latch_8
+
+loop_latch_8:                                     ; preds = %loop_body_7, %ite_then_120
+  %slot_v46.1 = phi i64 [ %alu_207, %ite_then_120 ], [ %slot_v46.0, %loop_body_7 ]
+  %loop_next_11 = add nuw nsw i64 %loop_idx_10, 1
+  br label %loop_hdr_6
+
+loop_exit_9:                                      ; preds = %loop_hdr_6
+  %cmp_eq_301 = icmp eq i32 %arg_v0, 0
+  %alu_303 = lshr i64 %slot_v46.0, 32
+  %alu_308 = sub nsw i64 8, %alu_303
+  %alu_32415 = select i1 %cmp_eq_301, i64 0, i64 4294967295
+  %alu_330 = and i64 %alu_308, %alu_32415
+  %ret_tr_334 = trunc nuw i64 %alu_330 to i32
+  ret i32 %ret_tr_334
+}
+
+; Function Attrs: alwaysinline minsize mustprogress nofree norecurse nosync nounwind optsize willreturn memory(none)
+define hidden noundef range(i32 0, 734539940) i32 @llb_bech32_final_constant(i8 noundef zeroext %arg_v0) local_unnamed_addr #2 {
+entry:
+  %cmp_eq_3 = icmp eq i8 %arg_v0, 1
+  %cmp_eq_7 = icmp eq i8 %arg_v0, 2
+  %0 = select i1 %cmp_eq_7, i32 734539939, i32 0
+  %ret_tr_16 = select i1 %cmp_eq_3, i32 1, i32 %0
+  ret i32 %ret_tr_16
+}
+
+; Function Attrs: minsize mustprogress nofree norecurse nosync nounwind optsize willreturn memory(none)
+define hidden zeroext range(i8 -1, 2) i8 @llb_merkle_state_dir(i64 noundef %arg_v0) local_unnamed_addr #4 {
+entry:
+  %alu_1 = lshr i64 %arg_v0, 32
+  %alu_5 = and i64 %arg_v0, 4294967295
+  %cmp_le_9 = icmp ult i64 %arg_v0, 8589934592
+  %cmp_lt_15 = icmp samesign ult i64 %alu_5, %alu_1
+  %alu_18 = add nuw nsw i64 %alu_1, 4294967295
+  %alu_19 = and i64 %alu_18, 4294967295
+  %alu_22 = lshr i64 %alu_19, 1
+  %alu_27 = or i64 %alu_22, %alu_19
+  %alu_31 = lshr i64 %alu_27, 2
+  %alu_36 = or i64 %alu_31, %alu_27
+  %alu_40 = lshr i64 %alu_36, 4
+  %alu_45 = or i64 %alu_40, %alu_36
+  %alu_49 = lshr i64 %alu_45, 8
+  %alu_54 = or i64 %alu_49, %alu_45
+  %0 = lshr i64 %alu_54, 17
+  %1 = lshr i64 %alu_54, 1
+  %alu_67 = or i64 %0, %1
+  %cmp_lt_77.not = icmp samesign ugt i64 %alu_5, %alu_67
+  %2 = zext i1 %cmp_lt_77.not to i8
+  %3 = select i1 %cmp_lt_15, i8 %2, i8 -1
+  %ret_tr_94 = select i1 %cmp_le_9, i8 -1, i8 %3
+  ret i8 %ret_tr_94
+}
+
+; Function Attrs: minsize mustprogress nofree norecurse nosync nounwind optsize willreturn memory(none)
+define hidden zeroext range(i8 0, 2) i8 @llb_minimal_push_opcode_ok(i8 noundef zeroext %arg_v0, i8 noundef zeroext %arg_v1, i32 noundef %arg_v2) local_unnamed_addr #4 {
+entry:
+  %cmp_eq_3 = icmp eq i8 %arg_v0, 0
+  %cmp_eq_7 = icmp eq i32 %arg_v2, 0
+  %alu_6 = zext i1 %cmp_eq_7 to i8
+  %cmp_eq_11 = icmp eq i8 %arg_v0, 79
+  %alu_10 = zext i1 %cmp_eq_11 to i8
+  %cmp_eq_15 = icmp eq i32 %arg_v2, 1
+  %cmp_eq_19 = icmp eq i8 %arg_v1, -127
+  %sel_24.v = select i1 %cmp_eq_15, i1 %cmp_eq_19, i1 %cmp_eq_3
+  %sel_24 = zext i1 %sel_24.v to i8
+  %cmp_le_28 = icmp ugt i8 %arg_v0, 80
+  %cmp_le_32 = icmp ult i8 %arg_v0, 97
+  %alu_35 = add i8 %arg_v0, -80
+  %cmp_eq_42 = icmp eq i8 %arg_v1, %alu_35
+  %alu_41 = zext i1 %cmp_eq_42 to i8
+  %sel_47 = select i1 %cmp_eq_15, i8 %alu_41, i8 %alu_10
+  %cmp_eq_51 = icmp eq i8 %arg_v0, 1
+  %alu_50 = zext i1 %cmp_eq_51 to i8
+  %cmp_le_55.not = icmp eq i8 %arg_v1, 0
+  %cmp_le_59 = icmp ult i8 %arg_v1, 17
+  %0 = zext i8 %arg_v0 to i32
+  %cmp_eq_100 = icmp eq i32 %arg_v2, %0
+  %alu_99 = zext i1 %cmp_eq_100 to i8
+  %cmp_eq_104 = icmp eq i8 %arg_v0, 76
+  %cmp_le_108 = icmp ugt i32 %arg_v2, 75
+  %cmp_le_112 = icmp ult i32 %arg_v2, 256
+  %alu_111 = zext i1 %cmp_le_112 to i8
+  %sel_117 = select i1 %cmp_le_108, i8 %alu_111, i8 %alu_10
+  %cmp_eq_121 = icmp eq i8 %arg_v0, 77
+  %cmp_le_125 = icmp ugt i32 %arg_v2, 255
+  %cmp_le_129 = icmp ult i32 %arg_v2, 65536
+  %alu_128 = zext i1 %cmp_le_129 to i8
+  %sel_134 = select i1 %cmp_le_125, i8 %alu_128, i8 %alu_10
+  %cmp_eq_138 = icmp eq i8 %arg_v0, 78
+  %cmp_le_142 = icmp ugt i32 %arg_v2, 65535
+  %narrow = and i1 %cmp_eq_138, %cmp_le_142
+  %sel_147 = zext i1 %narrow to i8
+  %sel_152 = select i1 %cmp_eq_121, i8 %sel_134, i8 %sel_147
+  %sel_157 = select i1 %cmp_eq_104, i8 %sel_117, i8 %sel_152
+  %1 = add i8 %arg_v0, -2
+  %2 = icmp ult i8 %1, 74
+  %sel_167 = select i1 %2, i8 %alu_99, i8 %sel_157
+  %sel_177 = select i1 %cmp_le_32, i8 %sel_47, i8 %sel_167
+  %sel_182 = select i1 %cmp_eq_19, i8 %alu_10, i8 %alu_50
+  %sel_187 = select i1 %cmp_le_59, i8 %alu_10, i8 %sel_182
+  %sel_192 = select i1 %cmp_eq_11, i8 1, i8 %sel_182
+  %sel_197 = select i1 %cmp_le_55.not, i8 %sel_192, i8 %sel_187
+  %sel_202 = select i1 %cmp_eq_15, i8 %sel_197, i8 %alu_10
+  %sel_207 = select i1 %cmp_eq_51, i8 %sel_202, i8 %sel_167
+  %sel_212 = select i1 %cmp_le_28, i8 %sel_177, i8 %sel_207
+  %sel_217 = select i1 %cmp_eq_11, i8 %sel_24, i8 %sel_212
+  %sel_222 = select i1 %cmp_eq_3, i8 %alu_6, i8 %sel_217
+  ret i8 %sel_222
+}
+
+; Function Attrs: minsize nofree norecurse nosync nounwind optsize memory(argmem: read)
+define hidden range(i64 0, 8589934592) i64 @llb_psbt_determine_locktime(ptr noundef readonly captures(none) %arg_v0, i32 noundef %arg_v1, i32 noundef %arg_v2) local_unnamed_addr #1 {
+entry:
+  %arg_ext_v1 = zext i32 %arg_v1 to i64
+  br label %loop_hdr_4
+
+loop_hdr_4:                                       ; preds = %l_BitcoinLedger_FreestandingKernels_ltRecord.exit, %entry
+  %slot_v9.0 = phi i64 [ -9223372036854775808, %entry ], [ %common.ret.op.i, %l_BitcoinLedger_FreestandingKernels_ltRecord.exit ]
+  %loop_idx_8 = phi i64 [ 0, %entry ], [ %loop_next_9, %l_BitcoinLedger_FreestandingKernels_ltRecord.exit ]
+  %loop_cmp_10 = icmp samesign ult i64 %loop_idx_8, %arg_ext_v1
+  br i1 %loop_cmp_10, label %loop_body_5, label %loop_exit_7
+
+loop_body_5:                                      ; preds = %loop_hdr_4
+  %call_tr_15 = trunc nuw i64 %loop_idx_8 to i32
+  %m64_a0l_11.i = and i32 %call_tr_15, 65535
+  %m64_a0h_12.i = lshr i32 %call_tr_15, 16
+  %m64_p00_15.i = mul nuw nsw i32 %m64_a0l_11.i, 10
+  %m64_p00l_24.i = and i32 %m64_p00_15.i, 65534
+  %m64_m1_23860.i = mul i32 %m64_a0h_12.i, 655360
+  %m64_p00h_19861.i = add i32 %m64_p00_15.i, %m64_m1_23860.i
+  %m64_m1sh_25.i = and i32 %m64_p00h_19861.i, -65536
+  %0 = getelementptr inbounds nuw i8, ptr %arg_v0, i32 %m64_p00l_24.i
+  %1 = getelementptr inbounds nuw i8, ptr %0, i32 %m64_m1sh_25.i
+  %rld_gep_49.i = getelementptr inbounds nuw i8, ptr %1, i32 1
+  %rld_i8_50.i = load i8, ptr %rld_gep_49.i, align 1
+  %rld_val_51.i = zext i8 %rld_i8_50.i to i64
+  %rld_gep_62.i = getelementptr i8, ptr %1, i32 2
+  %rld_i8_63.i = load i8, ptr %rld_gep_62.i, align 1
+  %rld_val_64.i = zext i8 %rld_i8_63.i to i64
+  %alu_72.i = shl nuw nsw i64 %rld_val_64.i, 8
+  %alu_79.i = or disjoint i64 %alu_72.i, %rld_val_51.i
+  %rld_gep_89.i = getelementptr i8, ptr %1, i32 3
+  %rld_i8_90.i = load i8, ptr %rld_gep_89.i, align 1
+  %rld_val_91.i = zext i8 %rld_i8_90.i to i64
+  %alu_99.i = shl nuw nsw i64 %rld_val_91.i, 16
+  %alu_106.i = or disjoint i64 %alu_79.i, %alu_99.i
+  %rld_gep_116.i = getelementptr i8, ptr %1, i32 4
+  %rld_i8_117.i = load i8, ptr %rld_gep_116.i, align 1
+  %rld_val_118.i = zext i8 %rld_i8_117.i to i64
+  %alu_126.i = shl nuw nsw i64 %rld_val_118.i, 24
+  %alu_133.i = or disjoint i64 %alu_106.i, %alu_126.i
+  %rld_gep_143.i = getelementptr i8, ptr %1, i32 6
+  %rld_i8_144.i = load i8, ptr %rld_gep_143.i, align 1
+  %rld_val_145.i = zext i8 %rld_i8_144.i to i64
+  %rld_gep_156.i = getelementptr i8, ptr %1, i32 7
+  %rld_i8_157.i = load i8, ptr %rld_gep_156.i, align 1
+  %rld_val_158.i = zext i8 %rld_i8_157.i to i64
+  %alu_166.i = shl nuw nsw i64 %rld_val_158.i, 8
+  %alu_173.i = or disjoint i64 %alu_166.i, %rld_val_145.i
+  %rld_gep_183.i = getelementptr i8, ptr %1, i32 8
+  %rld_i8_184.i = load i8, ptr %rld_gep_183.i, align 1
+  %rld_val_185.i = zext i8 %rld_i8_184.i to i64
+  %alu_193.i = shl nuw nsw i64 %rld_val_185.i, 16
+  %alu_200.i = or disjoint i64 %alu_173.i, %alu_193.i
+  %rld_gep_210.i = getelementptr i8, ptr %1, i32 9
+  %rld_i8_211.i = load i8, ptr %rld_gep_210.i, align 1
+  %rld_val_212.i = zext i8 %rld_i8_211.i to i64
+  %alu_220.i = shl nuw nsw i64 %rld_val_212.i, 24
+  %alu_227.i = or disjoint i64 %alu_200.i, %alu_220.i
+  %rld_i8_232.i = load i8, ptr %1, align 1
+  %rld_gep_242.i = getelementptr i8, ptr %1, i32 5
+  %rld_i8_243.i = load i8, ptr %rld_gep_242.i, align 1
+  %cmp_eq_250.i = icmp eq i8 %rld_i8_232.i, 0
+  %cmp_eq_260.i = icmp eq i8 %rld_i8_243.i, 0
+  br i1 %cmp_eq_250.i, label %ite_then_252.i, label %ite_else_253.i
+
+ite_then_252.i:                                   ; preds = %loop_body_5
+  br i1 %cmp_eq_260.i, label %l_BitcoinLedger_FreestandingKernels_ltRecord.exit, label %ite_else_263.i
+
+ite_else_263.i:                                   ; preds = %ite_then_252.i
+  %cmp_eq_2334.i = icmp eq i64 %slot_v9.0, 0
+  br i1 %cmp_eq_2334.i, label %l_BitcoinLedger_FreestandingKernels_ltRecord.exit, label %ite_else_2337.i
+
+ite_else_2337.i:                                  ; preds = %ite_else_263.i
+  %cmp_le_2309.i = icmp samesign ugt i64 %alu_227.i, 499999999
+  %alu_3337.i = and i64 %slot_v9.0, 4294967295
+  %cmp_lt_3409.i = icmp samesign ult i64 %alu_3337.i, %alu_227.i
+  %alu_3418.i = select i1 %cmp_lt_3409.i, i64 4294967295, i64 0
+  %alu_3423.i = xor i64 %alu_227.i, %alu_3337.i
+  %alu_3429.i = and i64 %alu_3418.i, %alu_3423.i
+  %alu_3435.i = xor i64 %alu_3429.i, %alu_3337.i
+  %2 = and i64 %slot_v9.0, 6917529027641081856
+  %cmp_eq_3442.i = icmp eq i64 %2, 0
+  %alu_3462.i = or disjoint i64 %alu_227.i, -2305843009213693952
+  %alu_3547.i = or disjoint i64 %alu_3435.i, -2305843009213693952
+  %.mask.i = and i64 %slot_v9.0, 2305843009213693952
+  %isneg.not.i = icmp eq i64 %.mask.i, 0
+  %alu_4074.i = select i1 %isneg.not.i, i64 0, i64 %alu_3547.i
+  %alu_4093.i = select i1 %cmp_eq_3442.i, i64 %alu_3462.i, i64 %alu_4074.i
+  %alu_4192.i = select i1 %cmp_le_2309.i, i64 %alu_4093.i, i64 0
+  br label %l_BitcoinLedger_FreestandingKernels_ltRecord.exit
+
+ite_else_253.i:                                   ; preds = %loop_body_5
+  %cmp_eq_4311.i = icmp eq i64 %slot_v9.0, 0
+  br i1 %cmp_eq_260.i, label %ite_then_4206.i, label %ite_else_4207.i
+
+ite_then_4206.i:                                  ; preds = %ite_else_253.i
+  br i1 %cmp_eq_4311.i, label %l_BitcoinLedger_FreestandingKernels_ltRecord.exit, label %ite_else_4314.i
+
+ite_else_4314.i:                                  ; preds = %ite_then_4206.i
+  %3 = add nsw i64 %alu_133.i, -1
+  %alu_4241864.i = icmp ult i64 %3, 499999999
+  %alu_5286.i = lshr i64 %slot_v9.0, 61
+  %alu_5290.i = and i64 %alu_5286.i, 3
+  %cmp_eq_5303.i = icmp eq i64 %alu_5290.i, 1
+  %alu_5306.i = lshr i64 %slot_v9.0, 32
+  %alu_5310.i = and i64 %alu_5306.i, 536870911
+  %alu_5314.i = and i64 %slot_v9.0, 4294967295
+  %alu_5340.i = select i1 %cmp_eq_5303.i, i64 %alu_5310.i, i64 %alu_5314.i
+  %cmp_lt_5349.i = icmp samesign ult i64 %alu_5340.i, %alu_133.i
+  %alu_5358.i = select i1 %cmp_lt_5349.i, i64 4294967295, i64 0
+  %alu_5363.i = xor i64 %alu_133.i, %alu_5340.i
+  %alu_5369.i = and i64 %alu_5358.i, %alu_5363.i
+  %alu_5375.i = xor i64 %alu_5369.i, %alu_5340.i
+  %cmp_eq_5419.i = icmp eq i64 %alu_5290.i, 0
+  %alu_5436.i = or disjoint i64 %alu_133.i, -4611686018427387904
+  %alu_5521.i = or disjoint i64 %alu_5375.i, -4611686018427387904
+  %4 = add nsw i64 %alu_5290.i, -1
+  %alu_5891865.i = icmp samesign ult i64 %4, 2
+  %alu_5913.i = select i1 %alu_5891865.i, i64 %alu_5521.i, i64 0
+  %alu_5932.i = select i1 %cmp_eq_5419.i, i64 %alu_5436.i, i64 %alu_5913.i
+  %alu_6169.i = select i1 %alu_4241864.i, i64 %alu_5932.i, i64 0
+  br label %l_BitcoinLedger_FreestandingKernels_ltRecord.exit
+
+ite_else_4207.i:                                  ; preds = %ite_else_253.i
+  br i1 %cmp_eq_4311.i, label %l_BitcoinLedger_FreestandingKernels_ltRecord.exit, label %ite_else_6281.i
+
+ite_else_6281.i:                                  ; preds = %ite_else_4207.i
+  %cmp_le_6253.i = icmp samesign ugt i64 %alu_227.i, 499999999
+  %5 = add nsw i64 %alu_133.i, -1
+  %alu_6208862.i = icmp ult i64 %5, 499999999
+  %alu_7223863.i = and i1 %alu_6208862.i, %cmp_le_6253.i
+  %alu_7253.i = lshr i64 %slot_v9.0, 61
+  %alu_7257.i = and i64 %alu_7253.i, 3
+  %cmp_eq_7270.i = icmp eq i64 %alu_7257.i, 1
+  %alu_7273.i = lshr i64 %slot_v9.0, 32
+  %alu_7277.i = and i64 %alu_7273.i, 536870911
+  %alu_7281.i = and i64 %slot_v9.0, 4294967295
+  %alu_7307.i = select i1 %cmp_eq_7270.i, i64 %alu_7277.i, i64 %alu_7281.i
+  %cmp_lt_7316.i = icmp samesign ult i64 %alu_7307.i, %alu_133.i
+  %alu_7325.i = select i1 %cmp_lt_7316.i, i64 4294967295, i64 0
+  %alu_7330.i = xor i64 %alu_133.i, %alu_7307.i
+  %alu_7336.i = and i64 %alu_7325.i, %alu_7330.i
+  %alu_7342.i = xor i64 %alu_7336.i, %alu_7307.i
+  %cmp_lt_7353.i = icmp samesign ult i64 %alu_7281.i, %alu_227.i
+  %alu_7362.i = select i1 %cmp_lt_7353.i, i64 4294967295, i64 0
+  %alu_7367.i = xor i64 %alu_227.i, %alu_7281.i
+  %alu_7373.i = and i64 %alu_7362.i, %alu_7367.i
+  %alu_7379.i = xor i64 %alu_7373.i, %alu_7281.i
+  %cmp_eq_7386.i = icmp eq i64 %alu_7257.i, 0
+  %alu_7391.i = shl nuw i64 %alu_133.i, 32
+  %alu_7395.i = or disjoint i64 %alu_7391.i, %alu_227.i
+  %alu_7400.i = or i64 %alu_7395.i, -6917529027641081856
+  %alu_7476.i = shl nuw i64 %alu_7342.i, 32
+  %alu_7480.i = or disjoint i64 %alu_7379.i, %alu_7476.i
+  %alu_7485.i = or i64 %alu_7480.i, -6917529027641081856
+  %alu_7488.i = or disjoint i64 %alu_7342.i, -4611686018427387904
+  %alu_7491.i = or disjoint i64 %alu_7379.i, -2305843009213693952
+  %cmp_eq_7556.i = icmp eq i64 %alu_7257.i, 2
+  %alu_7733.i = select i1 %cmp_eq_7556.i, i64 %alu_7488.i, i64 %alu_7491.i
+  %alu_7749.i = select i1 %cmp_eq_7270.i, i64 %alu_7485.i, i64 %alu_7733.i
+  %alu_7765.i = select i1 %cmp_eq_7386.i, i64 %alu_7400.i, i64 %alu_7749.i
+  %alu_8136.i = select i1 %alu_7223863.i, i64 %alu_7765.i, i64 0
+  br label %l_BitcoinLedger_FreestandingKernels_ltRecord.exit
+
+l_BitcoinLedger_FreestandingKernels_ltRecord.exit: ; preds = %ite_then_252.i, %ite_else_263.i, %ite_else_2337.i, %ite_then_4206.i, %ite_else_4314.i, %ite_else_4207.i, %ite_else_6281.i
+  %common.ret.op.i = phi i64 [ %alu_4192.i, %ite_else_2337.i ], [ %alu_6169.i, %ite_else_4314.i ], [ %alu_8136.i, %ite_else_6281.i ], [ 0, %ite_else_263.i ], [ 0, %ite_then_4206.i ], [ 0, %ite_else_4207.i ], [ %slot_v9.0, %ite_then_252.i ]
+  %loop_next_9 = add nuw nsw i64 %loop_idx_8, 1
+  br label %loop_hdr_4
+
+loop_exit_7:                                      ; preds = %loop_hdr_4
+  %arg_ext_v2 = zext i32 %arg_v2 to i64
+  %alu_20 = lshr i64 %slot_v9.0, 61
+  %alu_22 = and i64 %alu_20, 3
+  %cmp_eq_25 = icmp eq i64 %alu_22, 0
+  %cmp_eq_28 = icmp eq i64 %alu_22, 1
+  %alu_53 = lshr i64 %slot_v9.0, 32
+  %alu_55 = and i64 %alu_53, 536870911
+  %alu_59 = and i64 %slot_v9.0, 4294967295
+  %alu_110 = select i1 %cmp_eq_28, i64 %alu_55, i64 %alu_59
+  %alu_119 = select i1 %cmp_eq_25, i64 4294967295, i64 0
+  %alu_124 = xor i64 %alu_110, %arg_ext_v2
+  %alu_130 = and i64 %alu_124, %alu_119
+  %alu_136 = xor i64 %alu_130, %alu_110
+  %cmp_eq_140 = icmp eq i64 %slot_v9.0, 0
+  %alu_144 = or disjoint i64 %alu_136, 4294967296
+  %sel_158 = select i1 %cmp_eq_140, i64 0, i64 %alu_144
+  ret i64 %sel_158
+}
+
+; Function Attrs: minsize mustprogress nofree norecurse nosync nounwind optsize willreturn memory(none)
+define hidden i64 @llb_psbt_locktime_step(i64 noundef %arg_v0, i8 noundef zeroext %arg_v1, i32 noundef %arg_v2, i8 noundef zeroext %arg_v3, i32 noundef %arg_v4) local_unnamed_addr #4 {
+entry:
+  %arg_ext_v2 = zext i32 %arg_v2 to i64
+  %arg_ext_v4 = zext i32 %arg_v4 to i64
+  %cmp_eq_5 = icmp eq i8 %arg_v1, 0
+  %cmp_eq_15 = icmp eq i8 %arg_v3, 0
+  br i1 %cmp_eq_5, label %ite_then_7, label %ite_else_8
+
+ite_then_7:                                       ; preds = %entry
+  br i1 %cmp_eq_15, label %common.ret, label %ite_else_18
+
+common.ret:                                       ; preds = %ite_then_7, %ite_else_3958, %ite_then_3957, %ite_else_18, %ite_else_6030, %ite_else_4065, %ite_else_2090
+  %common.ret.op = phi i64 [ %alu_3944, %ite_else_2090 ], [ %alu_5919, %ite_else_4065 ], [ %alu_7884, %ite_else_6030 ], [ 0, %ite_else_18 ], [ 0, %ite_then_3957 ], [ 0, %ite_else_3958 ], [ %arg_v0, %ite_then_7 ]
+  ret i64 %common.ret.op
+
+ite_else_18:                                      ; preds = %ite_then_7
+  %cmp_eq_2087 = icmp eq i64 %arg_v0, 0
+  br i1 %cmp_eq_2087, label %common.ret, label %ite_else_2090
+
+ite_else_2090:                                    ; preds = %ite_else_18
+  %cmp_le_2062 = icmp ugt i32 %arg_v4, 499999999
+  %alu_3089 = and i64 %arg_v0, 4294967295
+  %cmp_lt_3161 = icmp samesign ult i64 %alu_3089, %arg_ext_v4
+  %alu_3170 = select i1 %cmp_lt_3161, i64 4294967295, i64 0
+  %alu_3175 = xor i64 %alu_3089, %arg_ext_v4
+  %alu_3181 = and i64 %alu_3170, %alu_3175
+  %alu_3187 = xor i64 %alu_3181, %alu_3089
+  %0 = and i64 %arg_v0, 6917529027641081856
+  %cmp_eq_3194 = icmp eq i64 %0, 0
+  %alu_3214 = or disjoint i64 %arg_ext_v4, -2305843009213693952
+  %alu_3299 = or disjoint i64 %alu_3187, -2305843009213693952
+  %.mask = and i64 %arg_v0, 2305843009213693952
+  %isneg.not = icmp eq i64 %.mask, 0
+  %alu_3826 = select i1 %isneg.not, i64 0, i64 %alu_3299
+  %alu_3845 = select i1 %cmp_eq_3194, i64 %alu_3214, i64 %alu_3826
+  %alu_3944 = select i1 %cmp_le_2062, i64 %alu_3845, i64 0
+  br label %common.ret
+
+ite_else_8:                                       ; preds = %entry
+  %cmp_eq_4062 = icmp eq i64 %arg_v0, 0
+  br i1 %cmp_eq_15, label %ite_then_3957, label %ite_else_3958
+
+ite_then_3957:                                    ; preds = %ite_else_8
+  br i1 %cmp_eq_4062, label %common.ret, label %ite_else_4065
+
+ite_else_4065:                                    ; preds = %ite_then_3957
+  %1 = add i32 %arg_v2, -1
+  %alu_3992849 = icmp ult i32 %1, 499999999
+  %alu_5036 = lshr i64 %arg_v0, 61
+  %alu_5040 = and i64 %alu_5036, 3
+  %cmp_eq_5053 = icmp eq i64 %alu_5040, 1
+  %alu_5056 = lshr i64 %arg_v0, 32
+  %alu_5060 = and i64 %alu_5056, 536870911
+  %alu_5064 = and i64 %arg_v0, 4294967295
+  %alu_5090 = select i1 %cmp_eq_5053, i64 %alu_5060, i64 %alu_5064
+  %cmp_lt_5099 = icmp samesign ult i64 %alu_5090, %arg_ext_v2
+  %alu_5108 = select i1 %cmp_lt_5099, i64 4294967295, i64 0
+  %alu_5113 = xor i64 %alu_5090, %arg_ext_v2
+  %alu_5119 = and i64 %alu_5108, %alu_5113
+  %alu_5125 = xor i64 %alu_5119, %alu_5090
+  %cmp_eq_5169 = icmp eq i64 %alu_5040, 0
+  %alu_5186 = or disjoint i64 %arg_ext_v2, -4611686018427387904
+  %alu_5271 = or disjoint i64 %alu_5125, -4611686018427387904
+  %2 = add nsw i64 %alu_5040, -1
+  %alu_5641850 = icmp samesign ult i64 %2, 2
+  %alu_5663 = select i1 %alu_5641850, i64 %alu_5271, i64 0
+  %alu_5682 = select i1 %cmp_eq_5169, i64 %alu_5186, i64 %alu_5663
+  %alu_5919 = select i1 %alu_3992849, i64 %alu_5682, i64 0
+  br label %common.ret
+
+ite_else_3958:                                    ; preds = %ite_else_8
+  br i1 %cmp_eq_4062, label %common.ret, label %ite_else_6030
+
+ite_else_6030:                                    ; preds = %ite_else_3958
+  %cmp_le_6002 = icmp ugt i32 %arg_v4, 499999999
+  %3 = add i32 %arg_v2, -1
+  %alu_5957847 = icmp ult i32 %3, 499999999
+  %alu_6971848 = and i1 %alu_5957847, %cmp_le_6002
+  %alu_7001 = lshr i64 %arg_v0, 61
+  %alu_7005 = and i64 %alu_7001, 3
+  %cmp_eq_7018 = icmp eq i64 %alu_7005, 1
+  %alu_7021 = lshr i64 %arg_v0, 32
+  %alu_7025 = and i64 %alu_7021, 536870911
+  %alu_7029 = and i64 %arg_v0, 4294967295
+  %alu_7055 = select i1 %cmp_eq_7018, i64 %alu_7025, i64 %alu_7029
+  %cmp_lt_7064 = icmp samesign ult i64 %alu_7055, %arg_ext_v2
+  %alu_7073 = select i1 %cmp_lt_7064, i64 4294967295, i64 0
+  %alu_7078 = xor i64 %alu_7055, %arg_ext_v2
+  %alu_7084 = and i64 %alu_7073, %alu_7078
+  %alu_7090 = xor i64 %alu_7084, %alu_7055
+  %cmp_lt_7101 = icmp samesign ult i64 %alu_7029, %arg_ext_v4
+  %alu_7110 = select i1 %cmp_lt_7101, i64 4294967295, i64 0
+  %alu_7115 = xor i64 %alu_7029, %arg_ext_v4
+  %alu_7121 = and i64 %alu_7110, %alu_7115
+  %alu_7127 = xor i64 %alu_7121, %alu_7029
+  %cmp_eq_7134 = icmp eq i64 %alu_7005, 0
+  %alu_7139 = shl nuw i64 %arg_ext_v2, 32
+  %alu_7143 = or disjoint i64 %alu_7139, %arg_ext_v4
+  %alu_7148 = or i64 %alu_7143, -6917529027641081856
+  %alu_7224 = shl nuw i64 %alu_7090, 32
+  %alu_7228 = or disjoint i64 %alu_7224, %alu_7127
+  %alu_7233 = or i64 %alu_7228, -6917529027641081856
+  %alu_7236 = or disjoint i64 %alu_7090, -4611686018427387904
+  %alu_7239 = or disjoint i64 %alu_7127, -2305843009213693952
+  %cmp_eq_7304 = icmp eq i64 %alu_7005, 2
+  %alu_7481 = select i1 %cmp_eq_7304, i64 %alu_7236, i64 %alu_7239
+  %alu_7497 = select i1 %cmp_eq_7018, i64 %alu_7233, i64 %alu_7481
+  %alu_7513 = select i1 %cmp_eq_7134, i64 %alu_7148, i64 %alu_7497
+  %alu_7884 = select i1 %alu_6971848, i64 %alu_7513, i64 0
+  br label %common.ret
+}
+
+; Function Attrs: minsize mustprogress nofree norecurse nosync nounwind optsize willreturn memory(none)
+define hidden range(i64 0, 8589934592) i64 @llb_psbt_locktime_finalize(i64 noundef %arg_v0, i32 noundef %arg_v1) local_unnamed_addr #4 {
+entry:
+  %arg_ext_v1 = zext i32 %arg_v1 to i64
+  %alu_1 = lshr i64 %arg_v0, 61
+  %alu_3 = and i64 %alu_1, 3
+  %cmp_eq_6 = icmp eq i64 %alu_3, 0
+  %cmp_eq_9 = icmp eq i64 %alu_3, 1
+  %alu_33 = lshr i64 %arg_v0, 32
+  %alu_35 = and i64 %alu_33, 536870911
+  %alu_39 = and i64 %arg_v0, 4294967295
+  %alu_88 = select i1 %cmp_eq_9, i64 %alu_35, i64 %alu_39
+  %alu_96 = select i1 %cmp_eq_6, i64 4294967295, i64 0
+  %alu_101 = xor i64 %alu_88, %arg_ext_v1
+  %alu_107 = and i64 %alu_101, %alu_96
+  %alu_113 = xor i64 %alu_107, %alu_88
+  %cmp_eq_117 = icmp eq i64 %arg_v0, 0
+  %alu_121 = or disjoint i64 %alu_113, 4294967296
+  %sel_129 = select i1 %cmp_eq_117, i64 0, i64 %alu_121
+  ret i64 %sel_129
+}
+
+; Function Attrs: alwaysinline minsize mustprogress nofree norecurse nosync nounwind optsize willreturn memory(none)
+define hidden zeroext range(i8 0, 2) i8 @llb_taproot_sighash_valid(i8 noundef zeroext %arg_v0) local_unnamed_addr #2 {
+entry:
+  %cmp_eq_3 = icmp eq i8 %arg_v0, 0
+  %0 = and i8 %arg_v0, 127
+  %1 = add nsw i8 %0, -1
+  %narrow = icmp ult i8 %1, 3
+  %narrow5 = select i1 %cmp_eq_3, i1 true, i1 %narrow
+  %ret_tr_28 = zext i1 %narrow5 to i8
+  ret i8 %ret_tr_28
+}
+
+; Function Attrs: alwaysinline minsize mustprogress nofree norecurse nosync nounwind optsize willreturn memory(none)
+define hidden i64 @llb_merkle_advance_state(i64 noundef %arg_v0) local_unnamed_addr #2 {
+entry:
+  %alu_1 = lshr i64 %arg_v0, 32
+  %alu_5 = and i64 %arg_v0, 4294967295
+  %cmp_le_9 = icmp ult i64 %arg_v0, 8589934592
+  %alu_12 = add nuw nsw i64 %alu_1, 4294967295
+  %alu_13 = and i64 %alu_12, 4294967295
+  %alu_16 = lshr i64 %alu_13, 1
+  %alu_21 = or i64 %alu_16, %alu_13
+  %alu_25 = lshr i64 %alu_21, 2
+  %alu_30 = or i64 %alu_25, %alu_21
+  %alu_34 = lshr i64 %alu_30, 4
+  %alu_39 = or i64 %alu_34, %alu_30
+  %alu_43 = lshr i64 %alu_39, 8
+  %alu_48 = or i64 %alu_43, %alu_39
+  %0 = lshr i64 %alu_48, 17
+  %1 = lshr i64 %alu_48, 1
+  %alu_61 = or i64 %0, %1
+  %alu_64 = add nuw nsw i64 %alu_61, 1
+  %cmp_lt_71.not = icmp samesign ugt i64 %alu_5, %alu_61
+  %alu_75 = shl nuw i64 %alu_64, 32
+  %alu_80 = or disjoint i64 %alu_75, %alu_5
+  %alu_85 = sub nsw i64 %alu_1, %alu_64
+  %alu_91 = sub i64 %arg_v0, %alu_64
+  %alu_92 = and i64 %alu_91, 4294967295
+  %alu_86 = shl i64 %alu_85, 32
+  %alu_101 = or disjoint i64 %alu_86, %alu_92
+  %sel_106 = select i1 %cmp_lt_71.not, i64 %alu_101, i64 %alu_80
+  %sel_111 = select i1 %cmp_le_9, i64 %arg_v0, i64 %sel_106
+  ret i64 %sel_111
+}
+
+; Function Attrs: minsize nofree norecurse nosync nounwind optsize memory(argmem: readwrite)
+define hidden zeroext range(i8 0, 2) i8 @llb_miniscript_check_postfix(ptr noundef readonly captures(none) %arg_v0, i32 noundef %arg_v1, i8 noundef zeroext %arg_v2, i8 noundef zeroext %arg_v3, ptr noundef captures(none) %arg_v4) local_unnamed_addr #0 {
+entry:
+  %arg_ext_v1 = zext i32 %arg_v1 to i64
+  %arg_ext_v3 = zext i8 %arg_v3 to i64
+  %0 = add i32 %arg_v1, -513
+  %alu_2220 = icmp ult i32 %0, -512
+  br i1 %alu_2220, label %common.ret, label %loop_hdr_44.preheader
+
+loop_hdr_44.preheader:                            ; preds = %entry
+  %cmp_eq_2546.i.i = icmp eq i8 %arg_v2, 0
+  br label %loop_hdr_44
+
+common.ret:                                       ; preds = %loop_exit_47, %entry, %ite_else_147
+  %common.ret.op = phi i8 [ %ret_tr_354, %ite_else_147 ], [ 0, %entry ], [ 0, %loop_exit_47 ]
+  ret i8 %common.ret.op
+
+loop_hdr_44:                                      ; preds = %loop_hdr_44.preheader, %l___private_LeanNativeInput_0__BitcoinLedger_FreestandingKernels_msStep.exit
+  %slot_v1869.0 = phi i64 [ %common.ret.op.i, %l___private_LeanNativeInput_0__BitcoinLedger_FreestandingKernels_msStep.exit ], [ 0, %loop_hdr_44.preheader ]
+  %loop_idx_48 = phi i64 [ %loop_next_49, %l___private_LeanNativeInput_0__BitcoinLedger_FreestandingKernels_msStep.exit ], [ 0, %loop_hdr_44.preheader ]
+  %loop_cmp_50 = icmp samesign ult i64 %loop_idx_48, %arg_ext_v1
+  br i1 %loop_cmp_50, label %loop_body_45, label %loop_exit_47
+
+loop_body_45:                                     ; preds = %loop_hdr_44
+  %cmp_eq_7.i = icmp sgt i64 %slot_v1869.0, -1
+  br i1 %cmp_eq_7.i, label %ite_then_9.i, label %l___private_LeanNativeInput_0__BitcoinLedger_FreestandingKernels_msStep.exit
+
+ite_then_9.i:                                     ; preds = %loop_body_45
+  %call_tr_58 = trunc nuw i64 %loop_idx_48 to i32
+  %rld_gep_14.i = getelementptr inbounds nuw i8, ptr %arg_v0, i32 %call_tr_58
+  %rld_i8_15.i = load i8, ptr %rld_gep_14.i, align 1
+  %rld_val_16.i = zext i8 %rld_i8_15.i to i64
+  %1 = and i64 %slot_v1869.0, 70931694131085312
+  %cmp_eq_34.i = icmp eq i64 %1, 0
+  br i1 %cmp_eq_34.i, label %ite_then_36.i, label %ite_else_37.i
+
+ite_then_36.i:                                    ; preds = %ite_then_9.i
+  switch i8 %rld_i8_15.i, label %ite_else_1424.i [
+    i8 0, label %ite_then_46.i
+    i8 1, label %ite_then_322.i
+    i8 2, label %ite_then_598.i
+    i8 3, label %ite_then_873.i
+    i8 4, label %ite_then_1148.i
+    i8 5, label %ite_then_1423.i
   ]
 
-5:                                                ; preds = %3
-  %6 = icmp eq i32 %2, 0
-  br label %41
+default.unreachable.i:                            ; preds = %ite_else_5813.i
+  unreachable
 
-7:                                                ; preds = %3
-  %8 = icmp eq i32 %2, 1
-  %9 = icmp eq i8 %1, -127
-  %10 = and i1 %9, %8
-  br label %41
+ite_then_46.i:                                    ; preds = %ite_then_36.i
+  %call_313.i = tail call fastcc i64 @l___private_LeanNativeInput_0__BitcoinLedger_FreestandingKernels_msPush(ptr %arg_v4, i64 %slot_v1869.0, i16 zeroext -31004)
+  br label %l___private_LeanNativeInput_0__BitcoinLedger_FreestandingKernels_msStep.exit
 
-11:                                               ; preds = %3
-  %12 = add i8 %0, -81
-  %13 = icmp ult i8 %12, 16
-  br i1 %13, label %14, label %19
+ite_then_322.i:                                   ; preds = %ite_then_36.i
+  %call_589.i = tail call fastcc i64 @l___private_LeanNativeInput_0__BitcoinLedger_FreestandingKernels_msPush(ptr %arg_v4, i64 %slot_v1869.0, i16 zeroext -31420)
+  br label %l___private_LeanNativeInput_0__BitcoinLedger_FreestandingKernels_msStep.exit
 
-14:                                               ; preds = %11
-  %15 = icmp eq i32 %2, 1
-  %16 = add nsw i8 %0, -80
-  %17 = icmp eq i8 %16, %1
-  %18 = select i1 %15, i1 %17, i1 false
-  br label %41
+ite_then_598.i:                                   ; preds = %ite_then_36.i
+  %call_864.i = tail call fastcc i64 @l___private_LeanNativeInput_0__BitcoinLedger_FreestandingKernels_msPush(ptr %arg_v4, i64 %slot_v1869.0, i16 zeroext -30982)
+  br label %l___private_LeanNativeInput_0__BitcoinLedger_FreestandingKernels_msStep.exit
 
-19:                                               ; preds = %11
-  %20 = icmp eq i8 %0, 1
-  br i1 %20, label %21, label %28
+ite_then_873.i:                                   ; preds = %ite_then_36.i
+  %call_1139.i = tail call fastcc i64 @l___private_LeanNativeInput_0__BitcoinLedger_FreestandingKernels_msPush(ptr %arg_v4, i64 %slot_v1869.0, i16 zeroext -30990)
+  br label %l___private_LeanNativeInput_0__BitcoinLedger_FreestandingKernels_msStep.exit
 
-21:                                               ; preds = %19
-  %22 = icmp eq i32 %2, 1
-  br i1 %22, label %23, label %41
+ite_then_1148.i:                                  ; preds = %ite_then_36.i
+  %call_1414.i = tail call fastcc i64 @l___private_LeanNativeInput_0__BitcoinLedger_FreestandingKernels_msPush(ptr %arg_v4, i64 %slot_v1869.0, i16 zeroext -30984)
+  br label %l___private_LeanNativeInput_0__BitcoinLedger_FreestandingKernels_msStep.exit
 
-23:                                               ; preds = %21
-  %24 = add i8 %1, -17
-  %25 = icmp ult i8 %24, -16
-  %26 = icmp ne i8 %1, -127
-  %27 = and i1 %26, %25
-  br label %41
+ite_then_1423.i:                                  ; preds = %ite_then_36.i
+  %call_1689.i = tail call fastcc i64 @l___private_LeanNativeInput_0__BitcoinLedger_FreestandingKernels_msPush(ptr %arg_v4, i64 %slot_v1869.0, i16 zeroext -30992)
+  br label %l___private_LeanNativeInput_0__BitcoinLedger_FreestandingKernels_msStep.exit
 
-28:                                               ; preds = %19
-  %29 = icmp ult i8 %0, 76
-  br i1 %29, label %30, label %32
+ite_else_1424.i:                                  ; preds = %ite_then_36.i
+  %2 = and i8 %rld_i8_15.i, -4
+  %alu_1713894.i = icmp eq i8 %2, 8
+  br i1 %alu_1713894.i, label %ite_then_1723.i, label %ite_else_1724.i
 
-30:                                               ; preds = %28
-  %31 = icmp eq i32 %4, %2
-  br label %41
+ite_then_1723.i:                                  ; preds = %ite_else_1424.i
+  %call_1990.i = tail call fastcc i64 @l___private_LeanNativeInput_0__BitcoinLedger_FreestandingKernels_msPush(ptr %arg_v4, i64 %slot_v1869.0, i16 zeroext -31624)
+  br label %l___private_LeanNativeInput_0__BitcoinLedger_FreestandingKernels_msStep.exit
 
-32:                                               ; preds = %28
-  switch i8 %0, label %41 [
-    i8 76, label %33
-    i8 77, label %36
-    i8 78, label %39
+ite_else_1724.i:                                  ; preds = %ite_else_1424.i
+  switch i8 %rld_i8_15.i, label %ite_else_2108.i [
+    i8 40, label %ite_then_2107.i
+    i8 13, label %ite_then_2107.i
+    i8 12, label %ite_then_2107.i
+    i8 7, label %ite_then_2107.i
+    i8 6, label %ite_then_2107.i
   ]
 
-33:                                               ; preds = %32
-  %34 = add i32 %2, -76
-  %35 = icmp ult i32 %34, 180
-  br label %41
+ite_then_2107.i:                                  ; preds = %ite_else_1724.i, %ite_else_1724.i, %ite_else_1724.i, %ite_else_1724.i, %ite_else_1724.i
+  %alu_2112.i = and i64 %slot_v1869.0, 9151314442816847872
+  %alu_2117.i = shl nuw nsw i64 %rld_val_16.i, 50
+  %alu_2121.i = add nuw nsw i64 %alu_2117.i, %alu_2112.i
+  br label %l___private_LeanNativeInput_0__BitcoinLedger_FreestandingKernels_msStep.exit
 
-36:                                               ; preds = %32
-  %37 = add i32 %2, -256
-  %38 = icmp ult i32 %37, 65280
-  br label %41
+ite_else_2108.i:                                  ; preds = %ite_else_1724.i
+  %3 = add i8 %rld_i8_15.i, -16
+  %alu_2146901.i = icmp ult i8 %3, 10
+  br i1 %alu_2146901.i, label %ite_then_2156.i, label %ite_else_2157.i
 
-39:                                               ; preds = %32
-  %40 = icmp ugt i32 %2, 65535
-  br label %41
+ite_then_2156.i:                                  ; preds = %ite_else_2108.i
+  %cmp_lt_2169.i = icmp samesign ult i64 %slot_v1869.0, 72057594037927936
+  br i1 %cmp_lt_2169.i, label %l___private_LeanNativeInput_0__BitcoinLedger_FreestandingKernels_msStep.exit, label %ite_else_2173.i
 
-41:                                               ; preds = %39, %36, %33, %32, %30, %23, %21, %14, %7, %5
-  %42 = phi i1 [ %6, %5 ], [ %10, %7 ], [ %18, %14 ], [ %31, %30 ], [ %35, %33 ], [ %38, %36 ], [ %40, %39 ], [ false, %21 ], [ %27, %23 ], [ false, %32 ]
-  %43 = zext i1 %42 to i8
-  ret i8 %43
-}
-
-; Function Attrs: alwaysinline mustprogress nofree norecurse nosync nounwind optsize willreturn memory(none)
-define hidden noundef zeroext i8 @llb_sighash_type_valid(i32 noundef %0) local_unnamed_addr #1 {
-  %2 = and i32 %0, 127
-  %3 = icmp ult i32 %0, 256
-  %4 = add nsw i32 %2, -1
-  %5 = icmp ult i32 %4, 3
-  %spec.select = and i1 %3, %5
-  %6 = zext i1 %spec.select to i8
-  ret i8 %6
-}
-
-; Function Attrs: alwaysinline mustprogress nofree norecurse nosync nounwind optsize willreturn memory(none)
-define hidden zeroext i8 @llb_taproot_sighash_valid(i8 noundef zeroext %0) local_unnamed_addr #1 {
-  %2 = icmp eq i8 %0, 0
-  %3 = and i8 %0, 127
-  %4 = add nsw i8 %3, -1
-  %5 = icmp ult i8 %4, 3
-  %6 = select i1 %2, i1 true, i1 %5
-  %7 = zext i1 %6 to i8
-  ret i8 %7
-}
-
-; Function Attrs: mustprogress nofree norecurse nosync nounwind optsize willreturn memory(none)
-define hidden noundef zeroext i8 @llb_merkle_depth_index_ok(i32 noundef %0, i32 noundef %1, i8 noundef zeroext %2) local_unnamed_addr #0 {
-  %4 = icmp eq i32 %0, 0
-  br i1 %4, label %10, label %5
-
-5:                                                ; preds = %3
-  %6 = icmp ult i32 %1, %0
-  %7 = icmp sgt i32 %1, -1
-  %8 = and i1 %6, %7
-  %9 = icmp ult i8 %2, 33
-  %spec.select = and i1 %8, %9
-  br label %10
-
-10:                                               ; preds = %5, %3
-  %11 = phi i1 [ false, %3 ], [ %spec.select, %5 ]
-  %12 = zext i1 %11 to i8
-  ret i8 %12
-}
-
-; Function Attrs: mustprogress nofree norecurse nosync nounwind optsize willreturn memory(none)
-define hidden noundef zeroext i16 @llb_bolos_sw_for_error(i8 noundef zeroext %0) local_unnamed_addr #0 {
-  %2 = icmp ult i8 %0, 19
-  br i1 %2, label %3, label %7
-
-3:                                                ; preds = %1
-  %4 = zext nneg i8 %0 to i32
-  %5 = getelementptr inbounds [19 x i16], ptr @switch.table.llb_bolos_sw_for_error, i32 0, i32 %4
-  %6 = load i16, ptr %5, align 2
-  br label %7
-
-7:                                                ; preds = %3, %1
-  %8 = phi i16 [ %6, %3 ], [ -20473, %1 ]
-  ret i16 %8
-}
-
-; Function Attrs: alwaysinline mustprogress nofree norecurse nosync nounwind optsize willreturn memory(none)
-define hidden i64 @llb_merkle_advance_state(i64 noundef %0) local_unnamed_addr #1 {
-  %2 = lshr i64 %0, 32
-  %3 = trunc i64 %2 to i32
-  %4 = trunc i64 %0 to i32
-  %5 = icmp ult i32 %3, 2
-  br i1 %5, label %33, label %6
-
-6:                                                ; preds = %1
-  %7 = add i32 %3, -1
-  %8 = lshr i32 %7, 1
-  %9 = or i32 %8, %7
-  %10 = lshr i32 %9, 2
-  %11 = or i32 %10, %9
-  %12 = lshr i32 %11, 4
-  %13 = or i32 %12, %11
-  %14 = lshr i32 %13, 8
-  %15 = or i32 %14, %13
-  %16 = lshr i32 %15, 17
-  %17 = lshr i32 %15, 1
-  %18 = or i32 %16, %17
-  %19 = add nuw i32 %18, 1
-  %20 = icmp ult i32 %18, %4
-  br i1 %20, label %26, label %21
-
-21:                                               ; preds = %6
-  %22 = zext i32 %19 to i64
-  %23 = shl nuw i64 %22, 32
-  %24 = and i64 %0, 4294967295
-  %25 = or disjoint i64 %23, %24
-  br label %33
-
-26:                                               ; preds = %6
-  %27 = sub i32 %3, %19
-  %28 = zext i32 %27 to i64
-  %29 = shl nuw i64 %28, 32
-  %30 = sub i32 %4, %19
-  %31 = zext i32 %30 to i64
-  %32 = or disjoint i64 %29, %31
-  br label %33
-
-33:                                               ; preds = %26, %21, %1
-  %34 = phi i64 [ %25, %21 ], [ %32, %26 ], [ %0, %1 ]
-  ret i64 %34
-}
-
-; Function Attrs: mustprogress nofree norecurse nosync nounwind optsize willreturn memory(none)
-define hidden zeroext i8 @llb_merkle_state_dir(i64 noundef %0) local_unnamed_addr #0 {
-  %2 = lshr i64 %0, 32
-  %3 = trunc i64 %2 to i32
-  %4 = trunc i64 %0 to i32
-  %5 = icmp ugt i32 %3, 1
-  %6 = icmp ult i32 %4, %3
-  %7 = and i1 %5, %6
-  br i1 %7, label %8, label %23
-
-8:                                                ; preds = %1
-  %9 = add i32 %3, -1
-  %10 = lshr i32 %9, 1
-  %11 = or i32 %10, %9
-  %12 = lshr i32 %11, 2
-  %13 = or i32 %12, %11
-  %14 = lshr i32 %13, 4
-  %15 = or i32 %14, %13
-  %16 = lshr i32 %15, 8
-  %17 = or i32 %16, %15
-  %18 = lshr i32 %17, 17
-  %19 = lshr i32 %17, 1
-  %20 = or i32 %18, %19
-  %21 = icmp ult i32 %20, %4
-  %22 = zext i1 %21 to i8
-  br label %23
-
-23:                                               ; preds = %8, %1
-  %24 = phi i8 [ %22, %8 ], [ -1, %1 ]
-  ret i8 %24
-}
-
-; Function Attrs: mustprogress nofree norecurse nosync nounwind optsize willreturn memory(none)
-define hidden zeroext i8 @llb_bip32_pubkey_export_prefix_ok(i32 noundef %0, i32 noundef %1, i32 noundef %2, i32 noundef %3, i8 noundef zeroext %4, i32 noundef %5, i8 noundef zeroext %6) local_unnamed_addr #0 {
-  %8 = icmp eq i8 %4, 2
-  br i1 %8, label %9, label %13
-
-9:                                                ; preds = %7
-  %10 = icmp eq i32 %0, -2142942139
-  %11 = icmp eq i32 %1, -1035385550
-  %12 = and i1 %10, %11
-  br label %36
-
-13:                                               ; preds = %7
-  %14 = icmp ult i8 %4, 3
-  %15 = icmp eq i8 %6, 0
-  %or.cond = or i1 %14, %15
-  %16 = and i32 %1, %0
-  %17 = and i32 %16, %2
-  %18 = icmp sgt i32 %17, -1
-  %or.cond3 = or i1 %18, %or.cond
-  br i1 %or.cond3, label %36, label %19
-
-19:                                               ; preds = %13
-  %20 = and i32 %0, 2147483647
-  %21 = and i32 %1, 2147483647
-  %22 = icmp ne i32 %21, %5
-  %23 = and i32 %2, 2147483647
-  %24 = icmp ugt i32 %23, 100
-  %or.cond5 = or i1 %24, %22
-  br i1 %or.cond5, label %36, label %25
-
-25:                                               ; preds = %19
-  %26 = tail call zeroext i8 @llb_bip32_standard_purpose_ok(i32 noundef %0) #8, !range !3
-  %27 = icmp eq i8 %26, 0
-  br i1 %27, label %28, label %36
-
-28:                                               ; preds = %25
-  %29 = icmp ne i32 %20, 48
-  %30 = icmp eq i8 %4, 3
-  %or.cond6 = or i1 %29, %30
-  %31 = icmp sgt i32 %3, -1
-  %or.cond7 = or i1 %31, %or.cond6
-  br i1 %or.cond7, label %36, label %32
-
-32:                                               ; preds = %28
-  %33 = and i32 %3, 2147483647
-  %34 = add nsw i32 %33, -1
-  %35 = icmp ult i32 %34, 2
-  br label %36
-
-36:                                               ; preds = %32, %28, %25, %19, %13, %9
-  %37 = phi i1 [ %12, %9 ], [ %35, %32 ], [ false, %13 ], [ false, %19 ], [ true, %25 ], [ false, %28 ]
-  %38 = zext i1 %37 to i8
-  ret i8 %38
-}
-
-; Function Attrs: alwaysinline mustprogress nofree norecurse nosync nounwind optsize willreturn memory(none)
-define hidden noundef i32 @llb_bech32_final_constant(i8 noundef zeroext %0) local_unnamed_addr #1 {
-  %2 = icmp eq i8 %0, 2
-  %3 = select i1 %2, i32 734539939, i32 0
-  %4 = icmp eq i8 %0, 1
-  %5 = select i1 %4, i32 1, i32 %3
-  ret i32 %5
-}
-
-; Function Attrs: alwaysinline mustprogress nofree norecurse nosync nounwind optsize willreturn memory(none)
-define hidden noundef zeroext i8 @llb_wallet_name_char_ok(i8 noundef zeroext %0, i8 noundef zeroext %1) local_unnamed_addr #1 {
-  %3 = icmp eq i8 %1, 0
-  %4 = select i1 %3, i32 32, i32 33
-  %5 = zext i8 %0 to i32
-  %6 = icmp ule i32 %4, %5
-  %7 = icmp ult i8 %0, 127
-  %8 = and i1 %7, %6
-  %9 = zext i1 %8 to i8
-  ret i8 %9
-}
-
-; Function Attrs: mustprogress nofree norecurse nosync nounwind optsize willreturn memory(none)
-define hidden i64 @llb_sats_div_1e8(i64 noundef %0) local_unnamed_addr #0 {
-  %2 = trunc i64 %0 to i32
-  %3 = lshr i64 %0, 32
-  %4 = trunc i64 %3 to i32
-  %5 = and i32 %2, 65535
-  %6 = lshr i32 %2, 16
-  %7 = mul nuw i32 %5, 52989
-  %8 = zext i32 %7 to i64
-  %9 = mul nuw i32 %5, 33889
-  %10 = zext i32 %9 to i64
-  %11 = mul nuw i32 %6, 52989
-  %12 = zext i32 %11 to i64
-  %13 = mul nuw i32 %6, 33889
-  %14 = add nuw nsw i64 %10, %12
-  %15 = shl nuw nsw i64 %14, 16
-  %16 = add nuw nsw i64 %15, %8
-  %17 = mul nuw nsw i32 %5, 30481
-  %18 = zext nneg i32 %17 to i64
-  %19 = mul nuw i32 %5, 43980
-  %20 = zext i32 %19 to i64
-  %21 = mul nuw nsw i32 %6, 30481
-  %22 = zext nneg i32 %21 to i64
-  %23 = mul nuw i32 %6, 43980
-  %24 = add nuw nsw i64 %20, %22
-  %25 = shl nuw nsw i64 %24, 16
-  %26 = add nuw nsw i64 %25, %18
-  %27 = and i32 %4, 65535
-  %28 = lshr i32 %4, 16
-  %29 = mul nuw i32 %27, 52989
-  %30 = zext i32 %29 to i64
-  %31 = mul nuw i32 %27, 33889
-  %32 = zext i32 %31 to i64
-  %33 = mul nuw i32 %28, 52989
-  %34 = zext i32 %33 to i64
-  %35 = mul nuw i32 %28, 33889
-  %36 = add nuw nsw i64 %32, %34
-  %37 = shl nuw nsw i64 %36, 16
-  %38 = add nuw nsw i64 %37, %30
-  %39 = mul nuw nsw i32 %27, 30481
-  %40 = zext nneg i32 %39 to i64
-  %41 = mul nuw i32 %27, 43980
-  %42 = zext i32 %41 to i64
-  %43 = mul nuw nsw i32 %28, 30481
-  %44 = zext nneg i32 %43 to i64
-  %45 = mul nuw i32 %28, 43980
-  %46 = zext i32 %45 to i64
-  %47 = add nuw nsw i64 %42, %44
-  %48 = shl nuw nsw i64 %47, 16
-  %49 = shl nuw i64 %46, 32
-  %50 = lshr i64 %16, 32
-  %51 = trunc i64 %50 to i32
-  %52 = add nuw i32 %13, %51
-  %53 = zext i32 %52 to i64
-  %54 = and i64 %26, 4294967295
-  %55 = and i64 %38, 4294967295
-  %56 = add nuw nsw i64 %55, %54
-  %57 = add nuw nsw i64 %56, %53
-  %58 = lshr i64 %26, 32
-  %59 = trunc i64 %58 to i32
-  %60 = add nuw i32 %23, %59
-  %61 = zext i32 %60 to i64
-  %62 = lshr i64 %38, 32
-  %63 = trunc i64 %62 to i32
-  %64 = add nuw i32 %35, %63
-  %65 = zext i32 %64 to i64
-  %66 = lshr i64 %57, 32
-  %67 = or disjoint i64 %49, %40
-  %68 = add nuw i64 %67, %48
-  %69 = add nuw i64 %68, %61
-  %70 = add nuw i64 %69, %65
-  %71 = add nuw i64 %70, %66
-  %72 = lshr i64 %71, 26
-  ret i64 %72
-}
-
-; Function Attrs: mustprogress nofree norecurse nosync nounwind optsize willreturn memory(none)
-define hidden i32 @llb_sats_mod_1e8(i64 noundef %0) local_unnamed_addr #0 {
-  %2 = tail call i64 @llb_sats_div_1e8(i64 noundef %0) #8, !range !4
-  %3 = trunc i64 %2 to i32
-  %4 = trunc i64 %0 to i32
-  %5 = mul i32 %3, -100000000
-  %6 = add i32 %5, %4
-  ret i32 %6
-}
-
-; Function Attrs: alwaysinline mustprogress nofree norecurse nosync nounwind optsize willreturn memory(none)
-define hidden noundef zeroext i8 @llb_miniscript_older_ok(i32 noundef %0) local_unnamed_addr #1 {
-  %2 = and i32 %0, -4259840
-  %3 = icmp eq i32 %2, 0
-  %4 = and i32 %0, 65535
-  %5 = icmp ne i32 %4, 0
-  %6 = and i1 %3, %5
-  %7 = zext i1 %6 to i8
-  ret i8 %7
-}
-
-; Function Attrs: alwaysinline mustprogress nofree norecurse nosync nounwind optsize willreturn memory(none)
-define hidden noundef zeroext i8 @llb_miniscript_after_ok(i32 noundef %0) local_unnamed_addr #1 {
-  %2 = icmp sgt i32 %0, 0
-  %3 = zext i1 %2 to i8
-  ret i8 %3
-}
-
-; Function Attrs: alwaysinline mustprogress nofree norecurse nosync nounwind optsize willreturn memory(none)
-define hidden noundef zeroext i8 @llb_miniscript_andor_branches_valid(i8 noundef zeroext %0, i8 noundef zeroext %1, i8 noundef zeroext %2) local_unnamed_addr #1 {
-  %4 = icmp eq i8 %0, 100
-  %5 = icmp eq i8 %1, 103
-  %6 = and i1 %4, %5
-  %7 = icmp eq i8 %2, 104
-  %spec.select = and i1 %6, %7
-  %8 = zext i1 %spec.select to i8
-  ret i8 %8
-}
-
-; Function Attrs: nofree norecurse nosync nounwind optsize memory(argmem: readwrite)
-define hidden noundef zeroext i8 @llb_miniscript_check_postfix(ptr noundef readonly %0, i32 noundef %1, i8 noundef zeroext %2, i8 noundef zeroext %3, ptr noundef %4) local_unnamed_addr #3 {
-  %6 = icmp eq ptr %0, null
-  %7 = icmp eq ptr %4, null
-  %or.cond = or i1 %6, %7
-  %8 = add i32 %1, -513
-  %9 = icmp ult i32 %8, -512
-  %or.cond2 = or i1 %9, %or.cond
-  br i1 %or.cond2, label %.loopexit, label %10
-
-10:                                               ; preds = %5
-  %11 = icmp eq i8 %2, 0
-  %12 = select i1 %11, i16 56, i16 120
-  %.not = xor i1 %11, true
-  br label %13
-
-13:                                               ; preds = %.backedge, %10
-  %14 = phi i32 [ 0, %10 ], [ %.be, %.backedge ]
-  %15 = phi i32 [ 0, %10 ], [ %.be166, %.backedge ]
-  %16 = phi i8 [ 0, %10 ], [ %.be167, %.backedge ]
-  %17 = phi i32 [ 0, %10 ], [ %.be168, %.backedge ]
-  %18 = phi i32 [ 0, %10 ], [ %22, %.backedge ]
-  %19 = phi i32 [ 0, %10 ], [ %.be170, %.backedge ]
-  %20 = icmp eq i32 %18, %1
-  br i1 %20, label %1078, label %21
-
-21:                                               ; preds = %13
-  %22 = add nuw nsw i32 %18, 1
-  %23 = getelementptr inbounds i8, ptr %0, i32 %18
-  %24 = load i8, ptr %23, align 1, !tbaa !5
-  %25 = icmp eq i32 %17, 0
-  br i1 %25, label %230, label %26
-
-26:                                               ; preds = %21
-  %27 = zext i8 %24 to i32
-  %28 = shl i32 %14, 3
-  %29 = shl i32 %27, %28
-  %30 = or i32 %29, %15
-  %31 = add i32 %14, 1
-  %32 = add nsw i32 %17, -1
-  %33 = icmp eq i32 %32, 0
-  br i1 %33, label %34, label %.backedge
-
-34:                                               ; preds = %26
-  switch i8 %16, label %63 [
-    i8 6, label %35
-    i8 7, label %52
+ite_else_2173.i:                                  ; preds = %ite_then_2156.i
+  %sh.diff.i = lshr i64 %slot_v1869.0, 55
+  %tr.sh.diff.i = trunc nuw nsw i64 %sh.diff.i to i32
+  %4 = getelementptr i8, ptr %arg_v4, i32 %tr.sh.diff.i
+  %rld_gep_10.i.i = getelementptr i8, ptr %4, i32 -2
+  %rld_i8_11.i.i = load i8, ptr %rld_gep_10.i.i, align 1
+  %rld_val_12.i.i = zext i8 %rld_i8_11.i.i to i16
+  %rld_gep_21.i.i = getelementptr i8, ptr %4, i32 -1
+  %rld_i8_22.i.i = load i8, ptr %rld_gep_21.i.i, align 1
+  %rld_val_23.i.i = zext i8 %rld_i8_22.i.i to i16
+  %alu_33.i.i = shl nuw i16 %rld_val_23.i.i, 8
+  %alu_40.i.i = or disjoint i16 %alu_33.i.i, %rld_val_12.i.i
+  %call_zx_2196.i = zext i16 %alu_40.i.i to i64
+  %alu_2201.i = and i64 %call_zx_2196.i, 3
+  %5 = and i64 %call_zx_2196.i, 128
+  %6 = and i64 %call_zx_2196.i, 256
+  %7 = and i64 %call_zx_2196.i, 1024
+  %8 = and i64 %call_zx_2196.i, 2048
+  %9 = and i64 %call_zx_2196.i, 4096
+  %cmp_eq_2488.not.not.i = icmp eq i64 %alu_2201.i, 0
+  switch i8 %rld_i8_15.i, label %ite_else_5094.i [
+    i8 16, label %ite_then_2508.i
+    i8 17, label %ite_then_2824.i
+    i8 18, label %ite_then_3159.i
+    i8 19, label %ite_then_3475.i
+    i8 20, label %ite_then_3791.i
+    i8 21, label %ite_then_4442.i
+    i8 22, label %ite_then_4758.i
+    i8 23, label %ite_then_5093.i
   ]
 
-35:                                               ; preds = %34
-  %36 = and i32 %30, -4259840
-  %37 = icmp ne i32 %36, 0
-  %38 = and i32 %30, 65535
-  %39 = icmp eq i32 %38, 0
-  %40 = or i1 %37, %39
-  %41 = icmp ugt i32 %19, 63
-  %or.cond3 = select i1 %40, i1 true, i1 %41
-  br i1 %or.cond3, label %.loopexit, label %42
+ite_then_2508.i:                                  ; preds = %ite_else_2173.i
+  %alu_2730.i = and i64 %call_zx_2196.i, 32736
+  %call_2195.lobit1192.i = and i16 %alu_33.i.i, -32768
+  %alu_2759.i = zext i16 %call_2195.lobit1192.i to i64
+  %alu_2748.i = or disjoint i64 %alu_2730.i, %alu_2759.i
+  %alu_2778.i = select i1 %cmp_eq_2488.not.not.i, i64 65532, i64 0
+  %alu_2783.i = xor i64 %alu_2748.i, 65532
+  %alu_2789.i = and i64 %alu_2778.i, %alu_2783.i
+  %cmp_eq_2804.i = icmp eq i64 %alu_2789.i, 0
+  br i1 %cmp_eq_2804.i, label %l___private_LeanNativeInput_0__BitcoinLedger_FreestandingKernels_msStep.exit, label %ite_else_2808.i
 
-42:                                               ; preds = %35
-  %43 = lshr i32 %30, 22
-  %44 = trunc i32 %43 to i8
-  %45 = add nuw nsw i32 %19, 1
-  %46 = mul nuw nsw i8 %44, 24
-  %47 = shl nuw nsw i32 %19, 1
-  %48 = getelementptr inbounds i8, ptr %4, i32 %47
-  store i8 4, ptr %48, align 1, !tbaa !5
-  %49 = xor i8 %46, -107
-  %50 = or disjoint i32 %47, 1
-  %51 = getelementptr inbounds i8, ptr %4, i32 %50
-  store i8 %49, ptr %51, align 1, !tbaa !5
-  br label %.backedge
+ite_else_2808.i:                                  ; preds = %ite_then_2508.i
+  %10 = trunc nuw i64 %alu_2789.i to i16
+  %call_tr_2814.i = xor i16 %10, -1
+  %rst_tr8_14.i.i.i = trunc i16 %call_tr_2814.i to i8
+  store i8 %rst_tr8_14.i.i.i, ptr %rld_gep_10.i.i, align 1
+  %11 = lshr i16 %call_tr_2814.i, 8
+  %rst_tr8_34.i.i.i = trunc nuw i16 %11 to i8
+  store i8 %rst_tr8_34.i.i.i, ptr %rld_gep_21.i.i, align 1
+  br label %l___private_LeanNativeInput_0__BitcoinLedger_FreestandingKernels_msStep.exit
 
-52:                                               ; preds = %34
-  %53 = icmp slt i32 %30, 1
-  %54 = icmp ugt i32 %19, 63
-  %or.cond4 = select i1 %53, i1 true, i1 %54
-  br i1 %or.cond4, label %.loopexit, label %55
+ite_then_2824.i:                                  ; preds = %ite_else_2173.i
+  %12 = and i64 %call_zx_2196.i, 11
+  %cmp_eq_2844.not.not.i = icmp eq i64 %12, 8
+  %alu_3065.i = and i64 %call_zx_2196.i, 32736
+  %call_2195.lobit1181.i = and i16 %alu_33.i.i, -32768
+  %alu_3094.i = zext i16 %call_2195.lobit1181.i to i64
+  %alu_3083.i = or disjoint i64 %alu_3065.i, %alu_3094.i
+  %alu_3113.i = select i1 %cmp_eq_2844.not.not.i, i64 65532, i64 0
+  %alu_3118.i = xor i64 %alu_3083.i, 65532
+  %alu_3124.i = and i64 %alu_3113.i, %alu_3118.i
+  %cmp_eq_3139.i = icmp eq i64 %alu_3124.i, 0
+  br i1 %cmp_eq_3139.i, label %l___private_LeanNativeInput_0__BitcoinLedger_FreestandingKernels_msStep.exit, label %ite_else_3143.i
 
-55:                                               ; preds = %52
-  %56 = icmp ult i32 %30, 500000000
-  %57 = add nuw nsw i32 %19, 1
-  %58 = shl nuw nsw i32 %19, 1
-  %59 = getelementptr inbounds i8, ptr %4, i32 %58
-  store i8 4, ptr %59, align 1, !tbaa !5
-  %60 = select i1 %56, i8 -59, i8 -91
-  %61 = or disjoint i32 %58, 1
-  %62 = getelementptr inbounds i8, ptr %4, i32 %61
-  store i8 %60, ptr %62, align 1, !tbaa !5
-  br label %.backedge
+ite_else_3143.i:                                  ; preds = %ite_then_2824.i
+  %13 = trunc nuw i64 %alu_3124.i to i16
+  %call_tr_3149.i = xor i16 %13, -1
+  %rst_tr8_14.i.i1197.i = trunc i16 %call_tr_3149.i to i8
+  store i8 %rst_tr8_14.i.i1197.i, ptr %rld_gep_10.i.i, align 1
+  %14 = lshr i16 %call_tr_3149.i, 8
+  %rst_tr8_34.i.i1199.i = trunc nuw i16 %14 to i8
+  store i8 %rst_tr8_34.i.i1199.i, ptr %rld_gep_21.i.i, align 1
+  br label %l___private_LeanNativeInput_0__BitcoinLedger_FreestandingKernels_msStep.exit
 
-63:                                               ; preds = %34
-  %64 = and i32 %30, 65535
-  %65 = lshr i32 %30, 16
-  switch i8 %16, label %88 [
-    i8 12, label %66
-    i8 13, label %77
+ite_then_3159.i:                                  ; preds = %ite_else_2173.i
+  %cmp_eq_2500.i = icmp eq i64 %alu_2201.i, 2
+  %alu_3381.i = and i64 %call_zx_2196.i, 32568
+  %call_2195.lobit1168.i = and i16 %alu_33.i.i, -32768
+  %alu_3410.i = zext i16 %call_2195.lobit1168.i to i64
+  %alu_3399.i = or disjoint i64 %alu_3381.i, %alu_3410.i
+  %alu_3429.i = select i1 %cmp_eq_2500.i, i64 65343, i64 0
+  %alu_3434.i = xor i64 %alu_3399.i, 65343
+  %alu_3440.i = and i64 %alu_3429.i, %alu_3434.i
+  %cmp_eq_3455.i = icmp eq i64 %alu_3440.i, 0
+  br i1 %cmp_eq_3455.i, label %l___private_LeanNativeInput_0__BitcoinLedger_FreestandingKernels_msStep.exit, label %ite_else_3459.i
+
+ite_else_3459.i:                                  ; preds = %ite_then_3159.i
+  %15 = trunc nuw i64 %alu_3440.i to i16
+  %call_tr_3465.i = xor i16 %15, -1
+  %rst_tr8_14.i.i1204.i = trunc i16 %call_tr_3465.i to i8
+  store i8 %rst_tr8_14.i.i1204.i, ptr %rld_gep_10.i.i, align 1
+  %16 = lshr i16 %call_tr_3465.i, 8
+  %rst_tr8_34.i.i1206.i = trunc nuw i16 %16 to i8
+  store i8 %rst_tr8_34.i.i1206.i, ptr %rld_gep_21.i.i, align 1
+  br label %l___private_LeanNativeInput_0__BitcoinLedger_FreestandingKernels_msStep.exit
+
+ite_then_3475.i:                                  ; preds = %ite_else_2173.i
+  %cmp_eq_2494.not.i = icmp eq i64 %alu_2201.i, 1
+  %alu_3697.i = and i64 %call_zx_2196.i, 31900
+  %call_2195.lobit1157.i = and i16 %alu_33.i.i, -32768
+  %alu_3726.i = zext i16 %call_2195.lobit1157.i to i64
+  %alu_3715.i = or disjoint i64 %alu_3697.i, %alu_3726.i
+  %alu_3745.i = select i1 %cmp_eq_2494.not.i, i64 65215, i64 0
+  %alu_3750.i = xor i64 %alu_3715.i, 65215
+  %alu_3756.i = and i64 %alu_3745.i, %alu_3750.i
+  %cmp_eq_3771.i = icmp eq i64 %alu_3756.i, 0
+  br i1 %cmp_eq_3771.i, label %l___private_LeanNativeInput_0__BitcoinLedger_FreestandingKernels_msStep.exit, label %ite_else_3775.i
+
+ite_else_3775.i:                                  ; preds = %ite_then_3475.i
+  %17 = trunc nuw i64 %alu_3756.i to i16
+  %call_tr_3781.i = xor i16 %17, -1
+  %rst_tr8_14.i.i1211.i = trunc i16 %call_tr_3781.i to i8
+  store i8 %rst_tr8_14.i.i1211.i, ptr %rld_gep_10.i.i, align 1
+  %18 = lshr i16 %call_tr_3781.i, 8
+  %rst_tr8_34.i.i1213.i = trunc nuw i16 %18 to i8
+  store i8 %rst_tr8_34.i.i1213.i, ptr %rld_gep_21.i.i, align 1
+  br label %l___private_LeanNativeInput_0__BitcoinLedger_FreestandingKernels_msStep.exit
+
+ite_then_3791.i:                                  ; preds = %ite_else_2173.i
+  %19 = and i64 %call_zx_2196.i, 7
+  %cmp_eq_3811.not.not.i = icmp eq i64 %19, 5
+  %alu_3963.i = shl nuw nsw i64 %6, 1
+  %call_2195.lobit1144.i = and i16 %alu_33.i.i, -32768
+  %alu_4071.i = zext i16 %call_2195.lobit1144.i to i64
+  %20 = or disjoint i64 %alu_3963.i, %alu_4071.i
+  %alu_4090.i = select i1 %cmp_eq_3811.not.not.i, i64 65535, i64 0
+  %.masked1145.i = and i64 %call_zx_2196.i, 24576
+  %21 = or disjoint i64 %20, %.masked1145.i
+  %22 = or disjoint i64 %21, %5
+  %23 = or disjoint i64 %22, %7
+  %24 = or disjoint i64 %23, %8
+  %25 = or i64 %24, %9
+  br i1 %cmp_eq_2546.i.i, label %ite_then_3820.i, label %ite_else_3821.i
+
+ite_then_3820.i:                                  ; preds = %ite_then_3791.i
+  %alu_4095.i = xor i64 %25, 65479
+  %alu_4101.i = and i64 %alu_4095.i, %alu_4090.i
+  %cmp_eq_4116.i = icmp eq i64 %alu_4101.i, 0
+  br i1 %cmp_eq_4116.i, label %l___private_LeanNativeInput_0__BitcoinLedger_FreestandingKernels_msStep.exit, label %ite_else_4120.i
+
+ite_else_4120.i:                                  ; preds = %ite_then_3820.i
+  %26 = trunc nuw i64 %alu_4101.i to i16
+  %call_tr_4126.i = xor i16 %26, -1
+  %rst_tr8_14.i.i1218.i = trunc i16 %call_tr_4126.i to i8
+  store i8 %rst_tr8_14.i.i1218.i, ptr %rld_gep_10.i.i, align 1
+  %27 = lshr i16 %call_tr_4126.i, 8
+  %rst_tr8_34.i.i1220.i = trunc nuw i16 %27 to i8
+  store i8 %rst_tr8_34.i.i1220.i, ptr %rld_gep_21.i.i, align 1
+  br label %l___private_LeanNativeInput_0__BitcoinLedger_FreestandingKernels_msStep.exit
+
+ite_else_3821.i:                                  ; preds = %ite_then_3791.i
+  %alu_4401.i = xor i64 %25, 65415
+  %alu_4407.i = and i64 %alu_4401.i, %alu_4090.i
+  %cmp_eq_4422.i = icmp eq i64 %alu_4407.i, 0
+  br i1 %cmp_eq_4422.i, label %l___private_LeanNativeInput_0__BitcoinLedger_FreestandingKernels_msStep.exit, label %ite_else_4426.i
+
+ite_else_4426.i:                                  ; preds = %ite_else_3821.i
+  %28 = trunc nuw i64 %alu_4407.i to i16
+  %call_tr_4432.i = xor i16 %28, -1
+  %rst_tr8_14.i.i1225.i = trunc i16 %call_tr_4432.i to i8
+  store i8 %rst_tr8_14.i.i1225.i, ptr %rld_gep_10.i.i, align 1
+  %29 = lshr i16 %call_tr_4432.i, 8
+  %rst_tr8_34.i.i1227.i = trunc nuw i16 %29 to i8
+  store i8 %rst_tr8_34.i.i1227.i, ptr %rld_gep_21.i.i, align 1
+  br label %l___private_LeanNativeInput_0__BitcoinLedger_FreestandingKernels_msStep.exit
+
+ite_then_4442.i:                                  ; preds = %ite_else_2173.i
+  %alu_4664.i = and i64 %call_zx_2196.i, 31900
+  %call_2195.lobit1123.i = and i16 %alu_33.i.i, -32768
+  %alu_4693.i = zext i16 %call_2195.lobit1123.i to i64
+  %alu_4682.i = or disjoint i64 %alu_4664.i, %alu_4693.i
+  %alu_4712.i = select i1 %cmp_eq_2488.not.not.i, i64 65278, i64 0
+  %alu_4717.i = xor i64 %alu_4682.i, 65278
+  %alu_4723.i = and i64 %alu_4712.i, %alu_4717.i
+  %cmp_eq_4738.i = icmp eq i64 %alu_4723.i, 0
+  br i1 %cmp_eq_4738.i, label %l___private_LeanNativeInput_0__BitcoinLedger_FreestandingKernels_msStep.exit, label %ite_else_4742.i
+
+ite_else_4742.i:                                  ; preds = %ite_then_4442.i
+  %30 = trunc nuw i64 %alu_4723.i to i16
+  %call_tr_4748.i = xor i16 %30, -1
+  %rst_tr8_14.i.i1232.i = trunc i16 %call_tr_4748.i to i8
+  store i8 %rst_tr8_14.i.i1232.i, ptr %rld_gep_10.i.i, align 1
+  %31 = lshr i16 %call_tr_4748.i, 8
+  %rst_tr8_34.i.i1234.i = trunc nuw i16 %31 to i8
+  store i8 %rst_tr8_34.i.i1234.i, ptr %rld_gep_21.i.i, align 1
+  br label %l___private_LeanNativeInput_0__BitcoinLedger_FreestandingKernels_msStep.exit
+
+ite_then_4758.i:                                  ; preds = %ite_else_2173.i
+  %32 = and i64 %call_zx_2196.i, 19
+  %cmp_eq_4778.not.not.i = icmp eq i64 %32, 16
+  %alu_4873.i = and i64 %call_zx_2196.i, 200
+  %alu_4920.i = shl nuw nsw i64 %6, 1
+  %alu_4891.i = or disjoint i64 %alu_4920.i, %alu_4873.i
+  %call_2195.lobit1110.i = and i16 %alu_33.i.i, -32768
+  %alu_5028.i = zext i16 %call_2195.lobit1110.i to i64
+  %33 = or disjoint i64 %alu_4891.i, %alu_5028.i
+  %alu_5047.i = select i1 %cmp_eq_4778.not.not.i, i64 65535, i64 0
+  %.masked1111.i = and i64 %call_zx_2196.i, 24576
+  %34 = or disjoint i64 %33, %.masked1111.i
+  %35 = or disjoint i64 %34, %7
+  %36 = or disjoint i64 %35, %8
+  %37 = or i64 %36, %9
+  %alu_5052.i = xor i64 %37, 65487
+  %alu_5058.i = and i64 %alu_5052.i, %alu_5047.i
+  %cmp_eq_5073.i = icmp eq i64 %alu_5058.i, 0
+  br i1 %cmp_eq_5073.i, label %l___private_LeanNativeInput_0__BitcoinLedger_FreestandingKernels_msStep.exit, label %ite_else_5077.i
+
+ite_else_5077.i:                                  ; preds = %ite_then_4758.i
+  %38 = trunc nuw i64 %alu_5058.i to i16
+  %call_tr_5083.i = xor i16 %38, -1
+  %rst_tr8_14.i.i1239.i = trunc i16 %call_tr_5083.i to i8
+  store i8 %rst_tr8_14.i.i1239.i, ptr %rld_gep_10.i.i, align 1
+  %39 = lshr i16 %call_tr_5083.i, 8
+  %rst_tr8_34.i.i1241.i = trunc nuw i16 %39 to i8
+  store i8 %rst_tr8_34.i.i1241.i, ptr %rld_gep_21.i.i, align 1
+  br label %l___private_LeanNativeInput_0__BitcoinLedger_FreestandingKernels_msStep.exit
+
+ite_then_5093.i:                                  ; preds = %ite_else_2173.i
+  %alu_5315.i = and i64 %call_zx_2196.i, 32700
+  %call_2195.lobit1098.i = and i16 %alu_33.i.i, -32768
+  %alu_5344.i = zext i16 %call_2195.lobit1098.i to i64
+  %alu_5333.i = or disjoint i64 %alu_5315.i, %alu_5344.i
+  %alu_5363.i = select i1 %cmp_eq_2488.not.not.i, i64 65471, i64 0
+  %alu_5368.i = xor i64 %alu_5333.i, 65471
+  %alu_5374.i = and i64 %alu_5363.i, %alu_5368.i
+  %cmp_eq_5389.i = icmp eq i64 %alu_5374.i, 0
+  br i1 %cmp_eq_5389.i, label %l___private_LeanNativeInput_0__BitcoinLedger_FreestandingKernels_msStep.exit, label %ite_else_5393.i
+
+ite_else_5393.i:                                  ; preds = %ite_then_5093.i
+  %40 = trunc nuw i64 %alu_5374.i to i16
+  %call_tr_5399.i = xor i16 %40, -1
+  %rst_tr8_14.i.i1246.i = trunc i16 %call_tr_5399.i to i8
+  store i8 %rst_tr8_14.i.i1246.i, ptr %rld_gep_10.i.i, align 1
+  %41 = lshr i16 %call_tr_5399.i, 8
+  %rst_tr8_34.i.i1248.i = trunc nuw i16 %41 to i8
+  store i8 %rst_tr8_34.i.i1248.i, ptr %rld_gep_21.i.i, align 1
+  br label %l___private_LeanNativeInput_0__BitcoinLedger_FreestandingKernels_msStep.exit
+
+ite_else_5094.i:                                  ; preds = %ite_else_2173.i
+  %42 = shl nuw nsw i64 %call_zx_2196.i, 1
+  %43 = and i64 %42, 520
+  %call_2195.lobit.i = and i16 %alu_33.i.i, -32768
+  %alu_5687.i = zext i16 %call_2195.lobit.i to i64
+  %alu_5706.i = select i1 %cmp_eq_2488.not.not.i, i64 65535, i64 0
+  %44 = and i64 %call_zx_2196.i, 24640
+  %45 = or disjoint i64 %44, %alu_5687.i
+  %46 = or disjoint i64 %45, %43
+  %47 = or disjoint i64 %46, %5
+  %48 = or disjoint i64 %47, %7
+  %49 = or i64 %48, %8
+  %50 = or i64 %49, %9
+  %alu_5711.i = xor i64 %50, 65503
+  %alu_5717.i = and i64 %alu_5711.i, %alu_5706.i
+  %cmp_eq_5732.i = icmp eq i64 %alu_5717.i, 0
+  br i1 %cmp_eq_5732.i, label %l___private_LeanNativeInput_0__BitcoinLedger_FreestandingKernels_msStep.exit, label %ite_else_5736.i
+
+ite_else_5736.i:                                  ; preds = %ite_else_5094.i
+  %51 = trunc nuw i64 %alu_5717.i to i16
+  %call_tr_5742.i = xor i16 %51, -1
+  %rst_tr8_14.i.i1253.i = trunc i16 %call_tr_5742.i to i8
+  store i8 %rst_tr8_14.i.i1253.i, ptr %rld_gep_10.i.i, align 1
+  %52 = lshr i16 %call_tr_5742.i, 8
+  %rst_tr8_34.i.i1255.i = trunc nuw i16 %52 to i8
+  store i8 %rst_tr8_34.i.i1255.i, ptr %rld_gep_21.i.i, align 1
+  br label %l___private_LeanNativeInput_0__BitcoinLedger_FreestandingKernels_msStep.exit
+
+ite_else_2157.i:                                  ; preds = %ite_else_2108.i
+  %53 = add i8 %rld_i8_15.i, -32
+  %alu_5786902.i = icmp ult i8 %53, 7
+  br i1 %alu_5786902.i, label %ite_then_5796.i, label %ite_else_5797.i
+
+ite_then_5796.i:                                  ; preds = %ite_else_2157.i
+  %cmp_lt_5809.i = icmp samesign ult i64 %slot_v1869.0, 144115188075855872
+  br i1 %cmp_lt_5809.i, label %l___private_LeanNativeInput_0__BitcoinLedger_FreestandingKernels_msStep.exit, label %ite_else_5813.i
+
+ite_else_5813.i:                                  ; preds = %ite_then_5796.i
+  %alu_5801.i = lshr i64 %slot_v1869.0, 56
+  %54 = trunc nuw nsw i64 %alu_5801.i to i32
+  %call_tr_5834.i = shl nuw nsw i32 %54, 1
+  %55 = getelementptr i8, ptr %arg_v4, i32 %call_tr_5834.i
+  %rld_gep_10.i1257.i = getelementptr i8, ptr %55, i32 -4
+  %rld_i8_11.i1258.i = load i8, ptr %rld_gep_10.i1257.i, align 1
+  %rld_val_12.i1259.i = zext i8 %rld_i8_11.i1258.i to i16
+  %rld_gep_21.i1260.i = getelementptr i8, ptr %55, i32 -3
+  %rld_i8_22.i1261.i = load i8, ptr %rld_gep_21.i1260.i, align 1
+  %rld_val_23.i1262.i = zext i8 %rld_i8_22.i1261.i to i16
+  %alu_33.i1263.i = shl nuw i16 %rld_val_23.i1262.i, 8
+  %alu_40.i1264.i = or disjoint i16 %alu_33.i1263.i, %rld_val_12.i1259.i
+  %call_zx_5836.i = zext i16 %alu_40.i1264.i to i64
+  %alu_5841.i = add nsw i64 %alu_5801.i, -1
+  %call_tr_5845.i = trunc nuw nsw i64 %alu_5841.i to i32
+  %alu_5.i1265.i = shl nuw nsw i32 %call_tr_5845.i, 1
+  %rld_gep_10.i1266.i = getelementptr inbounds nuw i8, ptr %arg_v4, i32 %alu_5.i1265.i
+  %rld_i8_11.i1267.i = load i8, ptr %rld_gep_10.i1266.i, align 1
+  %rld_val_12.i1268.i = zext i8 %rld_i8_11.i1267.i to i16
+  %rld_gep_21.i1269.i = getelementptr inbounds nuw i8, ptr %rld_gep_10.i1266.i, i32 1
+  %rld_i8_22.i1270.i = load i8, ptr %rld_gep_21.i1269.i, align 1
+  %rld_val_23.i1271.i = zext i8 %rld_i8_22.i1270.i to i16
+  %alu_33.i1272.i = shl nuw i16 %rld_val_23.i1271.i, 8
+  %alu_40.i1273.i = or disjoint i16 %alu_33.i1272.i, %rld_val_12.i1268.i
+  %call_zx_5847.i = zext i16 %alu_40.i1273.i to i64
+  %alu_5852.i = and i64 %call_zx_5836.i, 3
+  %alu_5858.i = and i64 %call_zx_5847.i, 3
+  %56 = and i64 %call_zx_5847.i, 32
+  %57 = and i64 %call_zx_5847.i, 64
+  %58 = and i64 %call_zx_5836.i, 256
+  %59 = and i64 %call_zx_5847.i, 256
+  %call_5835.lobit977.i = and i16 %alu_33.i1272.i, %alu_33.i1263.i
+  %60 = lshr i64 %call_zx_5836.i, 11
+  %61 = lshr i64 %call_zx_5847.i, 12
+  %alu_6329.i = and i64 %61, %60
+  %62 = lshr i64 %call_zx_5836.i, 12
+  %63 = lshr i64 %call_zx_5847.i, 11
+  %alu_6388.i = and i64 %63, %62
+  %64 = lshr i64 %call_zx_5836.i, 13
+  %65 = lshr i64 %call_zx_5847.i, 14
+  %alu_6468.i = and i64 %65, %64
+  %66 = lshr i64 %call_zx_5836.i, 14
+  %67 = lshr i64 %call_zx_5847.i, 13
+  %alu_6527.i = and i64 %67, %66
+  %alu_6546.i = or i64 %alu_6329.i, %alu_6388.i
+  %alu_6407.i = or i64 %alu_6546.i, %alu_6527.i
+  %alu_6567.i = or i64 %alu_6407.i, %alu_6468.i
+  %call_5835.lobit977.lobit.i = lshr i16 %call_5835.lobit977.i, 15
+  %sel_6591.i = zext nneg i16 %call_5835.lobit977.lobit.i to i64
+  %sel_6594.i = xor i64 %alu_6567.i, -1
+  %alu_6599.i = and i64 %sel_6594.i, %sel_6591.i
+  %.lobit978986.i = or i64 %63, %60
+  %alu_6658.i = and i64 %.lobit978986.i, 1
+  %.lobit980987.i = or i64 %61, %62
+  %alu_6719.i = and i64 %.lobit980987.i, 1
+  %.lobit982988.i = or i64 %67, %64
+  %alu_6780.i = and i64 %.lobit982988.i, 1
+  %.lobit984989.i = or i64 %65, %66
+  %alu_6841.i = and i64 %.lobit984989.i, 1
+  %68 = lshr i64 %call_zx_5836.i, 2
+  %69 = lshr i64 %call_zx_5847.i, 2
+  %.lobit991.i = and i64 %69, 1
+  %alu_6862.i = and i64 %.lobit991.i, %68
+  %70 = lshr i64 %call_zx_5847.i, 3
+  %.lobit992.i = and i64 %68, 1
+  %alu_6881.i = and i64 %70, %.lobit992.i
+  %71 = lshr i64 %call_zx_5836.i, 3
+  %alu_6900.i = and i64 %.lobit991.i, %71
+  %alu_6919.i = or i64 %alu_6900.i, %alu_6881.i
+  %72 = lshr i64 %call_zx_5847.i, 4
+  %alu_6940.i = and i64 %72, %.lobit992.i
+  %73 = lshr i64 %call_zx_5836.i, 4
+  %.lobit995.i = and i64 %73, 1
+  %alu_6959.i = or i64 %alu_6940.i, %.lobit995.i
+  %74 = lshr i64 %call_zx_5836.i, 7
+  %.lobit996.i = and i64 %74, 1
+  %75 = lshr i64 %call_zx_5847.i, 7
+  %.lobit997.i = and i64 %75, 1
+  %alu_6980.i = or i64 %.lobit997.i, %.lobit996.i
+  %alu_7001.i = and i64 %.lobit997.i, %74
+  %76 = and i64 %call_zx_5847.i, %call_zx_5836.i
+  %77 = and i64 %76, 1024
+  %cmp_eq_7034.i = icmp eq i64 %alu_5852.i, 0
+  %78 = lshr i64 %call_zx_5836.i, 5
+  %79 = lshr i64 %call_zx_5836.i, 6
+  %sel_7056.i = zext i1 %cmp_eq_7034.i to i64
+  %80 = and i64 %79, %sel_7056.i
+  %alu_7064.i = and i64 %80, %78
+  switch i8 %rld_i8_15.i, label %default.unreachable.i [
+    i8 32, label %ite_then_7080.i
+    i8 33, label %ite_then_7824.i
+    i8 34, label %ite_then_8334.i
+    i8 35, label %ite_then_8728.i
+    i8 36, label %ite_then_9177.i
+    i8 37, label %ite_then_9569.i
+    i8 38, label %ite_then_9961.i
   ]
 
-66:                                               ; preds = %63
-  %67 = icmp eq i32 %64, 0
-  %or.cond5 = select i1 %.not, i1 true, i1 %67
-  %68 = icmp ugt i32 %64, %65
-  %or.cond6 = select i1 %or.cond5, i1 true, i1 %68
-  %69 = icmp ugt i32 %30, 1376255
-  %or.cond7 = select i1 %or.cond6, i1 true, i1 %69
-  %70 = icmp ugt i32 %19, 63
-  %or.cond8 = select i1 %or.cond7, i1 true, i1 %70
-  br i1 %or.cond8, label %.loopexit, label %71
-
-71:                                               ; preds = %66
-  %72 = add nuw nsw i32 %19, 1
-  %73 = shl nuw nsw i32 %19, 1
-  %74 = getelementptr inbounds i8, ptr %4, i32 %73
-  store i8 -16, ptr %74, align 1, !tbaa !5
-  %75 = or disjoint i32 %73, 1
-  %76 = getelementptr inbounds i8, ptr %4, i32 %75
-  store i8 -122, ptr %76, align 1, !tbaa !5
-  br label %.backedge
-
-77:                                               ; preds = %63
-  %78 = icmp eq i32 %64, 0
-  %or.cond9 = select i1 %11, i1 true, i1 %78
-  %79 = icmp ugt i32 %64, %65
-  %or.cond10 = select i1 %or.cond9, i1 true, i1 %79
-  %80 = icmp ugt i32 %30, 65535999
-  %or.cond11 = select i1 %or.cond10, i1 true, i1 %80
-  %81 = icmp ugt i32 %19, 63
-  %or.cond12 = select i1 %or.cond11, i1 true, i1 %81
-  br i1 %or.cond12, label %.loopexit, label %82
-
-82:                                               ; preds = %77
-  %83 = add nuw nsw i32 %19, 1
-  %84 = shl nuw nsw i32 %19, 1
-  %85 = getelementptr inbounds i8, ptr %4, i32 %84
-  store i8 -32, ptr %85, align 1, !tbaa !5
-  %86 = or disjoint i32 %84, 1
-  %87 = getelementptr inbounds i8, ptr %4, i32 %86
-  store i8 -122, ptr %87, align 1, !tbaa !5
-  br label %.backedge
-
-88:                                               ; preds = %63
-  %89 = add nsw i32 %64, -1
-  %or.cond13 = icmp uge i32 %89, %65
-  %90 = icmp ugt i32 %30, 4259839
-  %or.cond14 = or i1 %90, %or.cond13
-  %91 = icmp ult i32 %19, %65
-  %or.cond15 = select i1 %or.cond14, i1 true, i1 %91
-  br i1 %or.cond15, label %.loopexit, label %92
-
-92:                                               ; preds = %88
-  %93 = sub i32 %19, %65
-  %94 = icmp eq i32 %64, 1
-  br label %95
-
-95:                                               ; preds = %166, %92
-  %96 = phi i32 [ 0, %92 ], [ %133, %166 ]
-  %97 = phi i32 [ 0, %92 ], [ %136, %166 ]
-  %98 = phi i32 [ 0, %92 ], [ %140, %166 ]
-  %99 = phi i32 [ 0, %92 ], [ %144, %166 ]
-  %100 = phi i16 [ 0, %92 ], [ %172, %166 ]
-  %101 = phi i16 [ 0, %92 ], [ %175, %166 ]
-  %102 = phi i16 [ 0, %92 ], [ %178, %166 ]
-  %103 = phi i16 [ 0, %92 ], [ %181, %166 ]
-  %104 = phi i16 [ 0, %92 ], [ %169, %166 ]
-  %105 = phi i32 [ 0, %92 ], [ %182, %166 ]
-  %106 = phi i32 [ 0, %92 ], [ %129, %166 ]
-  %107 = icmp eq i32 %105, %65
-  br i1 %107, label %183, label %108
-
-108:                                              ; preds = %95
-  %109 = add i32 %105, %93
-  %110 = shl i32 %109, 1
-  %111 = getelementptr inbounds i8, ptr %4, i32 %110
-  %112 = load i8, ptr %111, align 1, !tbaa !5
-  %113 = zext i8 %112 to i16
-  %114 = icmp eq i32 %105, 0
-  %115 = and i16 %113, 3
-  %116 = zext nneg i16 %115 to i32
-  %117 = select i1 %114, i32 0, i32 3
-  %118 = icmp eq i32 %117, %116
-  br i1 %118, label %119, label %.loopexit
-
-119:                                              ; preds = %108
-  %120 = or disjoint i32 %110, 1
-  %121 = getelementptr inbounds i8, ptr %4, i32 %120
-  %122 = load i8, ptr %121, align 1, !tbaa !5
-  %123 = zext i8 %122 to i16
-  %124 = and i16 %113, 96
-  %or.cond17.not = icmp eq i16 %124, 96
-  br i1 %or.cond17.not, label %125, label %.loopexit
-
-125:                                              ; preds = %119
-  %126 = lshr i16 %113, 2
-  %127 = and i16 %126, 1
-  %128 = zext nneg i16 %127 to i32
-  %129 = add i32 %106, %128
-  %130 = lshr i16 %113, 3
-  %131 = and i16 %130, 1
-  %132 = zext nneg i16 %131 to i32
-  %133 = add i32 %96, %132
-  %134 = icmp sgt i8 %112, -1
-  %135 = zext i1 %134 to i32
-  %136 = add i32 %97, %135
-  %137 = lshr i16 %123, 1
-  %138 = and i16 %137, 1
-  %139 = zext nneg i16 %138 to i32
-  %140 = add i32 %98, %139
-  %141 = lshr i16 %123, 2
-  %142 = and i16 %141, 1
-  %143 = zext nneg i16 %142 to i32
-  %144 = add i32 %99, %143
-  br i1 %94, label %166, label %145
-
-145:                                              ; preds = %125
-  %146 = and i16 %123, 8
-  %147 = icmp ne i16 %146, 0
-  %148 = icmp ne i16 %101, 0
-  %149 = select i1 %147, i1 %148, i1 false
-  br i1 %149, label %165, label %150
-
-150:                                              ; preds = %145
-  %151 = and i16 %123, 16
-  %152 = icmp ne i16 %151, 0
-  %153 = icmp ne i16 %100, 0
-  %154 = select i1 %152, i1 %153, i1 false
-  br i1 %154, label %165, label %155
-
-155:                                              ; preds = %150
-  %156 = and i16 %123, 32
-  %157 = icmp ne i16 %156, 0
-  %158 = icmp ne i16 %103, 0
-  %159 = select i1 %157, i1 %158, i1 false
-  br i1 %159, label %165, label %160
-
-160:                                              ; preds = %155
-  %161 = and i16 %123, 64
-  %162 = icmp ne i16 %161, 0
-  %163 = icmp ne i16 %102, 0
-  %164 = select i1 %162, i1 %163, i1 false
-  br i1 %164, label %165, label %166
-
-165:                                              ; preds = %160, %155, %150, %145
-  br label %166
-
-166:                                              ; preds = %165, %160, %125
-  %167 = phi i16 [ 1, %165 ], [ %104, %160 ], [ %104, %125 ]
-  %168 = icmp sgt i8 %122, -1
-  %169 = select i1 %168, i16 1, i16 %167
-  %170 = lshr i16 %123, 3
-  %171 = and i16 %170, 1
-  %172 = or i16 %171, %100
-  %173 = lshr i16 %123, 4
-  %174 = and i16 %173, 1
-  %175 = or i16 %174, %101
-  %176 = lshr i16 %123, 5
-  %177 = and i16 %176, 1
-  %178 = or i16 %177, %102
-  %179 = lshr i16 %123, 6
-  %180 = and i16 %179, 1
-  %181 = or i16 %180, %103
-  %182 = add nuw nsw i32 %105, 1
-  br label %95
-
-183:                                              ; preds = %95
-  %184 = icmp eq i32 %106, %65
-  %185 = add nsw i32 %65, -1
-  %186 = icmp eq i32 %106, %185
-  %187 = icmp eq i32 %96, 1
-  %188 = select i1 %186, i1 %187, i1 false
-  %189 = icmp ugt i32 %97, %89
-  %190 = icmp eq i32 %98, %65
-  %191 = icmp eq i32 %97, 0
-  %192 = select i1 %190, i1 %191, i1 false
-  %193 = icmp eq i32 %99, %65
-  %194 = select i1 %190, i1 %193, i1 false
-  %195 = icmp ugt i32 %97, %64
-  %196 = select i1 %195, i16 0, i16 1024
-  %197 = select i1 %194, i16 %196, i16 0
-  %198 = icmp eq i16 %104, 0
-  %199 = select i1 %184, i16 4, i16 0
-  %200 = select i1 %188, i16 8, i16 0
-  %201 = select i1 %192, i16 512, i16 0
-  %202 = shl nuw nsw i16 %100, 11
-  %203 = and i16 %202, 2048
-  %204 = shl nuw nsw i16 %101, 12
-  %205 = and i16 %204, 4096
-  %206 = shl nuw nsw i16 %102, 13
-  %207 = and i16 %206, 8192
-  %208 = shl nuw nsw i16 %103, 14
-  %209 = select i1 %198, i16 -32768, i16 0
-  %210 = select i1 %189, i16 96, i16 224
-  %211 = or disjoint i16 %201, %210
-  %212 = or disjoint i16 %211, %197
-  %213 = or disjoint i16 %212, %203
-  %214 = or disjoint i16 %213, %205
-  %215 = or disjoint i16 %214, %207
-  %216 = or disjoint i16 %215, %208
-  %217 = or i16 %216, %209
-  %218 = or disjoint i16 %199, %200
-  %219 = or i16 %218, %217
-  %220 = icmp eq i16 %219, -1
-  br i1 %220, label %.loopexit, label %221
-
-221:                                              ; preds = %183
-  %222 = add i32 %93, 1
-  %223 = trunc i16 %219 to i8
-  %224 = shl i32 %93, 1
-  %225 = getelementptr inbounds i8, ptr %4, i32 %224
-  store i8 %223, ptr %225, align 1, !tbaa !5
-  %226 = lshr i16 %217, 8
-  %227 = trunc i16 %226 to i8
-  %228 = or disjoint i32 %224, 1
-  %229 = getelementptr inbounds i8, ptr %4, i32 %228
-  store i8 %227, ptr %229, align 1, !tbaa !5
-  br label %.backedge
-
-230:                                              ; preds = %21
-  %231 = icmp ult i8 %24, 6
-  br i1 %231, label %232, label %250
-
-232:                                              ; preds = %230
-  %233 = icmp ult i32 %19, 64
-  br i1 %233, label %234, label %.loopexit
-
-234:                                              ; preds = %232
-  %235 = icmp eq i8 %24, 5
-  br i1 %235, label %242, label %236
-
-236:                                              ; preds = %234
-  %237 = zext nneg i8 %24 to i32
-  %238 = getelementptr inbounds [5 x i8], ptr @switch.table.llb_miniscript_check_postfix, i32 0, i32 %237
-  %239 = load i8, ptr %238, align 1
-  %240 = getelementptr inbounds [5 x i8], ptr @switch.table.llb_miniscript_check_postfix.1, i32 0, i32 %237
-  %241 = load i8, ptr %240, align 1
-  br label %242
-
-242:                                              ; preds = %236, %234
-  %243 = phi i8 [ %239, %236 ], [ -16, %234 ]
-  %244 = phi i8 [ %241, %236 ], [ -122, %234 ]
-  %245 = add nuw nsw i32 %19, 1
-  %246 = shl nuw nsw i32 %19, 1
-  %247 = getelementptr inbounds i8, ptr %4, i32 %246
-  store i8 %243, ptr %247, align 1, !tbaa !5
-  %248 = or disjoint i32 %246, 1
-  %249 = getelementptr inbounds i8, ptr %4, i32 %248
-  store i8 %244, ptr %249, align 1, !tbaa !5
-  br label %.backedge
-
-250:                                              ; preds = %230
-  switch i8 %24, label %251 [
-    i8 6, label %.backedge
-    i8 7, label %.backedge
-    i8 12, label %.backedge
-    i8 13, label %.backedge
-    i8 40, label %.backedge
-  ]
-
-251:                                              ; preds = %250
-  %252 = icmp ult i8 %24, 12
-  br i1 %252, label %253, label %261
-
-253:                                              ; preds = %251
-  %254 = icmp ugt i32 %19, 63
-  br i1 %254, label %.loopexit, label %255
-
-255:                                              ; preds = %253
-  %256 = add nuw nsw i32 %19, 1
-  %257 = shl nuw nsw i32 %19, 1
-  %258 = getelementptr inbounds i8, ptr %4, i32 %257
-  store i8 120, ptr %258, align 1, !tbaa !5
-  %259 = or disjoint i32 %257, 1
-  %260 = getelementptr inbounds i8, ptr %4, i32 %259
-  store i8 -124, ptr %260, align 1, !tbaa !5
-  br label %.backedge
-
-261:                                              ; preds = %251
-  %262 = add i8 %24, -16
-  %263 = icmp ult i8 %262, 10
-  br i1 %263, label %264, label %514
-
-264:                                              ; preds = %261
-  %265 = icmp eq i32 %19, 0
-  br i1 %265, label %.loopexit, label %266
-
-266:                                              ; preds = %264
-  %267 = shl i32 %19, 1
-  %268 = add i32 %267, -2
-  %269 = getelementptr inbounds i8, ptr %4, i32 %268
-  %270 = load i8, ptr %269, align 1, !tbaa !5
-  %271 = zext i8 %270 to i16
-  %272 = or disjoint i32 %268, 1
-  %273 = getelementptr inbounds i8, ptr %4, i32 %272
-  %274 = load i8, ptr %273, align 1, !tbaa !5
-  %275 = zext i8 %274 to i16
-  %276 = and i16 %271, 3
-  %277 = lshr i16 %271, 2
-  %278 = and i16 %277, 1
-  %279 = lshr i16 %271, 3
-  %280 = and i16 %279, 1
-  %281 = lshr i16 %271, 4
-  %282 = and i16 %281, 1
-  %283 = lshr i16 %271, 5
-  %284 = and i16 %283, 1
-  %285 = lshr i16 %271, 6
-  %286 = and i16 %285, 1
-  %287 = and i16 %271, 128
-  %288 = and i16 %275, 1
-  %289 = lshr i16 %275, 1
-  %290 = and i16 %289, 1
-  %291 = lshr i16 %275, 2
-  %292 = and i16 %291, 1
-  %293 = lshr i16 %275, 3
-  %294 = and i16 %293, 1
-  %295 = lshr i16 %275, 4
-  %296 = and i16 %295, 1
-  %297 = lshr i16 %275, 5
-  %298 = and i16 %297, 1
-  %299 = lshr i16 %275, 6
-  %300 = and i16 %299, 1
-  %301 = sext i8 %274 to i16
-  %302 = and i16 %301, -32768
-  switch i8 %24, label %.loopexit [
-    i8 16, label %303
-    i8 17, label %326
-    i8 18, label %351
-    i8 19, label %375
-    i8 20, label %396
-    i8 21, label %415
-    i8 22, label %436
-    i8 23, label %459
-    i8 24, label %486
-    i8 25, label %486
-  ]
-
-303:                                              ; preds = %266
-  %304 = icmp eq i16 %276, 0
-  br i1 %304, label %305, label %.loopexit
-
-305:                                              ; preds = %303
-  %306 = shl nuw nsw i16 %284, 5
-  %307 = shl nuw nsw i16 %286, 6
-  %308 = or disjoint i16 %306, %307
-  %309 = shl nuw nsw i16 %288, 8
-  %310 = or disjoint i16 %308, %309
-  %311 = shl nuw nsw i16 %290, 9
-  %312 = or disjoint i16 %310, %311
-  %313 = shl nuw nsw i16 %292, 10
-  %314 = or disjoint i16 %312, %313
-  %315 = or disjoint i16 %314, %287
-  %316 = shl nuw nsw i16 %294, 11
-  %317 = shl nuw nsw i16 %296, 12
-  %318 = shl nuw nsw i16 %298, 13
-  %319 = shl nuw nsw i16 %300, 14
-  %320 = or disjoint i16 %316, %317
-  %321 = or disjoint i16 %320, %318
-  %322 = or disjoint i16 %321, %319
-  %323 = or i16 %322, %315
-  %324 = or i16 %323, %302
-  %325 = or i16 %324, 3
-  br label %507
-
-326:                                              ; preds = %266
-  %327 = icmp eq i16 %276, 0
-  %328 = icmp ne i16 %280, 0
-  %329 = and i1 %327, %328
-  br i1 %329, label %330, label %.loopexit
-
-330:                                              ; preds = %326
-  %331 = shl nuw nsw i16 %284, 5
-  %332 = shl nuw nsw i16 %286, 6
-  %333 = or disjoint i16 %331, %332
-  %334 = shl nuw nsw i16 %288, 8
-  %335 = or disjoint i16 %333, %334
-  %336 = shl nuw nsw i16 %290, 9
-  %337 = or disjoint i16 %335, %336
-  %338 = shl nuw nsw i16 %292, 10
-  %339 = or disjoint i16 %337, %338
-  %340 = or disjoint i16 %339, %287
-  %341 = shl nuw nsw i16 %294, 11
-  %342 = shl nuw nsw i16 %296, 12
-  %343 = shl nuw nsw i16 %298, 13
-  %344 = shl nuw nsw i16 %300, 14
-  %345 = or disjoint i16 %341, %342
-  %346 = or disjoint i16 %345, %343
-  %347 = or disjoint i16 %346, %344
-  %348 = or i16 %347, %340
-  %349 = or i16 %348, %302
-  %350 = or i16 %349, 3
-  br label %507
-
-351:                                              ; preds = %266
-  %352 = icmp eq i16 %276, 2
-  br i1 %352, label %353, label %.loopexit
-
-353:                                              ; preds = %351
-  %354 = shl nuw nsw i16 %280, 3
-  %355 = shl nuw nsw i16 %282, 4
-  %356 = or disjoint i16 %354, %355
-  %357 = shl nuw nsw i16 %284, 5
-  %358 = or disjoint i16 %356, %357
-  %359 = shl nuw nsw i16 %288, 8
-  %360 = or disjoint i16 %358, %359
-  %361 = shl nuw nsw i16 %290, 9
-  %362 = or disjoint i16 %360, %361
-  %363 = shl nuw nsw i16 %292, 10
-  %364 = or disjoint i16 %362, %363
-  %365 = shl nuw nsw i16 %294, 11
-  %366 = shl nuw nsw i16 %296, 12
-  %367 = shl nuw nsw i16 %298, 13
-  %368 = shl nuw nsw i16 %300, 14
-  %369 = or disjoint i16 %365, %366
-  %370 = or disjoint i16 %369, %367
-  %371 = or disjoint i16 %370, %368
-  %372 = or i16 %371, %364
-  %373 = or i16 %372, %302
-  %374 = or i16 %373, 192
-  br label %507
-
-375:                                              ; preds = %266
-  %376 = icmp eq i16 %276, 1
-  br i1 %376, label %377, label %.loopexit
-
-377:                                              ; preds = %375
-  %378 = shl nuw nsw i16 %278, 2
-  %379 = shl nuw nsw i16 %280, 3
-  %380 = or disjoint i16 %378, %379
-  %381 = shl nuw nsw i16 %282, 4
-  %382 = or disjoint i16 %380, %381
-  %383 = shl nuw nsw i16 %292, 10
-  %384 = or disjoint i16 %382, %383
-  %385 = shl nuw nsw i16 %294, 11
-  %386 = or disjoint i16 %384, %385
-  %387 = or disjoint i16 %386, %287
-  %388 = shl nuw nsw i16 %296, 12
-  %389 = shl nuw nsw i16 %298, 13
-  %390 = shl nuw nsw i16 %300, 14
-  %391 = or disjoint i16 %388, %389
-  %392 = or disjoint i16 %391, %390
-  %393 = or i16 %392, %387
-  %394 = or i16 %393, %302
-  %395 = or i16 %394, 320
-  br label %507
-
-396:                                              ; preds = %266
-  %397 = icmp eq i16 %276, 1
-  %398 = icmp ne i16 %278, 0
-  %399 = and i1 %397, %398
-  br i1 %399, label %400, label %.loopexit
-
-400:                                              ; preds = %396
-  %401 = shl nuw nsw i16 %288, 9
-  %402 = or disjoint i16 %401, %12
-  %403 = shl nuw nsw i16 %292, 10
-  %404 = or disjoint i16 %402, %403
-  %405 = shl nuw nsw i16 %294, 11
-  %406 = or disjoint i16 %404, %405
-  %407 = shl nuw nsw i16 %296, 12
-  %408 = or disjoint i16 %406, %407
-  %409 = shl nuw nsw i16 %298, 13
-  %410 = shl nuw nsw i16 %300, 14
-  %411 = or disjoint i16 %409, %410
-  %412 = or disjoint i16 %408, %411
-  %413 = or disjoint i16 %412, %287
-  %414 = or i16 %413, %302
-  br label %507
-
-415:                                              ; preds = %266
-  %416 = icmp eq i16 %276, 0
-  br i1 %416, label %417, label %.loopexit
-
-417:                                              ; preds = %415
-  %418 = shl nuw nsw i16 %278, 2
-  %419 = shl nuw nsw i16 %280, 3
-  %420 = or disjoint i16 %418, %419
-  %421 = shl nuw nsw i16 %282, 4
-  %422 = or disjoint i16 %420, %421
-  %423 = shl nuw nsw i16 %292, 10
-  %424 = or disjoint i16 %422, %423
-  %425 = shl nuw nsw i16 %294, 11
-  %426 = or disjoint i16 %424, %425
-  %427 = or disjoint i16 %426, %287
-  %428 = shl nuw nsw i16 %296, 12
-  %429 = shl nuw nsw i16 %298, 13
-  %430 = shl nuw nsw i16 %300, 14
-  %431 = or disjoint i16 %428, %429
-  %432 = or disjoint i16 %431, %430
-  %433 = or i16 %432, %427
-  %434 = or i16 %433, %302
-  %435 = or i16 %434, 257
-  br label %507
-
-436:                                              ; preds = %266
-  %437 = icmp eq i16 %276, 0
-  %438 = icmp ne i16 %282, 0
-  %439 = and i1 %437, %438
-  br i1 %439, label %440, label %.loopexit
-
-440:                                              ; preds = %436
-  %441 = shl nuw nsw i16 %280, 3
-  %442 = shl nuw nsw i16 %286, 6
-  %443 = or disjoint i16 %441, %442
-  %444 = shl nuw nsw i16 %288, 9
-  %445 = or disjoint i16 %443, %444
-  %446 = shl nuw nsw i16 %292, 10
-  %447 = or disjoint i16 %445, %446
-  %448 = shl nuw nsw i16 %294, 11
-  %449 = or disjoint i16 %447, %448
-  %450 = or disjoint i16 %449, %287
-  %451 = shl nuw nsw i16 %296, 12
-  %452 = shl nuw nsw i16 %298, 13
-  %453 = shl nuw nsw i16 %300, 14
-  %454 = or disjoint i16 %451, %452
-  %455 = or disjoint i16 %454, %453
-  %456 = or i16 %455, %450
-  %457 = or i16 %456, %302
-  %458 = or i16 %457, 48
-  br label %507
-
-459:                                              ; preds = %266
-  %460 = icmp eq i16 %276, 0
-  br i1 %460, label %461, label %.loopexit
-
-461:                                              ; preds = %459
-  %462 = shl nuw nsw i16 %278, 2
-  %463 = shl nuw nsw i16 %280, 3
-  %464 = or disjoint i16 %462, %463
-  %465 = shl nuw nsw i16 %282, 4
-  %466 = or disjoint i16 %464, %465
-  %467 = shl nuw nsw i16 %284, 5
-  %468 = or disjoint i16 %466, %467
-  %469 = shl nuw nsw i16 %288, 8
-  %470 = or disjoint i16 %468, %469
-  %471 = shl nuw nsw i16 %290, 9
-  %472 = shl nuw nsw i16 %292, 10
-  %473 = shl nuw nsw i16 %294, 11
-  %474 = shl nuw nsw i16 %296, 12
-  %475 = shl nuw nsw i16 %298, 13
-  %476 = shl nuw nsw i16 %300, 14
-  %477 = or disjoint i16 %471, %472
-  %478 = or disjoint i16 %477, %473
-  %479 = or disjoint i16 %478, %474
-  %480 = or disjoint i16 %479, %302
-  %481 = or disjoint i16 %480, 64
-  %482 = add nuw i16 %481, %475
-  %483 = or disjoint i16 %470, %476
-  %484 = or i16 %483, %482
-  %485 = or i16 %484, %287
-  br label %507
-
-486:                                              ; preds = %266, %266
-  %487 = icmp eq i16 %276, 0
-  br i1 %487, label %488, label %.loopexit
-
-488:                                              ; preds = %486
-  %489 = shl nuw nsw i16 %278, 3
-  %490 = shl nuw nsw i16 %286, 6
-  %491 = or disjoint i16 %489, %490
-  %492 = shl nuw nsw i16 %288, 9
-  %493 = or disjoint i16 %491, %492
-  %494 = shl nuw nsw i16 %292, 10
-  %495 = or disjoint i16 %493, %494
-  %496 = shl nuw nsw i16 %294, 11
-  %497 = or disjoint i16 %495, %496
-  %498 = or disjoint i16 %497, %287
-  %499 = shl nuw nsw i16 %296, 12
-  %500 = shl nuw nsw i16 %298, 13
-  %501 = shl nuw nsw i16 %300, 14
-  %502 = or disjoint i16 %499, %500
-  %503 = or disjoint i16 %502, %501
-  %504 = or i16 %503, %498
-  %505 = or i16 %504, %302
-  %506 = or i16 %505, 32
-  br label %507
-
-507:                                              ; preds = %488, %461, %440, %417, %400, %377, %353, %330, %305
-  %508 = phi i16 [ %506, %488 ], [ %485, %461 ], [ %458, %440 ], [ %435, %417 ], [ %414, %400 ], [ %395, %377 ], [ %374, %353 ], [ %350, %330 ], [ %325, %305 ]
-  %509 = icmp eq i16 %508, -1
-  br i1 %509, label %.loopexit, label %510
-
-510:                                              ; preds = %507
-  %511 = trunc i16 %508 to i8
-  store i8 %511, ptr %269, align 1, !tbaa !5
-  %512 = lshr i16 %508, 8
-  %513 = trunc i16 %512 to i8
-  store i8 %513, ptr %273, align 1, !tbaa !5
-  br label %.backedge
-
-514:                                              ; preds = %261
-  %515 = add i8 %24, -32
-  %516 = icmp ult i8 %515, 7
-  br i1 %516, label %517, label %935
-
-517:                                              ; preds = %514
-  %518 = icmp ult i32 %19, 2
-  br i1 %518, label %.loopexit, label %519
-
-519:                                              ; preds = %517
-  %520 = shl i32 %19, 1
-  %521 = add i32 %520, -4
-  %522 = getelementptr inbounds i8, ptr %4, i32 %521
-  %523 = load i8, ptr %522, align 1, !tbaa !5
-  %524 = zext i8 %523 to i16
-  %525 = or disjoint i32 %521, 1
-  %526 = getelementptr inbounds i8, ptr %4, i32 %525
-  %527 = load i8, ptr %526, align 1, !tbaa !5
-  %528 = zext i8 %527 to i16
-  %529 = shl nuw i16 %528, 8
-  %530 = or disjoint i16 %529, %524
-  %531 = add i32 %19, -1
-  %532 = shl i32 %531, 1
-  %533 = getelementptr inbounds i8, ptr %4, i32 %532
-  %534 = load i8, ptr %533, align 1, !tbaa !5
-  %535 = zext i8 %534 to i16
-  %536 = or disjoint i32 %532, 1
-  %537 = getelementptr inbounds i8, ptr %4, i32 %536
-  %538 = load i8, ptr %537, align 1, !tbaa !5
-  %539 = zext i8 %538 to i16
-  %540 = shl nuw i16 %539, 8
-  %541 = or disjoint i16 %540, %535
-  %542 = and i16 %524, 3
-  %543 = and i16 %535, 3
-  %544 = lshr i16 %530, 2
-  %545 = lshr i16 %541, 2
-  %546 = lshr i16 %530, 3
-  %547 = lshr i16 %541, 3
-  %548 = lshr i16 %524, 4
-  %549 = and i16 %548, 1
-  %550 = lshr i16 %530, 5
-  %551 = and i16 %550, 1
-  %552 = lshr i16 %541, 5
-  %553 = and i16 %552, 1
-  %554 = lshr i16 %535, 6
-  %555 = and i16 %554, 1
-  %556 = lshr i16 %530, 7
-  %557 = lshr i16 %541, 7
-  %558 = lshr i16 %528, 1
-  %559 = lshr i16 %539, 1
-  %560 = lshr i16 %528, 2
-  %561 = lshr i16 %539, 2
-  %562 = lshr i16 %528, 3
-  %563 = and i16 %562, 1
-  %564 = lshr i16 %539, 3
-  %565 = and i16 %564, 1
-  %566 = or i16 %565, %563
-  %567 = lshr i16 %528, 4
-  %568 = and i16 %567, 1
-  %569 = lshr i16 %539, 4
-  %570 = and i16 %569, 1
-  %571 = or i16 %570, %568
-  %572 = or i16 %541, %530
-  %573 = lshr i16 %572, 13
-  %574 = and i16 %573, 1
-  %575 = lshr i16 %528, 6
-  %576 = and i16 %575, 1
-  %577 = lshr i16 %539, 6
-  %578 = and i16 %577, 1
-  %579 = or i16 %578, %576
-  %580 = and i16 %541, %530
-  %581 = and i16 %580, -32768
-  %582 = icmp sgt i16 %580, -1
-  br i1 %582, label %599, label %583
-
-583:                                              ; preds = %519
-  %584 = icmp eq i16 %563, 0
-  %585 = icmp eq i16 %570, 0
-  %or.cond18 = select i1 %584, i1 true, i1 %585
-  br i1 %or.cond18, label %586, label %599
-
-586:                                              ; preds = %583
-  %587 = icmp eq i16 %568, 0
-  %588 = icmp eq i16 %565, 0
-  %or.cond19 = select i1 %587, i1 true, i1 %588
-  br i1 %or.cond19, label %589, label %599
-
-589:                                              ; preds = %586
-  %590 = and i16 %528, 32
-  %591 = icmp eq i16 %590, 0
-  %592 = icmp eq i16 %578, 0
-  %or.cond20 = select i1 %591, i1 true, i1 %592
-  br i1 %or.cond20, label %593, label %599
-
-593:                                              ; preds = %589
-  %594 = icmp eq i16 %576, 0
-  br i1 %594, label %599, label %595
-
-595:                                              ; preds = %593
-  %596 = shl i16 %539, 10
-  %597 = and i16 %596, -32768
-  %598 = xor i16 %597, -32768
-  br label %599
-
-599:                                              ; preds = %589, %586, %583, %595, %593, %519
-  %600 = phi i16 [ 0, %519 ], [ -32768, %593 ], [ %598, %595 ], [ 0, %583 ], [ 0, %586 ], [ 0, %589 ]
-  switch i8 %24, label %.loopexit [
-    i8 32, label %601
-    i8 33, label %650
-    i8 34, label %712
-    i8 35, label %754
-    i8 36, label %802
-    i8 37, label %838
-    i8 38, label %880
-  ]
-
-601:                                              ; preds = %599
-  %602 = icmp ne i16 %542, 1
-  %603 = icmp eq i16 %543, 3
-  %or.cond21 = select i1 %602, i1 true, i1 %603
-  br i1 %or.cond21, label %.loopexit, label %604
-
-604:                                              ; preds = %601
-  %605 = and i16 %524, 4
-  %606 = icmp ne i16 %605, 0
-  %607 = and i16 %580, 4
-  %608 = and i16 %535, 8
-  %609 = icmp ne i16 %608, 0
-  %610 = and i1 %606, %609
-  br i1 %610, label %618, label %611
-
-611:                                              ; preds = %604
-  %612 = and i16 %535, 4
-  %613 = icmp ne i16 %612, 0
-  %614 = and i16 %524, 8
-  %615 = icmp ne i16 %614, 0
-  %616 = and i1 %615, %613
-  %617 = select i1 %616, i16 8, i16 0
-  br label %618
-
-618:                                              ; preds = %611, %604
-  %619 = phi i16 [ %617, %611 ], [ 8, %604 ]
-  %620 = icmp eq i16 %549, 0
-  %621 = and i16 %535, 16
-  %622 = icmp ne i16 %621, 0
-  %623 = and i1 %606, %622
-  %624 = select i1 %623, i16 16, i16 0
-  %625 = select i1 %620, i16 %624, i16 16
-  %626 = or i16 %557, %556
-  %627 = or i16 %556, %539
-  %628 = and i16 %580, 1024
-  %629 = shl nuw nsw i16 %555, 6
-  %630 = shl nuw i16 %626, 7
-  %631 = and i16 %630, 128
-  %632 = shl i16 %627, 8
-  %633 = and i16 %632, 256
-  %634 = or disjoint i16 %607, %629
-  %635 = or disjoint i16 %631, %634
-  %636 = or disjoint i16 %635, %633
-  %637 = or disjoint i16 %636, %625
-  %638 = or disjoint i16 %619, %637
-  %639 = shl nuw nsw i16 %566, 11
-  %640 = shl nuw nsw i16 %571, 12
-  %641 = shl nuw nsw i16 %574, 13
-  %642 = shl nuw nsw i16 %579, 14
-  %643 = or disjoint i16 %628, %639
-  %644 = or disjoint i16 %643, %640
-  %645 = or disjoint i16 %644, %642
-  %646 = or disjoint i16 %645, %543
-  %647 = add nuw i16 %646, %641
-  %648 = add nuw nsw i16 %647, %600
-  %649 = or i16 %638, %648
-  br label %928
-
-650:                                              ; preds = %599
-  %651 = icmp eq i16 %542, 0
-  %652 = icmp eq i16 %543, 3
-  %653 = and i1 %651, %652
-  br i1 %653, label %654, label %.loopexit
-
-654:                                              ; preds = %650
-  %655 = and i16 %545, %544
-  %656 = and i16 %544, 1
-  %657 = and i16 %656, %547
-  %658 = icmp eq i16 %657, 0
-  %659 = and i16 %545, %546
-  %660 = shl nuw i16 %659, 3
-  %661 = and i16 %660, 8
-  %662 = select i1 %658, i16 %661, i16 8
-  %663 = icmp eq i16 %549, 0
-  %664 = shl i16 %544, 4
-  %665 = and i16 %535, 16
-  %666 = and i16 %665, %664
-  %667 = select i1 %663, i16 %666, i16 16
-  %668 = and i16 %552, %550
-  %669 = or i16 %557, %556
-  %670 = and i16 %539, 1
-  %671 = and i16 %670, %528
-  %672 = icmp ne i16 %671, 0
-  %673 = and i16 %530, 384
-  %674 = icmp eq i16 %673, 384
-  %or.cond23 = select i1 %672, i1 true, i1 %674
-  %675 = and i16 %557, %539
-  %676 = shl nuw i16 %675, 8
-  %677 = and i16 %676, 256
-  %678 = select i1 %or.cond23, i16 256, i16 %677
-  %679 = and i16 %558, 1
-  %680 = and i16 %679, %556
-  %681 = and i16 %680, %559
-  %682 = icmp eq i16 %681, 0
-  %683 = shl i16 %557, 9
-  %684 = and i16 %683, 512
-  %685 = select i1 %682, i16 0, i16 %684
-  %686 = and i16 %561, %560
-  %687 = shl nuw i16 %655, 2
-  %688 = and i16 %687, 4
-  %689 = shl nuw i16 %668, 5
-  %690 = and i16 %689, 32
-  %691 = shl nuw i16 %669, 7
-  %692 = and i16 %691, 128
-  %693 = shl nuw i16 %686, 10
-  %694 = and i16 %693, 1024
-  %695 = shl nuw nsw i16 %566, 11
-  %696 = shl nuw nsw i16 %571, 12
-  %697 = shl nuw nsw i16 %574, 13
-  %698 = shl nuw nsw i16 %579, 14
-  %699 = or disjoint i16 %697, %698
-  %700 = or disjoint i16 %699, %662
-  %701 = or disjoint i16 %700, %667
-  %702 = or disjoint i16 %701, %685
-  %703 = or disjoint i16 %695, %694
-  %704 = or disjoint i16 %703, %696
-  %705 = or disjoint i16 %704, %690
-  %706 = or disjoint i16 %705, %688
-  %707 = or disjoint i16 %706, %692
-  %708 = or i16 %707, 64
-  %709 = add nuw nsw i16 %708, %678
-  %710 = or i16 %709, %702
-  %711 = or i16 %710, %600
-  br label %928
-
-712:                                              ; preds = %599
-  %713 = icmp ne i16 %551, 0
-  %714 = and i16 %524, 67
-  %715 = icmp eq i16 %714, 64
-  %716 = and i1 %715, %713
-  %717 = icmp eq i16 %543, 0
-  %718 = and i1 %717, %716
-  br i1 %718, label %719, label %.loopexit
-
-719:                                              ; preds = %712
-  %720 = and i16 %545, %544
-  %721 = and i16 %545, %546
-  %722 = or i16 %557, %556
-  %723 = or i16 %556, %539
-  %724 = and i16 %561, %560
-  %725 = and i16 %724, 1
-  %726 = icmp eq i16 %725, 0
-  %727 = shl i16 %558, 10
-  %728 = and i16 %727, 1024
-  %729 = select i1 %726, i16 0, i16 %728
-  %730 = shl nuw i16 %720, 2
-  %731 = and i16 %730, 4
-  %732 = shl nuw i16 %721, 3
-  %733 = and i16 %732, 8
-  %734 = or disjoint i16 %731, %733
-  %735 = shl nuw nsw i16 %555, 6
-  %736 = or disjoint i16 %734, %735
-  %737 = shl nuw i16 %722, 7
-  %738 = and i16 %737, 128
-  %739 = or disjoint i16 %736, %738
-  %740 = shl i16 %723, 9
-  %741 = and i16 %740, 512
-  %742 = or disjoint i16 %739, %741
-  %743 = or disjoint i16 %742, %729
-  %744 = shl nuw nsw i16 %566, 11
-  %745 = or disjoint i16 %743, %744
-  %746 = shl nuw nsw i16 %571, 12
-  %747 = shl nuw nsw i16 %574, 13
-  %748 = shl nuw nsw i16 %579, 14
-  %749 = or disjoint i16 %747, %746
-  %750 = or disjoint i16 %749, %748
-  %751 = or i16 %750, %745
-  %752 = or i16 %751, %600
-  %753 = or i16 %752, 32
-  br label %928
-
-754:                                              ; preds = %599
-  %755 = icmp eq i16 %542, 0
-  %756 = icmp ne i16 %551, 0
-  %757 = and i1 %755, %756
-  br i1 %757, label %758, label %.loopexit
-
-758:                                              ; preds = %754
-  %759 = icmp eq i16 %543, 3
-  %760 = icmp ne i16 %553, 0
-  %761 = and i1 %759, %760
-  br i1 %761, label %762, label %.loopexit
-
-762:                                              ; preds = %758
-  %763 = and i16 %545, %544
-  %764 = and i16 %544, 1
-  %765 = and i16 %764, %547
-  %766 = icmp eq i16 %765, 0
-  %767 = and i16 %545, %546
-  %768 = shl nuw i16 %767, 3
-  %769 = and i16 %768, 8
-  %770 = select i1 %766, i16 %769, i16 8
-  %771 = and i16 %557, %556
-  %772 = and i16 %559, %558
-  %773 = and i16 %561, %560
-  %774 = and i16 %773, 1
-  %775 = and i16 %774, %558
-  %776 = and i16 %775, %559
-  %777 = icmp eq i16 %776, 0
-  %778 = or i16 %557, %556
-  %779 = shl i16 %778, 10
-  %780 = and i16 %779, 1024
-  %781 = select i1 %777, i16 0, i16 %780
-  %782 = shl nuw i16 %763, 2
-  %783 = and i16 %782, 4
-  %784 = shl nuw i16 %771, 7
-  %785 = and i16 %784, 128
-  %786 = shl nuw i16 %772, 9
-  %787 = and i16 %786, 512
-  %788 = shl nuw nsw i16 %566, 11
-  %789 = shl nuw nsw i16 %571, 12
-  %790 = shl nuw nsw i16 %574, 13
-  %791 = shl nuw nsw i16 %579, 14
-  %792 = or disjoint i16 %791, %789
-  %793 = or disjoint i16 %792, %787
-  %794 = or disjoint i16 %793, %788
-  %795 = or disjoint i16 %794, %790
-  %796 = or disjoint i16 %795, %783
-  %797 = or disjoint i16 %796, %785
-  %798 = add nuw i16 %797, %770
-  %799 = add nuw i16 %798, %781
-  %800 = or i16 %581, %799
-  %801 = or i16 %800, 96
-  br label %928
-
-802:                                              ; preds = %599
-  %803 = and i16 %524, 99
-  %804 = icmp eq i16 %803, 96
-  %805 = icmp eq i16 %543, 1
-  %806 = and i1 %804, %805
-  br i1 %806, label %807, label %.loopexit
-
-807:                                              ; preds = %802
-  %808 = and i16 %545, %544
-  %809 = and i16 %545, %546
-  %810 = and i16 %557, %556
-  %811 = and i16 %561, %560
-  %812 = and i16 %811, 1
-  %813 = and i16 %812, %558
-  %814 = icmp eq i16 %813, 0
-  %815 = or i16 %557, %556
-  %816 = shl i16 %815, 10
-  %817 = and i16 %816, 1024
-  %818 = select i1 %814, i16 0, i16 %817
-  %819 = shl nuw i16 %808, 2
-  %820 = and i16 %819, 4
-  %821 = shl nuw i16 %809, 3
-  %822 = and i16 %821, 8
-  %823 = shl nuw i16 %810, 7
-  %824 = and i16 %823, 128
-  %825 = shl nuw nsw i16 %566, 11
-  %826 = shl nuw nsw i16 %571, 12
-  %827 = shl nuw nsw i16 %574, 13
-  %828 = or disjoint i16 %826, %825
-  %829 = or disjoint i16 %828, %822
-  %830 = or disjoint i16 %829, %820
-  %831 = or disjoint i16 %830, %824
-  %832 = add nuw nsw i16 %831, %827
-  %833 = or disjoint i16 %832, %818
-  %834 = shl nuw nsw i16 %579, 14
-  %835 = or i16 %834, %833
-  %836 = or i16 %835, %581
-  %837 = or i16 %836, 257
-  br label %928
-
-838:                                              ; preds = %599
-  %839 = and i16 %524, 96
-  %840 = icmp eq i16 %839, 96
-  %841 = and i16 %572, 3
-  %842 = icmp eq i16 %841, 0
-  %843 = and i1 %840, %842
-  br i1 %843, label %844, label %.loopexit
-
-844:                                              ; preds = %838
-  %845 = and i16 %545, %544
-  %846 = and i16 %545, %546
-  %847 = and i16 %557, %556
-  %848 = and i16 %561, %560
-  %849 = and i16 %848, 1
-  %850 = and i16 %849, %558
-  %851 = icmp eq i16 %850, 0
-  %852 = or i16 %557, %556
-  %853 = shl i16 %852, 10
-  %854 = and i16 %853, 1024
-  %855 = select i1 %851, i16 0, i16 %854
-  %856 = shl nuw i16 %845, 2
-  %857 = and i16 %856, 4
-  %858 = shl nuw i16 %846, 3
-  %859 = and i16 %858, 8
-  %860 = or disjoint i16 %857, %859
-  %861 = shl nuw nsw i16 %553, 5
-  %862 = or disjoint i16 %860, %861
-  %863 = shl nuw nsw i16 %555, 6
-  %864 = or disjoint i16 %862, %863
-  %865 = shl nuw i16 %847, 7
-  %866 = and i16 %865, 128
-  %867 = or disjoint i16 %864, %866
-  %868 = and i16 %540, 768
-  %869 = or disjoint i16 %867, %868
-  %870 = shl nuw nsw i16 %566, 11
-  %871 = shl nuw nsw i16 %571, 12
-  %872 = shl nuw nsw i16 %574, 13
-  %873 = shl nuw nsw i16 %579, 14
-  %874 = or disjoint i16 %870, %871
-  %875 = or disjoint i16 %872, %874
-  %876 = or disjoint i16 %875, %873
-  %877 = or disjoint i16 %876, %855
-  %878 = or disjoint i16 %869, %877
-  %879 = or i16 %878, %581
-  br label %928
-
-880:                                              ; preds = %599
-  %881 = icmp ne i16 %542, 3
-  %882 = icmp eq i16 %542, %543
-  %883 = and i1 %881, %882
-  br i1 %883, label %884, label %.loopexit
-
-884:                                              ; preds = %880
-  %885 = and i16 %545, %544
-  %886 = or i16 %552, %550
-  %887 = and i16 %557, %556
-  %888 = and i16 %539, %528
-  %889 = and i16 %558, 1
-  %890 = and i16 %889, %539
-  %891 = icmp eq i16 %890, 0
-  %892 = and i16 %559, %528
-  %893 = shl nuw i16 %892, 9
-  %894 = and i16 %893, 512
-  %895 = select i1 %891, i16 %894, i16 512
-  %896 = and i16 %561, %560
-  %897 = and i16 %896, 1
-  %898 = icmp eq i16 %897, 0
-  %899 = or i16 %557, %556
-  %900 = shl i16 %899, 10
-  %901 = and i16 %900, 1024
-  %902 = select i1 %898, i16 0, i16 %901
-  %903 = shl i16 %885, 3
-  %904 = and i16 %903, 8
-  %905 = shl nuw i16 %886, 5
-  %906 = and i16 %905, 32
-  %907 = and i16 %580, 64
-  %908 = shl nuw i16 %887, 7
-  %909 = and i16 %908, 128
-  %910 = shl nuw i16 %888, 8
-  %911 = and i16 %910, 256
-  %912 = shl nuw nsw i16 %566, 11
-  %913 = shl nuw nsw i16 %571, 12
-  %914 = shl nuw nsw i16 %574, 13
-  %915 = shl nuw nsw i16 %579, 14
-  %916 = or disjoint i16 %911, %907
-  %917 = or disjoint i16 %916, %912
-  %918 = or disjoint i16 %917, %913
-  %919 = or disjoint i16 %918, %904
-  %920 = or disjoint i16 %919, %906
-  %921 = or disjoint i16 %920, %909
-  %922 = or disjoint i16 %915, %895
-  %923 = or disjoint i16 %922, %914
-  %924 = or disjoint i16 %923, %902
-  %925 = or i16 %924, %921
-  %926 = or i16 %925, %542
-  %927 = or i16 %926, %581
-  br label %928
-
-928:                                              ; preds = %884, %844, %807, %762, %719, %654, %618
-  %929 = phi i16 [ %927, %884 ], [ %879, %844 ], [ %837, %807 ], [ %801, %762 ], [ %753, %719 ], [ %711, %654 ], [ %649, %618 ]
-  %930 = icmp eq i16 %929, -1
-  br i1 %930, label %.loopexit, label %931
-
-931:                                              ; preds = %928
-  %932 = trunc i16 %929 to i8
-  store i8 %932, ptr %522, align 1, !tbaa !5
-  %933 = lshr i16 %929, 8
-  %934 = trunc i16 %933 to i8
-  store i8 %934, ptr %526, align 1, !tbaa !5
-  br label %.backedge
-
-935:                                              ; preds = %514
-  %936 = icmp ne i8 %24, 39
-  %937 = icmp ult i32 %19, 3
-  %or.cond24 = select i1 %936, i1 true, i1 %937
-  br i1 %or.cond24, label %.loopexit, label %938
-
-938:                                              ; preds = %935
-  %939 = shl i32 %19, 1
-  %940 = add i32 %939, -6
-  %941 = getelementptr inbounds i8, ptr %4, i32 %940
-  %942 = load i8, ptr %941, align 1, !tbaa !5
-  %943 = zext i8 %942 to i16
-  %944 = or disjoint i32 %940, 1
-  %945 = getelementptr inbounds i8, ptr %4, i32 %944
-  %946 = load i8, ptr %945, align 1, !tbaa !5
-  %947 = zext i8 %946 to i16
-  %948 = shl nuw i16 %947, 8
-  %949 = or disjoint i16 %948, %943
-  %950 = add i32 %19, -2
-  %951 = shl i32 %950, 1
-  %952 = getelementptr inbounds i8, ptr %4, i32 %951
-  %953 = load i8, ptr %952, align 1, !tbaa !5
-  %954 = zext i8 %953 to i16
-  %955 = or disjoint i32 %951, 1
-  %956 = getelementptr inbounds i8, ptr %4, i32 %955
-  %957 = load i8, ptr %956, align 1, !tbaa !5
-  %958 = zext i8 %957 to i16
-  %959 = shl nuw i16 %958, 8
-  %960 = or disjoint i16 %959, %954
-  %961 = add i32 %939, -2
-  %962 = getelementptr inbounds i8, ptr %4, i32 %961
-  %963 = load i8, ptr %962, align 1, !tbaa !5
-  %964 = zext i8 %963 to i16
-  %965 = or disjoint i32 %961, 1
-  %966 = getelementptr inbounds i8, ptr %4, i32 %965
-  %967 = load i8, ptr %966, align 1, !tbaa !5
-  %968 = zext i8 %967 to i16
-  %969 = shl nuw i16 %968, 8
-  %970 = or disjoint i16 %969, %964
-  %971 = and i16 %954, 3
-  %972 = and i16 %964, 3
-  %973 = lshr i16 %964, 2
-  %974 = and i16 %973, 1
-  %975 = and i16 %964, 32
-  %976 = lshr i16 %943, 7
-  %977 = icmp sgt i16 %949, -1
-  %978 = icmp sgt i16 %960, -1
-  %or.cond25 = select i1 %977, i1 true, i1 %978
-  %979 = icmp sgt i16 %970, -1
-  %or.cond26 = select i1 %or.cond25, i1 true, i1 %979
-  br i1 %or.cond26, label %1002, label %980
-
-980:                                              ; preds = %938
-  %981 = and i16 %947, 8
-  %982 = icmp eq i16 %981, 0
-  %983 = and i16 %958, 16
-  %984 = icmp eq i16 %983, 0
-  %or.cond28 = select i1 %982, i1 true, i1 %984
-  br i1 %or.cond28, label %985, label %1002
-
-985:                                              ; preds = %980
-  %986 = and i16 %947, 16
-  %987 = icmp eq i16 %986, 0
-  %988 = and i16 %958, 8
-  %989 = icmp eq i16 %988, 0
-  %or.cond30 = select i1 %987, i1 true, i1 %989
-  br i1 %or.cond30, label %990, label %1002
-
-990:                                              ; preds = %985
-  %991 = and i16 %947, 32
-  %992 = icmp eq i16 %991, 0
-  %993 = and i16 %958, 64
-  %994 = icmp eq i16 %993, 0
-  %or.cond32 = select i1 %992, i1 true, i1 %994
-  br i1 %or.cond32, label %995, label %1002
-
-995:                                              ; preds = %990
-  %996 = and i16 %947, 64
-  %997 = icmp eq i16 %996, 0
-  br i1 %997, label %1002, label %998
-
-998:                                              ; preds = %995
-  %999 = shl i16 %958, 10
-  %1000 = and i16 %999, -32768
-  %1001 = xor i16 %1000, -32768
-  br label %1002
-
-1002:                                             ; preds = %990, %985, %980, %998, %995, %938
-  %1003 = phi i16 [ 0, %938 ], [ -32768, %995 ], [ %1001, %998 ], [ 0, %980 ], [ 0, %985 ], [ 0, %990 ]
-  %1004 = and i16 %943, 99
-  %1005 = icmp ne i16 %1004, 96
-  %1006 = icmp ne i16 %971, %972
-  %.not60 = or i1 %1005, %1006
-  %1007 = icmp eq i16 %971, 3
-  %or.cond34 = or i1 %1007, %.not60
-  br i1 %or.cond34, label %.loopexit, label %1008
-
-1008:                                             ; preds = %1002
-  %1009 = and i16 %943, 4
-  %1010 = icmp ne i16 %1009, 0
-  %1011 = and i16 %1009, %954
-  %1012 = icmp eq i16 %1011, 0
-  %1013 = shl nuw nsw i16 %974, 2
-  %1014 = select i1 %1012, i16 0, i16 %1013
-  %1015 = and i16 %970, %960
-  %1016 = and i16 %1015, 8
-  %1017 = icmp ne i16 %1016, 0
-  %1018 = and i1 %1010, %1017
-  br i1 %1018, label %1027, label %1019
-
-1019:                                             ; preds = %1008
-  %1020 = and i16 %954, 4
-  %1021 = icmp ne i16 %1020, 0
-  %1022 = and i16 %943, 8
-  %1023 = icmp ne i16 %1022, 0
-  %1024 = and i1 %1023, %1021
-  %1025 = shl nuw nsw i16 %974, 3
-  %1026 = select i1 %1024, i16 %1025, i16 0
-  br label %1027
-
-1027:                                             ; preds = %1019, %1008
-  %1028 = phi i16 [ 8, %1008 ], [ %1026, %1019 ]
-  %1029 = and i16 %1015, 64
-  %1030 = and i16 %964, 128
-  %1031 = icmp eq i16 %1030, 0
-  %1032 = or i16 %960, %949
-  %1033 = and i16 %1032, 128
-  %1034 = select i1 %1031, i16 0, i16 %1033
-  %1035 = and i16 %968, 1
-  %1036 = icmp eq i16 %1035, 0
-  %1037 = shl i16 %1032, 1
-  %1038 = and i16 %1037, 256
-  %1039 = select i1 %1036, i16 0, i16 %1038
-  %1040 = and i16 %968, 2
-  %1041 = icmp eq i16 %1040, 0
-  %1042 = and i16 %959, 256
-  %1043 = or disjoint i16 %1042, %976
-  %1044 = icmp eq i16 %1043, 0
-  %1045 = select i1 %1041, i1 true, i1 %1044
-  %1046 = select i1 %1045, i16 0, i16 512
-  %1047 = and i16 %948, 1024
-  %1048 = and i16 %1047, %1015
-  %1049 = icmp ne i16 %1048, 0
-  %1050 = and i16 %947, 2
-  %1051 = icmp ne i16 %1050, 0
-  %1052 = and i1 %1051, %1049
-  br i1 %1052, label %1053, label %1059
-
-1053:                                             ; preds = %1027
-  %1054 = and i16 %954, 128
-  %1055 = or disjoint i16 %1054, %976
-  %1056 = icmp eq i16 %1055, 0
-  %1057 = shl nuw nsw i16 %1030, 3
-  %1058 = select i1 %1056, i16 %1057, i16 1024
-  br label %1059
-
-1059:                                             ; preds = %1053, %1027
-  %1060 = phi i16 [ 0, %1027 ], [ %1058, %1053 ]
-  %1061 = or i16 %1032, %969
-  %1062 = and i16 %1061, 30720
-  %1063 = or disjoint i16 %1062, %975
-  %1064 = or disjoint i16 %1063, %1014
-  %1065 = or disjoint i16 %1064, %1034
-  %1066 = or disjoint i16 %1065, %1029
-  %1067 = or disjoint i16 %1066, %1039
-  %1068 = or i16 %1067, %1046
-  %1069 = or i16 %1068, %1003
-  %1070 = or i16 %1069, %1028
-  %1071 = or i16 %1070, %1060
-  %1072 = or i16 %1071, %971
-  %1073 = icmp eq i16 %1072, -1
-  br i1 %1073, label %.loopexit, label %1074
-
-1074:                                             ; preds = %1059
-  %1075 = trunc i16 %1072 to i8
-  store i8 %1075, ptr %941, align 1, !tbaa !5
-  %1076 = lshr i16 %1071, 8
-  %1077 = trunc i16 %1076 to i8
-  store i8 %1077, ptr %945, align 1, !tbaa !5
-  br label %.backedge
-
-.backedge:                                        ; preds = %1074, %931, %510, %255, %250, %250, %250, %250, %250, %242, %221, %82, %71, %55, %42, %26
-  %.be = phi i32 [ %31, %221 ], [ %31, %82 ], [ %31, %71 ], [ %31, %55 ], [ %31, %42 ], [ %31, %26 ], [ %14, %255 ], [ %14, %931 ], [ %14, %1074 ], [ 0, %250 ], [ 0, %250 ], [ 0, %250 ], [ 0, %250 ], [ 0, %250 ], [ %14, %510 ], [ %14, %242 ]
-  %.be166 = phi i32 [ %30, %221 ], [ %30, %82 ], [ %30, %71 ], [ %30, %55 ], [ %30, %42 ], [ %30, %26 ], [ %15, %255 ], [ %15, %931 ], [ %15, %1074 ], [ 0, %250 ], [ 0, %250 ], [ 0, %250 ], [ 0, %250 ], [ 0, %250 ], [ %15, %510 ], [ %15, %242 ]
-  %.be167 = phi i8 [ %16, %221 ], [ 13, %82 ], [ 12, %71 ], [ 7, %55 ], [ 6, %42 ], [ %16, %26 ], [ %16, %255 ], [ %16, %931 ], [ %16, %1074 ], [ %24, %250 ], [ %24, %250 ], [ %24, %250 ], [ %24, %250 ], [ %24, %250 ], [ %16, %510 ], [ %16, %242 ]
-  %.be168 = phi i32 [ 0, %221 ], [ 0, %82 ], [ 0, %71 ], [ 0, %55 ], [ 0, %42 ], [ %32, %26 ], [ 0, %255 ], [ 0, %931 ], [ 0, %1074 ], [ 4, %250 ], [ 4, %250 ], [ 4, %250 ], [ 4, %250 ], [ 4, %250 ], [ 0, %510 ], [ 0, %242 ]
-  %.be170 = phi i32 [ %222, %221 ], [ %83, %82 ], [ %72, %71 ], [ %57, %55 ], [ %45, %42 ], [ %19, %26 ], [ %256, %255 ], [ %531, %931 ], [ %950, %1074 ], [ %19, %250 ], [ %19, %250 ], [ %19, %250 ], [ %19, %250 ], [ %19, %250 ], [ %19, %510 ], [ %245, %242 ]
-  br label %13
-
-1078:                                             ; preds = %13
-  %1079 = icmp eq i32 %17, 0
-  %1080 = icmp eq i32 %19, 1
-  %1081 = select i1 %1079, i1 %1080, i1 false
-  br i1 %1081, label %1082, label %.loopexit
-
-1082:                                             ; preds = %1078
-  %1083 = load i8, ptr %4, align 1, !tbaa !5
-  %1084 = and i8 %1083, 3
-  %1085 = icmp eq i8 %1084, 0
-  br i1 %1085, label %1086, label %1102
-
-1086:                                             ; preds = %1082
-  %1087 = getelementptr inbounds i8, ptr %4, i32 1
-  %1088 = load i8, ptr %1087, align 1, !tbaa !5
-  %1089 = icmp sgt i8 %1088, -1
-  br i1 %1089, label %1102, label %1090
-
-1090:                                             ; preds = %1086
-  %1091 = zext i8 %3 to i32
-  %1092 = and i32 %1091, 1
-  %1093 = icmp ne i32 %1092, 0
-  %1094 = and i8 %1088, 4
-  %1095 = icmp eq i8 %1094, 0
-  %1096 = and i1 %1093, %1095
-  br i1 %1096, label %1102, label %1097
-
-1097:                                             ; preds = %1090
-  %1098 = and i32 %1091, 2
-  %1099 = icmp ne i32 %1098, 0
-  %1100 = icmp sgt i8 %1083, -1
-  %1101 = and i1 %1099, %1100
-  br i1 %1101, label %1102, label %.loopexit
-
-1102:                                             ; preds = %1097, %1090, %1086, %1082
-  br label %.loopexit
-
-.loopexit:                                        ; preds = %1059, %1002, %935, %928, %880, %838, %802, %758, %754, %712, %650, %601, %599, %517, %507, %486, %459, %436, %415, %396, %375, %351, %326, %303, %266, %264, %253, %232, %183, %88, %77, %66, %52, %35, %119, %108, %1102, %1097, %1078, %5
-  %1103 = phi i8 [ 0, %5 ], [ 0, %1078 ], [ 0, %1102 ], [ 1, %1097 ], [ 0, %108 ], [ 0, %119 ], [ 0, %35 ], [ 0, %52 ], [ 0, %66 ], [ 0, %77 ], [ 0, %88 ], [ 0, %183 ], [ 0, %232 ], [ 0, %253 ], [ 0, %264 ], [ 0, %266 ], [ 0, %303 ], [ 0, %326 ], [ 0, %351 ], [ 0, %375 ], [ 0, %396 ], [ 0, %415 ], [ 0, %436 ], [ 0, %459 ], [ 0, %486 ], [ 0, %507 ], [ 0, %517 ], [ 0, %599 ], [ 0, %601 ], [ 0, %650 ], [ 0, %712 ], [ 0, %754 ], [ 0, %758 ], [ 0, %802 ], [ 0, %838 ], [ 0, %880 ], [ 0, %928 ], [ 0, %935 ], [ 0, %1002 ], [ 0, %1059 ]
-  ret i8 %1103
+ite_then_7080.i:                                  ; preds = %ite_else_5813.i
+  %cmp_eq_7094.i = icmp eq i64 %alu_5858.i, 3
+  br i1 %cmp_eq_7094.i, label %l___private_LeanNativeInput_0__BitcoinLedger_FreestandingKernels_msStep.exit, label %ite_else_7097.i
+
+ite_else_7097.i:                                  ; preds = %ite_then_7080.i
+  %cmp_eq_7088.i = icmp eq i64 %alu_5852.i, 1
+  %alu_7512.i = shl nuw nsw i64 %alu_6862.i, 2
+  %alu_7530.i = shl nuw nsw i64 %alu_6919.i, 3
+  %81 = or disjoint i64 %alu_7530.i, %alu_7512.i
+  %alu_7548.i = shl nuw nsw i64 %alu_6959.i, 4
+  %82 = or disjoint i64 %81, %alu_7548.i
+  %alu_7602.i = shl nuw nsw i64 %alu_6980.i, 7
+  %83 = or disjoint i64 %82, %alu_7602.i
+  %alu_74871069.i = shl nuw nsw i64 %.lobit996.i, 8
+  %alu_7674.i = shl nuw nsw i64 %alu_6658.i, 11
+  %alu_7692.i = shl nuw nsw i64 %alu_6719.i, 12
+  %alu_7710.i = shl nuw nsw i64 %alu_6780.i, 13
+  %alu_7728.i = shl nuw nsw i64 %alu_6841.i, 14
+  %alu_7746.i = shl nuw nsw i64 %alu_6599.i, 15
+  %84 = and i64 %call_zx_5847.i, 67
+  %85 = or disjoint i64 %alu_74871069.i, %84
+  %86 = or disjoint i64 %alu_7674.i, %85
+  %87 = or disjoint i64 %alu_7710.i, %alu_7692.i
+  %88 = or disjoint i64 %87, %alu_7728.i
+  %89 = or disjoint i64 %alu_7746.i, %88
+  %90 = or i64 %86, %83
+  %91 = or i64 %90, %89
+  %92 = or i64 %91, %59
+  %alu_7753.i = or i64 %92, %77
+  %alu_7765.i = select i1 %cmp_eq_7088.i, i64 65535, i64 0
+  %alu_7770.i = xor i64 %alu_7753.i, -1
+  %alu_7776.i = and i64 %alu_7765.i, %alu_7770.i
+  %cmp_eq_7791.i = icmp eq i64 %alu_7776.i, 0
+  br i1 %cmp_eq_7791.i, label %l___private_LeanNativeInput_0__BitcoinLedger_FreestandingKernels_msStep.exit, label %ite_else_7795.i
+
+ite_else_7795.i:                                  ; preds = %ite_else_7097.i
+  %93 = trunc nuw i64 %alu_7776.i to i16
+  %call_tr_7802.i = xor i16 %93, -1
+  %rst_tr8_14.i.i = trunc i16 %call_tr_7802.i to i8
+  store i8 %rst_tr8_14.i.i, ptr %rld_gep_10.i1257.i, align 1
+  %94 = lshr i16 %call_tr_7802.i, 8
+  %rst_tr8_34.i.i = trunc nuw i16 %94 to i8
+  store i8 %rst_tr8_34.i.i, ptr %rld_gep_21.i1260.i, align 1
+  %alu_7805.i = and i64 %slot_v1869.0, 1125899906842623
+  %alu_7810.i = shl nuw nsw i64 %alu_5841.i, 56
+  %alu_7814.i = or disjoint i64 %alu_7810.i, %alu_7805.i
+  br label %l___private_LeanNativeInput_0__BitcoinLedger_FreestandingKernels_msStep.exit
+
+ite_then_7824.i:                                  ; preds = %ite_else_5813.i
+  %cmp_eq_7832.i = icmp eq i64 %alu_5858.i, 3
+  %alu_78431049.i = and i1 %cmp_eq_7034.i, %cmp_eq_7832.i
+  %95 = and i64 %56, %call_zx_5836.i
+  %.lobit1051.i = lshr exact i64 %58, 8
+  %.lobit1052.i = lshr exact i64 %59, 8
+  %alu_7900.i = and i64 %.lobit1051.i, %74
+  %alu_79191053.i = or i64 %75, %.lobit1051.i
+  %96 = and i64 %alu_79191053.i, %.lobit1052.i
+  %alu_7959.i = or i64 %96, %alu_7900.i
+  %alu_8022.i = shl nuw nsw i64 %alu_6862.i, 2
+  %alu_8040.i = shl nuw nsw i64 %alu_6919.i, 3
+  %alu_8047.i = or disjoint i64 %alu_8040.i, %alu_8022.i
+  %alu_8058.i = shl nuw nsw i64 %alu_6959.i, 4
+  %alu_8065.i = or disjoint i64 %alu_8047.i, %alu_8058.i
+  %alu_8112.i = shl nuw nsw i64 %alu_6980.i, 7
+  %alu_8130.i = shl nuw nsw i64 %alu_7959.i, 8
+  %alu_79991058.i = shl nuw nsw i64 %alu_7001.i, 9
+  %97 = and i64 %alu_79991058.i, %call_zx_5836.i
+  %.lobit10541056.lobit1059.i = and i64 %97, %call_zx_5847.i
+  %alu_8184.i = shl nuw nsw i64 %alu_6658.i, 11
+  %alu_8202.i = shl nuw nsw i64 %alu_6719.i, 12
+  %alu_8220.i = shl nuw nsw i64 %alu_6780.i, 13
+  %alu_8238.i = shl nuw nsw i64 %alu_6841.i, 14
+  %alu_8256.i = shl nuw nsw i64 %alu_6599.i, 15
+  %alu_8275.i = select i1 %alu_78431049.i, i64 65535, i64 0
+  %alu_8083.masked.i = or disjoint i64 %alu_8065.i, %95
+  %98 = or disjoint i64 %alu_8112.i, %alu_8184.i
+  %99 = or disjoint i64 %98, %alu_8202.i
+  %100 = or disjoint i64 %99, %alu_8220.i
+  %.masked1065.i = or disjoint i64 %100, %77
+  %.masked1064.i = or disjoint i64 %alu_8130.i, %alu_8238.i
+  %.masked1063.i = or disjoint i64 %.masked1064.i, %.lobit10541056.lobit1059.i
+  %.masked1062.i = or i64 %.masked1063.i, %alu_8256.i
+  %.masked1061.i = or i64 %.masked1062.i, %alu_8083.masked.i
+  %101 = or i64 %.masked1061.i, %.masked1065.i
+  %alu_8280.i = xor i64 %101, 65471
+  %alu_8286.i = and i64 %alu_8280.i, %alu_8275.i
+  %cmp_eq_8301.i = icmp eq i64 %alu_8286.i, 0
+  br i1 %cmp_eq_8301.i, label %l___private_LeanNativeInput_0__BitcoinLedger_FreestandingKernels_msStep.exit, label %ite_else_8305.i
+
+ite_else_8305.i:                                  ; preds = %ite_then_7824.i
+  %102 = trunc nuw i64 %alu_8286.i to i16
+  %call_tr_8312.i = xor i16 %102, -1
+  %rst_tr8_14.i1277.i = trunc i16 %call_tr_8312.i to i8
+  store i8 %rst_tr8_14.i1277.i, ptr %rld_gep_10.i1257.i, align 1
+  %103 = lshr i16 %call_tr_8312.i, 8
+  %rst_tr8_34.i1279.i = trunc nuw i16 %103 to i8
+  store i8 %rst_tr8_34.i1279.i, ptr %rld_gep_21.i1260.i, align 1
+  %alu_8315.i = and i64 %slot_v1869.0, 1125899906842623
+  %alu_8320.i = shl nuw nsw i64 %alu_5841.i, 56
+  %alu_8324.i = or disjoint i64 %alu_8320.i, %alu_8315.i
+  br label %l___private_LeanNativeInput_0__BitcoinLedger_FreestandingKernels_msStep.exit
+
+ite_then_8334.i:                                  ; preds = %ite_else_5813.i
+  %cmp_eq_8342.i = icmp eq i64 %alu_5858.i, 0
+  %cmp_eq_8360.not1036.i = icmp ne i64 %alu_7064.i, 0
+  %cmp_eq_8360.not.not.i = select i1 %cmp_eq_8342.i, i1 %cmp_eq_8360.not1036.i, i1 false
+  %.lobit1037.i = lshr exact i64 %59, 8
+  %alu_8372.i = or i64 %.lobit1037.i, %.lobit996.i
+  %alu_8416.i = shl nuw nsw i64 %alu_6862.i, 2
+  %alu_8434.i = shl nuw nsw i64 %alu_6900.i, 3
+  %alu_8441.i = or disjoint i64 %alu_8416.i, %alu_8434.i
+  %alu_8506.i = shl nuw nsw i64 %alu_6980.i, 7
+  %104 = or disjoint i64 %alu_8441.i, %alu_8506.i
+  %alu_8542.i = shl nuw nsw i64 %alu_8372.i, 9
+  %105 = or disjoint i64 %104, %alu_8542.i
+  %106 = shl nuw nsw i64 %call_zx_5836.i, 1
+  %alu_83931041.i = and i64 %106, 1024
+  %.lobit10381042.i = and i64 %alu_83931041.i, %76
+  %alu_8578.i = shl nuw nsw i64 %alu_6658.i, 11
+  %alu_8596.i = shl nuw nsw i64 %alu_6719.i, 12
+  %alu_8614.i = shl nuw nsw i64 %alu_6780.i, 13
+  %alu_8632.i = shl nuw nsw i64 %alu_6841.i, 14
+  %alu_8650.i = shl nuw nsw i64 %alu_6599.i, 15
+  %alu_8669.i = select i1 %cmp_eq_8360.not.not.i, i64 65535, i64 0
+  %.masked1048.i = or disjoint i64 %105, %.lobit10381042.i
+  %107 = or disjoint i64 %alu_8578.i, %alu_8596.i
+  %108 = or disjoint i64 %107, %alu_8614.i
+  %109 = or disjoint i64 %108, %alu_8632.i
+  %110 = or disjoint i64 %109, %alu_8650.i
+  %111 = or i64 %.masked1048.i, %110
+  %112 = or i64 %111, %57
+  %alu_8674.i = xor i64 %112, 65503
+  %alu_8680.i = and i64 %alu_8674.i, %alu_8669.i
+  %cmp_eq_8695.i = icmp eq i64 %alu_8680.i, 0
+  br i1 %cmp_eq_8695.i, label %l___private_LeanNativeInput_0__BitcoinLedger_FreestandingKernels_msStep.exit, label %ite_else_8699.i
+
+ite_else_8699.i:                                  ; preds = %ite_then_8334.i
+  %113 = trunc nuw i64 %alu_8680.i to i16
+  %call_tr_8706.i = xor i16 %113, -1
+  %rst_tr8_14.i1282.i = trunc i16 %call_tr_8706.i to i8
+  store i8 %rst_tr8_14.i1282.i, ptr %rld_gep_10.i1257.i, align 1
+  %114 = lshr i16 %call_tr_8706.i, 8
+  %rst_tr8_34.i1284.i = trunc nuw i16 %114 to i8
+  store i8 %rst_tr8_34.i1284.i, ptr %rld_gep_21.i1260.i, align 1
+  %alu_8709.i = and i64 %slot_v1869.0, 1125899906842623
+  %alu_8714.i = shl nuw nsw i64 %alu_5841.i, 56
+  %alu_8718.i = or disjoint i64 %alu_8714.i, %alu_8709.i
+  br label %l___private_LeanNativeInput_0__BitcoinLedger_FreestandingKernels_msStep.exit
+
+ite_then_8728.i:                                  ; preds = %ite_else_5813.i
+  %alu_8741.i = and i64 %78, %sel_7056.i
+  %115 = and i64 %call_zx_5847.i, 35
+  %cmp_eq_8773.not.not.i = icmp eq i64 %115, 35
+  %cmp_eq_8792.not1026.i = icmp ne i64 %alu_8741.i, 0
+  %cmp_eq_8792.not.not.i = select i1 %cmp_eq_8773.not.not.i, i1 %cmp_eq_8792.not1026.i, i1 false
+  %.lobit10271029.i = and i64 %76, 512
+  %.lobit1030.i = lshr i64 %76, 10
+  %.lobit10271029.lobit.i = lshr i64 %76, 9
+  %alu_8823.i = and i64 %.lobit10271029.lobit.i, %.lobit1030.i
+  %alu_8842.i = and i64 %alu_8823.i, %alu_6980.i
+  %alu_8865.i = shl nuw nsw i64 %alu_6862.i, 2
+  %alu_8883.i = shl nuw nsw i64 %alu_6919.i, 3
+  %alu_8890.i = or disjoint i64 %alu_8883.i, %alu_8865.i
+  %alu_8955.i = shl nuw nsw i64 %alu_7001.i, 7
+  %alu_8944.i = or disjoint i64 %alu_8890.i, %alu_8955.i
+  %alu_9009.i = shl nuw nsw i64 %alu_8842.i, 10
+  %alu_9027.i = shl nuw nsw i64 %alu_6658.i, 11
+  %alu_9045.i = shl nuw nsw i64 %alu_6719.i, 12
+  %alu_9063.i = shl nuw nsw i64 %alu_6780.i, 13
+  %alu_9081.i = shl nuw nsw i64 %alu_6841.i, 14
+  %alu_9099.i = shl nuw nsw i64 %sel_6591.i, 15
+  %alu_9118.i = select i1 %cmp_eq_8792.not.not.i, i64 65535, i64 0
+  %.masked1035.i = or disjoint i64 %alu_8944.i, %alu_9009.i
+  %116 = or disjoint i64 %alu_9027.i, %alu_9099.i
+  %117 = or disjoint i64 %116, %alu_9045.i
+  %118 = or disjoint i64 %117, %alu_9063.i
+  %119 = or disjoint i64 %118, %alu_9081.i
+  %120 = or i64 %.masked1035.i, %.lobit10271029.i
+  %121 = or i64 %120, %119
+  %alu_9123.i = xor i64 %121, 65439
+  %alu_9129.i = and i64 %alu_9123.i, %alu_9118.i
+  %cmp_eq_9144.i = icmp eq i64 %alu_9129.i, 0
+  br i1 %cmp_eq_9144.i, label %l___private_LeanNativeInput_0__BitcoinLedger_FreestandingKernels_msStep.exit, label %ite_else_9148.i
+
+ite_else_9148.i:                                  ; preds = %ite_then_8728.i
+  %122 = trunc nuw i64 %alu_9129.i to i16
+  %call_tr_9155.i = xor i16 %122, -1
+  %rst_tr8_14.i1287.i = trunc i16 %call_tr_9155.i to i8
+  store i8 %rst_tr8_14.i1287.i, ptr %rld_gep_10.i1257.i, align 1
+  %123 = lshr i16 %call_tr_9155.i, 8
+  %rst_tr8_34.i1289.i = trunc nuw i16 %123 to i8
+  store i8 %rst_tr8_34.i1289.i, ptr %rld_gep_21.i1260.i, align 1
+  %alu_9158.i = and i64 %slot_v1869.0, 1125899906842623
+  %alu_9163.i = shl nuw nsw i64 %alu_5841.i, 56
+  %alu_9167.i = or disjoint i64 %alu_9163.i, %alu_9158.i
+  br label %l___private_LeanNativeInput_0__BitcoinLedger_FreestandingKernels_msStep.exit
+
+ite_then_9177.i:                                  ; preds = %ite_else_5813.i
+  %cmp_eq_9185.i = icmp eq i64 %alu_5858.i, 1
+  %cmp_eq_9203.not1021.i = icmp ne i64 %alu_7064.i, 0
+  %cmp_eq_9203.not.not.i = select i1 %cmp_eq_9185.i, i1 %cmp_eq_9203.not1021.i, i1 false
+  %.lobit1022.i = lshr i64 %76, 10
+  %.lobit1023.i = lshr i64 %call_zx_5836.i, 9
+  %alu_9215.i = and i64 %.lobit1022.i, %.lobit1023.i
+  %alu_9234.i = and i64 %alu_9215.i, %alu_6980.i
+  %alu_9257.i = shl nuw nsw i64 %alu_6862.i, 2
+  %alu_9275.i = shl nuw nsw i64 %alu_6900.i, 3
+  %alu_9264.i = or disjoint i64 %alu_9257.i, %alu_9275.i
+  %alu_9347.i = shl nuw nsw i64 %alu_7001.i, 7
+  %alu_9282.i = or disjoint i64 %alu_9264.i, %alu_9347.i
+  %alu_9401.i = shl nuw nsw i64 %alu_9234.i, 10
+  %alu_9372.i = or disjoint i64 %alu_9282.i, %alu_9401.i
+  %alu_9419.i = shl nuw nsw i64 %alu_6658.i, 11
+  %alu_9437.i = shl nuw nsw i64 %alu_6719.i, 12
+  %alu_9455.i = shl nuw nsw i64 %alu_6780.i, 13
+  %alu_9473.i = shl nuw nsw i64 %alu_6841.i, 14
+  %alu_9491.i = shl nuw nsw i64 %sel_6591.i, 15
+  %alu_9510.i = select i1 %cmp_eq_9203.not.not.i, i64 65535, i64 0
+  %alu_9408.masked.i = or disjoint i64 %alu_9372.i, %alu_9419.i
+  %alu_9426.masked.i = or disjoint i64 %alu_9437.i, %alu_9491.i
+  %alu_9444.masked.i = or disjoint i64 %alu_9426.masked.i, %alu_9455.i
+  %alu_9462.masked.i = or disjoint i64 %alu_9444.masked.i, %alu_9473.i
+  %124 = or i64 %alu_9408.masked.i, %alu_9462.masked.i
+  %alu_9515.i = xor i64 %124, 65278
+  %alu_9521.i = and i64 %alu_9515.i, %alu_9510.i
+  %cmp_eq_9536.i = icmp eq i64 %alu_9521.i, 0
+  br i1 %cmp_eq_9536.i, label %l___private_LeanNativeInput_0__BitcoinLedger_FreestandingKernels_msStep.exit, label %ite_else_9540.i
+
+ite_else_9540.i:                                  ; preds = %ite_then_9177.i
+  %125 = trunc nuw i64 %alu_9521.i to i16
+  %call_tr_9547.i = xor i16 %125, -1
+  %rst_tr8_14.i1292.i = trunc i16 %call_tr_9547.i to i8
+  store i8 %rst_tr8_14.i1292.i, ptr %rld_gep_10.i1257.i, align 1
+  %126 = lshr i16 %call_tr_9547.i, 8
+  %rst_tr8_34.i1294.i = trunc nuw i16 %126 to i8
+  store i8 %rst_tr8_34.i1294.i, ptr %rld_gep_21.i1260.i, align 1
+  %alu_9550.i = and i64 %slot_v1869.0, 1125899906842623
+  %alu_9555.i = shl nuw nsw i64 %alu_5841.i, 56
+  %alu_9559.i = or disjoint i64 %alu_9555.i, %alu_9550.i
+  br label %l___private_LeanNativeInput_0__BitcoinLedger_FreestandingKernels_msStep.exit
+
+ite_then_9569.i:                                  ; preds = %ite_else_5813.i
+  %cmp_eq_9577.i = icmp eq i64 %alu_5858.i, 0
+  %cmp_eq_9595.not1014.i = icmp ne i64 %alu_7064.i, 0
+  %cmp_eq_9595.not.not.i = select i1 %cmp_eq_9577.i, i1 %cmp_eq_9595.not1014.i, i1 false
+  %.lobit1015.i = lshr i64 %76, 10
+  %.lobit1016.i = lshr i64 %call_zx_5836.i, 9
+  %alu_9607.i = and i64 %.lobit1015.i, %.lobit1016.i
+  %alu_9626.i = and i64 %alu_9607.i, %alu_6980.i
+  %alu_9649.i = shl nuw nsw i64 %alu_6862.i, 2
+  %alu_9667.i = shl nuw nsw i64 %alu_6900.i, 3
+  %alu_9674.i = or disjoint i64 %alu_9649.i, %alu_9667.i
+  %alu_9739.i = shl nuw nsw i64 %alu_7001.i, 7
+  %127 = or disjoint i64 %alu_9674.i, %alu_9739.i
+  %alu_9793.i = shl nuw nsw i64 %alu_9626.i, 10
+  %128 = or disjoint i64 %127, %alu_9793.i
+  %alu_9811.i = shl nuw nsw i64 %alu_6658.i, 11
+  %129 = or disjoint i64 %128, %alu_9811.i
+  %alu_9829.i = shl nuw nsw i64 %alu_6719.i, 12
+  %alu_9847.i = shl nuw nsw i64 %alu_6780.i, 13
+  %alu_9865.i = shl nuw nsw i64 %alu_6841.i, 14
+  %alu_9883.i = shl nuw nsw i64 %sel_6591.i, 15
+  %130 = and i64 %call_zx_5847.i, 864
+  %131 = or disjoint i64 %alu_9883.i, %130
+  %132 = or disjoint i64 %alu_9829.i, %131
+  %133 = or disjoint i64 %132, %alu_9847.i
+  %134 = or disjoint i64 %133, %alu_9865.i
+  %alu_9890.i = or i64 %134, %129
+  %alu_9902.i = select i1 %cmp_eq_9595.not.not.i, i64 65535, i64 0
+  %alu_9907.i = xor i64 %alu_9890.i, -1
+  %alu_9913.i = and i64 %alu_9902.i, %alu_9907.i
+  %cmp_eq_9928.i = icmp eq i64 %alu_9913.i, 0
+  br i1 %cmp_eq_9928.i, label %l___private_LeanNativeInput_0__BitcoinLedger_FreestandingKernels_msStep.exit, label %ite_else_9932.i
+
+ite_else_9932.i:                                  ; preds = %ite_then_9569.i
+  %135 = trunc nuw i64 %alu_9913.i to i16
+  %call_tr_9939.i = xor i16 %135, -1
+  %rst_tr8_14.i1297.i = trunc i16 %call_tr_9939.i to i8
+  store i8 %rst_tr8_14.i1297.i, ptr %rld_gep_10.i1257.i, align 1
+  %136 = lshr i16 %call_tr_9939.i, 8
+  %rst_tr8_34.i1299.i = trunc nuw i16 %136 to i8
+  store i8 %rst_tr8_34.i1299.i, ptr %rld_gep_21.i1260.i, align 1
+  %alu_9942.i = and i64 %slot_v1869.0, 1125899906842623
+  %alu_9947.i = shl nuw nsw i64 %alu_5841.i, 56
+  %alu_9951.i = or disjoint i64 %alu_9947.i, %alu_9942.i
+  br label %l___private_LeanNativeInput_0__BitcoinLedger_FreestandingKernels_msStep.exit
+
+ite_then_9961.i:                                  ; preds = %ite_else_5813.i
+  %cmp_eq_9969.i = icmp eq i64 %alu_5852.i, 3
+  br i1 %cmp_eq_9969.i, label %l___private_LeanNativeInput_0__BitcoinLedger_FreestandingKernels_msStep.exit, label %ite_else_9972.i
+
+ite_else_9972.i:                                  ; preds = %ite_then_9961.i
+  %cmp_eq_10460.i = icmp eq i64 %alu_5852.i, %alu_5858.i
+  %.lobit1004.i = lshr exact i64 %58, 8
+  %.lobit1005.i = lshr exact i64 %59, 8
+  %alu_10530.i = and i64 %.lobit1005.i, %.lobit1004.i
+  %.lobit1006.i = lshr i64 %call_zx_5836.i, 9
+  %alu_10549.i = and i64 %.lobit1005.i, %.lobit1006.i
+  %.lobit1007.i = lshr i64 %call_zx_5847.i, 9
+  %alu_10568.i = and i64 %.lobit1007.i, %.lobit1004.i
+  %alu_10587.i = or i64 %alu_10549.i, %alu_10568.i
+  %alu_10649.i = shl nuw nsw i64 %alu_6862.i, 3
+  %137 = or disjoint i64 %57, 32
+  %138 = and i64 %137, %call_zx_5836.i
+  %139 = or disjoint i64 %alu_10649.i, %138
+  %alu_10721.i = shl nuw nsw i64 %alu_7001.i, 7
+  %140 = or disjoint i64 %139, %alu_10721.i
+  %alu_10739.i = shl nuw nsw i64 %alu_10530.i, 8
+  %141 = or disjoint i64 %140, %alu_10739.i
+  %alu_10757.i = shl nuw nsw i64 %alu_10587.i, 9
+  %142 = or disjoint i64 %141, %alu_10757.i
+  %alu_106081012.i = shl nuw nsw i64 %alu_6980.i, 10
+  %.lobit10081013.i = and i64 %alu_106081012.i, %76
+  %alu_10793.i = shl nuw nsw i64 %alu_6658.i, 11
+  %alu_10811.i = shl nuw nsw i64 %alu_6719.i, 12
+  %alu_10829.i = shl nuw nsw i64 %alu_6780.i, 13
+  %alu_10847.i = shl nuw nsw i64 %alu_6841.i, 14
+  %alu_10865.i = shl nuw nsw i64 %sel_6591.i, 15
+  %143 = or disjoint i64 %alu_10865.i, %alu_10793.i
+  %144 = or disjoint i64 %143, %alu_10811.i
+  %145 = or disjoint i64 %144, %alu_10829.i
+  %146 = or disjoint i64 %145, %alu_5852.i
+  %147 = or disjoint i64 %146, %56
+  %148 = add nuw nsw i64 %147, %alu_10847.i
+  %149 = or i64 %142, %.lobit10081013.i
+  %alu_10872.i = or i64 %149, %148
+  %alu_10884.i = select i1 %cmp_eq_10460.i, i64 65535, i64 0
+  %alu_10889.i = xor i64 %alu_10872.i, -1
+  %alu_10895.i = and i64 %alu_10884.i, %alu_10889.i
+  %cmp_eq_10910.i = icmp eq i64 %alu_10895.i, 0
+  br i1 %cmp_eq_10910.i, label %l___private_LeanNativeInput_0__BitcoinLedger_FreestandingKernels_msStep.exit, label %ite_else_10914.i
+
+ite_else_10914.i:                                 ; preds = %ite_else_9972.i
+  %150 = trunc nuw i64 %alu_10895.i to i16
+  %call_tr_10921.i = xor i16 %150, -1
+  %rst_tr8_14.i1302.i = trunc i16 %call_tr_10921.i to i8
+  store i8 %rst_tr8_14.i1302.i, ptr %rld_gep_10.i1257.i, align 1
+  %151 = lshr i16 %call_tr_10921.i, 8
+  %rst_tr8_34.i1304.i = trunc nuw i16 %151 to i8
+  store i8 %rst_tr8_34.i1304.i, ptr %rld_gep_21.i1260.i, align 1
+  %alu_10924.i = and i64 %slot_v1869.0, 1125899906842623
+  %alu_10929.i = shl nuw nsw i64 %alu_5841.i, 56
+  %alu_10933.i = or disjoint i64 %alu_10929.i, %alu_10924.i
+  br label %l___private_LeanNativeInput_0__BitcoinLedger_FreestandingKernels_msStep.exit
+
+ite_else_5797.i:                                  ; preds = %ite_else_2157.i
+  %cmp_eq_10973.i = icmp eq i8 %rld_i8_15.i, 39
+  br i1 %cmp_eq_10973.i, label %ite_then_10975.i, label %l___private_LeanNativeInput_0__BitcoinLedger_FreestandingKernels_msStep.exit
+
+ite_then_10975.i:                                 ; preds = %ite_else_5797.i
+  %cmp_lt_10988.i = icmp samesign ult i64 %slot_v1869.0, 216172782113783808
+  br i1 %cmp_lt_10988.i, label %l___private_LeanNativeInput_0__BitcoinLedger_FreestandingKernels_msStep.exit, label %ite_else_10992.i
+
+ite_else_10992.i:                                 ; preds = %ite_then_10975.i
+  %alu_10980.i = lshr i64 %slot_v1869.0, 56
+  %152 = trunc nuw nsw i64 %alu_10980.i to i32
+  %call_tr_11013.i = shl nuw nsw i32 %152, 1
+  %153 = getelementptr i8, ptr %arg_v4, i32 %call_tr_11013.i
+  %rld_gep_10.i1306.i = getelementptr i8, ptr %153, i32 -6
+  %rld_gep_21.i1309.i = getelementptr i8, ptr %153, i32 -5
+  %alu_11020.i = add nsw i64 %alu_10980.i, -2
+  %call_tr_11024.i = trunc nuw nsw i64 %alu_11020.i to i32
+  %alu_5.i1314.i = shl nuw nsw i32 %call_tr_11024.i, 1
+  %rld_gep_10.i1315.i = getelementptr inbounds nuw i8, ptr %arg_v4, i32 %alu_5.i1314.i
+  %rld_i8_11.i1316.i = load i8, ptr %rld_gep_10.i1315.i, align 1
+  %rld_val_12.i1317.i = zext i8 %rld_i8_11.i1316.i to i16
+  %rld_gep_21.i1318.i = getelementptr inbounds nuw i8, ptr %rld_gep_10.i1315.i, i32 1
+  %rld_i8_22.i1319.i = load i8, ptr %rld_gep_21.i1318.i, align 1
+  %rld_val_23.i1320.i = zext i8 %rld_i8_22.i1319.i to i16
+  %alu_33.i1321.i = shl nuw i16 %rld_val_23.i1320.i, 8
+  %alu_40.i1322.i = or disjoint i16 %alu_33.i1321.i, %rld_val_12.i1317.i
+  %call_zx_11026.i = zext i16 %alu_40.i1322.i to i64
+  %alu_11048.i = and i64 %call_zx_11026.i, 3
+  %cmp_eq_11918.i = icmp eq i64 %alu_11048.i, 3
+  br i1 %cmp_eq_11918.i, label %l___private_LeanNativeInput_0__BitcoinLedger_FreestandingKernels_msStep.exit, label %ite_else_11921.i
+
+ite_else_11921.i:                                 ; preds = %ite_else_10992.i
+  %rld_gep_21.i1327.i = getelementptr i8, ptr %153, i32 -1
+  %rld_i8_22.i1328.i = load i8, ptr %rld_gep_21.i1327.i, align 1
+  %rld_val_23.i1329.i = zext i8 %rld_i8_22.i1328.i to i16
+  %alu_33.i1330.i = shl nuw i16 %rld_val_23.i1329.i, 8
+  %rld_gep_10.i1324.i = getelementptr i8, ptr %153, i32 -2
+  %rld_i8_11.i1325.i = load i8, ptr %rld_gep_10.i1324.i, align 1
+  %rld_val_12.i1326.i = zext i8 %rld_i8_11.i1325.i to i16
+  %alu_40.i1331.i = or disjoint i16 %alu_33.i1330.i, %rld_val_12.i1326.i
+  %rld_i8_22.i1310.i = load i8, ptr %rld_gep_21.i1309.i, align 1
+  %rld_val_23.i1311.i = zext i8 %rld_i8_22.i1310.i to i16
+  %alu_33.i1312.i = shl nuw i16 %rld_val_23.i1311.i, 8
+  %rld_i8_11.i1307.i = load i8, ptr %rld_gep_10.i1306.i, align 1
+  %rld_val_12.i1308.i = zext i8 %rld_i8_11.i1307.i to i16
+  %alu_40.i1313.i = or disjoint i16 %alu_33.i1312.i, %rld_val_12.i1308.i
+  %call_zx_11037.i = zext i16 %alu_40.i1331.i to i64
+  %alu_11054.i = and i64 %call_zx_11037.i, 3
+  %cmp_eq_11912.i = icmp eq i64 %alu_11048.i, %alu_11054.i
+  %call_zx_11015.i = zext i16 %alu_40.i1313.i to i64
+  %154 = and i64 %call_zx_11015.i, 99
+  %cmp_eq_11905.not.not.i = icmp eq i64 %154, 96
+  %155 = lshr i64 %call_zx_11015.i, 11
+  %156 = lshr i64 %call_zx_11026.i, 12
+  %alu_11584.i = and i64 %155, %156
+  %157 = lshr i64 %call_zx_11015.i, 12
+  %158 = lshr i64 %call_zx_11026.i, 11
+  %alu_11643.i = and i64 %157, %158
+  %159 = lshr i64 %call_zx_11015.i, 13
+  %160 = lshr i64 %call_zx_11026.i, 14
+  %alu_11723.i = and i64 %159, %160
+  %161 = lshr i64 %call_zx_11015.i, 14
+  %162 = lshr i64 %call_zx_11026.i, 13
+  %alu_11782.i = and i64 %161, %162
+  %alu_11801.i = or i64 %alu_11584.i, %alu_11643.i
+  %alu_11662.i = or i64 %alu_11801.i, %alu_11782.i
+  %alu_11822.i = or i64 %alu_11662.i, %alu_11723.i
+  %sel_11849.i = xor i64 %alu_11822.i, -1
+  %call_11025.lobit904.i = and i16 %alu_33.i1330.i, %alu_33.i1321.i
+  %call_11014.lobit906.i = and i16 %call_11025.lobit904.i, %alu_33.i1312.i
+  %call_11014.lobit906.lobit.i = lshr i16 %call_11014.lobit906.i, 15
+  %sel_11846.i = zext nneg i16 %call_11014.lobit906.lobit.i to i64
+  %alu_11854.i = and i64 %sel_11849.i, %sel_11846.i
+  %alu_13088917.i = and i1 %cmp_eq_11912.i, %cmp_eq_11905.not.not.i
+  %163 = lshr i64 %call_zx_11015.i, 7
+  %164 = or i64 %call_zx_11015.i, %call_zx_11026.i
+  %165 = and i64 %call_zx_11037.i, %call_zx_11026.i
+  %166 = lshr i64 %call_zx_11015.i, 2
+  %167 = lshr i64 %165, 2
+  %.lobit925.i = and i64 %167, 1
+  %alu_13147.i = and i64 %166, %.lobit925.i
+  %168 = lshr i64 %165, 3
+  %.lobit928.i = and i64 %168, 1
+  %alu_13185.i = and i64 %.lobit928.i, %166
+  %169 = lshr i64 %call_zx_11015.i, 3
+  %alu_13204.i = and i64 %169, %.lobit925.i
+  %alu_13223.i = or i64 %alu_13185.i, %alu_13204.i
+  %170 = lshr i64 %call_zx_11037.i, 7
+  %171 = lshr i64 %164, 7
+  %.lobit933.i = and i64 %170, 1
+  %alu_13283.i = and i64 %.lobit933.i, %171
+  %172 = lshr i64 %call_zx_11026.i, 8
+  %.lobit918935.i = or i64 %163, %172
+  %.lobit933942.i = or i64 %171, %170
+  %173 = lshr i64 %call_zx_11015.i, 9
+  %alu_13419.i = and i64 %173, 1
+  %alu_13440.i = and i64 %alu_13419.i, %.lobit933942.i
+  %174 = or i64 %164, %call_zx_11037.i
+  %alu_13890.i = shl nuw nsw i64 %alu_13147.i, 2
+  %alu_13908.i = shl nuw nsw i64 %alu_13223.i, 3
+  %175 = or disjoint i64 %alu_13908.i, %alu_13890.i
+  %.lobit968.i = and i64 %call_zx_11037.i, 32
+  %176 = or disjoint i64 %175, %.lobit968.i
+  %.lobit969.i = and i64 %165, 64
+  %177 = or disjoint i64 %176, %.lobit969.i
+  %alu_13980.i = shl nuw nsw i64 %alu_13283.i, 7
+  %178 = trunc i64 %.lobit918935.i to i1
+  %179 = select i1 %178, i64 768, i64 0
+  %180 = and i64 %179, %call_zx_11037.i
+  %alu_13459972.i = shl nuw nsw i64 %alu_13440.i, 10
+  %181 = and i64 %alu_13459972.i, %call_zx_11026.i
+  %182 = and i64 %181, %call_zx_11037.i
+  %183 = and i64 %182, %call_zx_11015.i
+  %184 = and i64 %174, 30720
+  %alu_14124.i = shl nuw nsw i64 %alu_11854.i, 15
+  %185 = or disjoint i64 %alu_13980.i, %184
+  %186 = or disjoint i64 %185, %180
+  %187 = or disjoint i64 %alu_14124.i, %186
+  %188 = or disjoint i64 %187, %alu_11048.i
+  %189 = or i64 %183, %177
+  %alu_14131.i = or i64 %189, %188
+  %alu_14143.i = select i1 %alu_13088917.i, i64 65535, i64 0
+  %alu_14148.i = xor i64 %alu_14131.i, -1
+  %alu_14154.i = and i64 %alu_14143.i, %alu_14148.i
+  %cmp_eq_14169.i = icmp eq i64 %alu_14154.i, 0
+  br i1 %cmp_eq_14169.i, label %l___private_LeanNativeInput_0__BitcoinLedger_FreestandingKernels_msStep.exit, label %ite_else_14173.i
+
+ite_else_14173.i:                                 ; preds = %ite_else_11921.i
+  %190 = trunc nuw i64 %alu_14154.i to i16
+  %call_tr_14180.i = xor i16 %190, -1
+  %rst_tr8_14.i1334.i = trunc i16 %call_tr_14180.i to i8
+  store i8 %rst_tr8_14.i1334.i, ptr %rld_gep_10.i1306.i, align 1
+  %191 = lshr i16 %call_tr_14180.i, 8
+  %rst_tr8_34.i1336.i = trunc nuw i16 %191 to i8
+  store i8 %rst_tr8_34.i1336.i, ptr %rld_gep_21.i1309.i, align 1
+  %alu_14183.i = and i64 %slot_v1869.0, 1125899906842623
+  %alu_14188.i = shl nuw nsw i64 %alu_11020.i, 56
+  %alu_14192.i = or disjoint i64 %alu_14188.i, %alu_14183.i
+  br label %l___private_LeanNativeInput_0__BitcoinLedger_FreestandingKernels_msStep.exit
+
+ite_else_37.i:                                    ; preds = %ite_then_9.i
+  %alu_26.i = lshr i64 %slot_v1869.0, 47
+  %alu_30.i = and i64 %alu_26.i, 7
+  %alu_14203.i = and i64 %slot_v1869.0, 9222386874436288256
+  %alu_14206.i = or disjoint i64 %alu_14203.i, %rld_val_16.i
+  %alu_14209.i = and i64 %slot_v1869.0, 9222386874436223231
+  %alu_14212.i = shl nuw nsw i64 %rld_val_16.i, 8
+  %alu_14216.i = or disjoint i64 %alu_14212.i, %alu_14209.i
+  %alu_14219.i = and i64 %slot_v1869.0, 9222386874419576831
+  %alu_14222.i = shl nuw nsw i64 %rld_val_16.i, 16
+  %alu_14226.i = or disjoint i64 %alu_14222.i, %alu_14219.i
+  %alu_14229.i = and i64 %slot_v1869.0, 9222386870158098431
+  %alu_14232.i = shl nuw nsw i64 %rld_val_16.i, 24
+  %alu_14236.i = or disjoint i64 %alu_14232.i, %alu_14229.i
+  %cmp_eq_14240.i = icmp eq i64 %alu_30.i, 0
+  %cmp_eq_14244.i = icmp eq i64 %alu_30.i, 1
+  %cmp_eq_14248.i = icmp eq i64 %alu_30.i, 2
+  %alu_14263.i = select i1 %cmp_eq_14248.i, i64 %alu_14226.i, i64 %alu_14236.i
+  %alu_14279.i = select i1 %cmp_eq_14244.i, i64 %alu_14216.i, i64 %alu_14263.i
+  %alu_14295.i = select i1 %cmp_eq_14240.i, i64 %alu_14206.i, i64 %alu_14279.i
+  %alu_14299.i = shl nuw nsw i64 %alu_30.i, 47
+  %alu_14302.i = add nuw nsw i64 %alu_14299.i, 140737488355328
+  %alu_14306.i = or i64 %alu_14295.i, %alu_14302.i
+  %cmp_le_14314.i = icmp samesign ugt i64 %alu_30.i, 2
+  br i1 %cmp_le_14314.i, label %ite_then_14316.i, label %l___private_LeanNativeInput_0__BitcoinLedger_FreestandingKernels_msStep.exit
+
+ite_then_14316.i:                                 ; preds = %ite_else_37.i
+  %alu_2.i.i = lshr i64 %alu_14306.i, 50
+  %alu_6.i.i = and i64 %alu_2.i.i, 63
+  %alu_11.i.i = and i64 %alu_14236.i, 4294967295
+  %alu_14.i.i = and i64 %slot_v1869.0, 65535
+  %alu_19.i.i = lshr i64 %alu_11.i.i, 16
+  %alu_28.i.i = and i64 %slot_v1869.0, 9151314442816847872
+  %192 = and i64 %slot_v1869.0, 69805794224242688
+  %alu_51257.not.i.i = icmp eq i64 %192, 6755399441055744
+  br i1 %alu_51257.not.i.i, label %ite_then_63.i.i, label %ite_else_64.i.i
+
+ite_then_63.i.i:                                  ; preds = %ite_then_14316.i
+  %cmp_eq_34.i.i = icmp eq i64 %alu_6.i.i, 6
+  %alu_72.i.i = and i64 %alu_14236.i, 4290707456
+  %cmp_eq_79.i.i = icmp eq i64 %alu_72.i.i, 0
+  %cmp_le_91.not.i.i = icmp ne i64 %alu_14.i.i, 0
+  %alu_102275.i.i = and i1 %cmp_eq_79.i.i, %cmp_le_91.not.i.i
+  %193 = add nsw i64 %alu_11.i.i, -1
+  %alu_137276.i.i = icmp ult i64 %193, 2147483647
+  %sel_149.i.i = zext i1 %alu_137276.i.i to i64
+  %alu_158.i.i = select i1 %cmp_eq_34.i.i, i64 65535, i64 0
+  %alu_163277.i.i = xor i1 %alu_102275.i.i, %alu_137276.i.i
+  %194 = and i64 %alu_158.i.i, 1
+  %alu_169.i.i = select i1 %alu_163277.i.i, i64 %194, i64 0
+  %cmp_eq_183.i.i = icmp eq i64 %alu_169.i.i, %sel_149.i.i
+  br i1 %cmp_eq_183.i.i, label %l___private_LeanNativeInput_0__BitcoinLedger_FreestandingKernels_msStep.exit, label %ite_else_186.i.i
+
+ite_else_186.i.i:                                 ; preds = %ite_then_63.i.i
+  %alu_191.i.i = and i64 %slot_v1869.0, 4194304
+  %cmp_eq_195.i.i = icmp eq i64 %alu_191.i.i, 0
+  br i1 %cmp_eq_195.i.i, label %ite_then_197.i.i, label %ite_else_198.i.i
+
+ite_then_197.i.i:                                 ; preds = %ite_else_186.i.i
+  %cmp_le_206.i.i = icmp samesign ult i64 %alu_11.i.i, 500000000
+  %cmp_eq_243279.i.i = icmp ne i64 %194, 0
+  %cmp_eq_243.i.i = or i1 %cmp_le_206.i.i, %cmp_eq_243279.i.i
+  %195 = trunc nuw i64 %alu_158.i.i to i16
+  br i1 %cmp_eq_243.i.i, label %ite_then_245.i.i, label %ite_else_246.i.i
+
+ite_then_245.i.i:                                 ; preds = %ite_then_197.i.i
+  %196 = and i16 %195, 20480
+  %call_tr_797.i.i = xor i16 %196, -15100
+  %call_798.i.i = tail call fastcc i64 @l___private_LeanNativeInput_0__BitcoinLedger_FreestandingKernels_msPush(ptr %arg_v4, i64 %alu_28.i.i, i16 zeroext %call_tr_797.i.i)
+  br label %l___private_LeanNativeInput_0__BitcoinLedger_FreestandingKernels_msStep.exit
+
+ite_else_246.i.i:                                 ; preds = %ite_then_197.i.i
+  %197 = and i16 %195, 10240
+  %call_tr_1349.i.i = xor i16 %197, -23292
+  %call_1350.i.i = tail call fastcc i64 @l___private_LeanNativeInput_0__BitcoinLedger_FreestandingKernels_msPush(ptr %arg_v4, i64 %alu_28.i.i, i16 zeroext %call_tr_1349.i.i)
+  br label %l___private_LeanNativeInput_0__BitcoinLedger_FreestandingKernels_msStep.exit
+
+ite_else_198.i.i:                                 ; preds = %ite_else_186.i.i
+  %cmp_le_1358.i.i = icmp samesign ugt i64 %alu_11.i.i, 499999999
+  %sel_1361.i.i = zext i1 %cmp_le_1358.i.i to i64
+  %alu_1375.i.i = xor i64 %sel_1361.i.i, 1
+  %alu_1381.i.i = and i64 %alu_158.i.i, %alu_1375.i.i
+  %cmp_eq_1395.i.i = icmp eq i64 %alu_1381.i.i, %sel_1361.i.i
+  %198 = trunc nuw i64 %alu_158.i.i to i16
+  br i1 %cmp_eq_1395.i.i, label %ite_then_1397.i.i, label %ite_else_1398.i.i
+
+ite_then_1397.i.i:                                ; preds = %ite_else_198.i.i
+  %199 = and i16 %198, 20480
+  %call_tr_1949.i.i = xor i16 %199, -15100
+  %call_1950.i.i = tail call fastcc i64 @l___private_LeanNativeInput_0__BitcoinLedger_FreestandingKernels_msPush(ptr %arg_v4, i64 %alu_28.i.i, i16 zeroext %call_tr_1949.i.i)
+  br label %l___private_LeanNativeInput_0__BitcoinLedger_FreestandingKernels_msStep.exit
+
+ite_else_1398.i.i:                                ; preds = %ite_else_198.i.i
+  %200 = and i16 %198, 10240
+  %call_tr_2501.i.i = xor i16 %200, -23292
+  %call_2502.i.i = tail call fastcc i64 @l___private_LeanNativeInput_0__BitcoinLedger_FreestandingKernels_msPush(ptr %arg_v4, i64 %alu_28.i.i, i16 zeroext %call_tr_2501.i.i)
+  br label %l___private_LeanNativeInput_0__BitcoinLedger_FreestandingKernels_msStep.exit
+
+ite_else_64.i.i:                                  ; preds = %ite_then_14316.i
+  %cmp_eq_2509.i.i = icmp eq i64 %alu_6.i.i, 12
+  %alu_2526258.not.i.i = icmp eq i64 %192, 13510798882111488
+  %201 = add nsw i64 %alu_14.i.i, -1
+  br i1 %alu_2526258.not.i.i, label %ite_then_2538.i.i, label %ite_else_2539.i.i
+
+ite_then_2538.i.i:                                ; preds = %ite_else_64.i.i
+  %alu_2613.i.i = select i1 %cmp_eq_2509.i.i, i64 20, i64 999
+  br i1 %cmp_eq_2546.i.i, label %ite_then_2548.i.i, label %ite_else_2549.i.i
+
+ite_then_2548.i.i:                                ; preds = %ite_then_2538.i.i
+  %cmp_le_2652.not.i.i = icmp samesign ule i64 %alu_19.i.i, %alu_2613.i.i
+  %202 = icmp ult i64 %201, %alu_19.i.i
+  %203 = and i1 %202, %cmp_le_2652.not.i.i
+  %alu_2682274.i.i = and i1 %cmp_eq_2509.i.i, %203
+  br i1 %alu_2682274.i.i, label %ite_else_2703.i.i, label %l___private_LeanNativeInput_0__BitcoinLedger_FreestandingKernels_msStep.exit
+
+ite_else_2703.i.i:                                ; preds = %ite_then_2548.i.i
+  %call_2969.i.i = tail call fastcc i64 @l___private_LeanNativeInput_0__BitcoinLedger_FreestandingKernels_msPush(ptr %arg_v4, i64 %alu_28.i.i, i16 zeroext -30992)
+  br label %l___private_LeanNativeInput_0__BitcoinLedger_FreestandingKernels_msStep.exit
+
+ite_else_2549.i.i:                                ; preds = %ite_then_2538.i.i
+  %cmp_le_3072.not.i.i = icmp samesign ugt i64 %alu_19.i.i, %alu_2613.i.i
+  %204 = icmp uge i64 %201, %alu_19.i.i
+  %205 = or i1 %204, %cmp_le_3072.not.i.i
+  %alu_3102270.not.i.i = or i1 %cmp_eq_2509.i.i, %205
+  br i1 %alu_3102270.not.i.i, label %l___private_LeanNativeInput_0__BitcoinLedger_FreestandingKernels_msStep.exit, label %ite_else_3123.i.i
+
+ite_else_3123.i.i:                                ; preds = %ite_else_2549.i.i
+  %call_3389.i.i = tail call fastcc i64 @l___private_LeanNativeInput_0__BitcoinLedger_FreestandingKernels_msPush(ptr %arg_v4, i64 %alu_28.i.i, i16 zeroext -31008)
+  br label %l___private_LeanNativeInput_0__BitcoinLedger_FreestandingKernels_msStep.exit
+
+ite_else_2539.i.i:                                ; preds = %ite_else_64.i.i
+  %alu_3393.i.i = lshr i64 %slot_v1869.0, 56
+  %alu_3423259.i.i = icmp uge i64 %201, %alu_19.i.i
+  %cmp_le_3437.not.i.i = icmp samesign ugt i64 %alu_19.i.i, %alu_3393.i.i
+  %cmp_le_3443.i.i = icmp samesign ugt i64 %alu_11.i.i, 4259839
+  %alu_3454260.not262.i.i = or i1 %cmp_le_3443.i.i, %cmp_le_3437.not.i.i
+  %alu_3473261.not.i.i = or i1 %alu_3423259.i.i, %alu_3454260.not262.i.i
+  br i1 %alu_3473261.not.i.i, label %l___private_LeanNativeInput_0__BitcoinLedger_FreestandingKernels_msStep.exit, label %ite_else_3494.i.i
+
+ite_else_3494.i.i:                                ; preds = %ite_else_2539.i.i
+  %alu_3501.i.i = sub nuw nsw i64 %alu_3393.i.i, %alu_19.i.i
+  %call_tr_3518.i.i = trunc nuw nsw i64 %alu_3501.i.i to i32
+  %206 = and i64 %slot_v1869.0, 65534
+  %cmp_le_484.i.i.i = icmp ne i64 %206, 0
+  br label %loop_hdr_3507.i.i
+
+loop_hdr_3507.i.i:                                ; preds = %l___private_LeanNativeInput_0__BitcoinLedger_FreestandingKernels_msThreshChild.exit.i.i, %ite_else_3494.i.i
+  %slot_v2721.0.i.i = phi i64 [ 0, %ite_else_3494.i.i ], [ %common.ret.op.i.i.i, %l___private_LeanNativeInput_0__BitcoinLedger_FreestandingKernels_msThreshChild.exit.i.i ]
+  %loop_idx_3511.i.i = phi i64 [ 0, %ite_else_3494.i.i ], [ %loop_next_3512.i.i, %l___private_LeanNativeInput_0__BitcoinLedger_FreestandingKernels_msThreshChild.exit.i.i ]
+  %loop_cmp_3513.i.i = icmp samesign ult i64 %loop_idx_3511.i.i, %alu_19.i.i
+  br i1 %loop_cmp_3513.i.i, label %loop_body_3508.i.i, label %loop_exit_3510.i.i
+
+loop_body_3508.i.i:                               ; preds = %loop_hdr_3507.i.i
+  %cmp_eq_10.i.i.i = icmp samesign ult i64 %slot_v2721.0.i.i, 1099511627776
+  br i1 %cmp_eq_10.i.i.i, label %ite_then_12.i.i.i, label %l___private_LeanNativeInput_0__BitcoinLedger_FreestandingKernels_msThreshChild.exit.i.i
+
+ite_then_12.i.i.i:                                ; preds = %loop_body_3508.i.i
+  %call_tr_3522.i.i = trunc nuw nsw i64 %loop_idx_3511.i.i to i32
+  %alu_19.narrow.i.i.i = add i32 %call_tr_3522.i.i, %call_tr_3518.i.i
+  %alu_5.i.i.i.i = shl i32 %alu_19.narrow.i.i.i, 1
+  %rld_gep_10.i.i.i.i = getelementptr inbounds nuw i8, ptr %arg_v4, i32 %alu_5.i.i.i.i
+  %rld_i8_11.i.i.i.i = load i8, ptr %rld_gep_10.i.i.i.i, align 1
+  %rld_val_12.i.i.i.i = zext i8 %rld_i8_11.i.i.i.i to i16
+  %rld_gep_21.i.i.i.i = getelementptr inbounds nuw i8, ptr %rld_gep_10.i.i.i.i, i32 1
+  %rld_i8_22.i.i.i.i = load i8, ptr %rld_gep_21.i.i.i.i, align 1
+  %rld_val_23.i.i.i.i = zext i8 %rld_i8_22.i.i.i.i to i16
+  %alu_33.i.i.i.i = shl nuw i16 %rld_val_23.i.i.i.i, 8
+  %alu_40.i.i.i.i = or disjoint i16 %alu_33.i.i.i.i, %rld_val_12.i.i.i.i
+  %call_zx_25.i.i.i = zext i16 %alu_40.i.i.i.i to i64
+  %cmp_eq_46.i.i.i = icmp eq i32 %call_tr_3522.i.i, 0
+  %alu_72.i.i.i = select i1 %cmp_eq_46.i.i.i, i64 0, i64 3
+  %alu_79.i.i.i = and i64 %call_zx_25.i.i.i, 3
+  %cmp_eq_86.i.i.i = icmp ne i64 %alu_79.i.i.i, %alu_72.i.i.i
+  %207 = and i64 %call_zx_25.i.i.i, 96
+  %208 = icmp ne i64 %207, 96
+  %cmp_eq_163.not.not.not.i.i.i = or i1 %cmp_eq_86.i.i.i, %208
+  br i1 %cmp_eq_163.not.not.not.i.i.i, label %ite_then_176.i.i.i, label %ite_else_177.i.i.i
+
+ite_then_176.i.i.i:                               ; preds = %ite_then_12.i.i.i
+  %alu_181.i.i.i = or disjoint i64 %slot_v2721.0.i.i, 1099511627776
+  br label %l___private_LeanNativeInput_0__BitcoinLedger_FreestandingKernels_msThreshChild.exit.i.i
+
+ite_else_177.i.i.i:                               ; preds = %ite_then_12.i.i.i
+  %alu_186.i.i.i = and i64 %slot_v2721.0.i.i, 127
+  %209 = lshr i64 %call_zx_25.i.i.i, 2
+  %.lobit.i.i.i = and i64 %209, 1
+  %alu_212.i.i.i = add nuw nsw i64 %.lobit.i.i.i, %alu_186.i.i.i
+  %210 = lshr i64 %call_zx_25.i.i.i, 11
+  %211 = lshr i64 %slot_v2721.0.i.i, 36
+  %alu_495.i.i.i = and i64 %210, %211
+  %212 = lshr i64 %call_zx_25.i.i.i, 12
+  %213 = lshr i64 %slot_v2721.0.i.i, 35
+  %alu_514.i.i.i = and i64 %212, %213
+  %214 = lshr i64 %call_zx_25.i.i.i, 13
+  %215 = lshr i64 %slot_v2721.0.i.i, 38
+  %alu_554.i.i.i = and i64 %214, %215
+  %216 = lshr i64 %call_zx_25.i.i.i, 14
+  %217 = lshr i64 %slot_v2721.0.i.i, 37
+  %alu_573.i.i.i = and i64 %216, %217
+  %alu_592.i.i.i = or i64 %alu_495.i.i.i, %alu_514.i.i.i
+  %alu_533.i.i.i = or i64 %alu_592.i.i.i, %alu_573.i.i.i
+  %alu_613.i.i.i = or i64 %alu_533.i.i.i, %alu_554.i.i.i
+  %218 = and i64 %alu_613.i.i.i, 1
+  %cmp_eq_641.not88.i.i.i = icmp ne i64 %218, 0
+  %cmp_eq_641.not.not.not94.not95.not98.not100.i.i.i = and i1 %cmp_le_484.i.i.i, %cmp_eq_641.not88.i.i.i
+  %.lobit8089.i.i.i = or i64 %210, %213
+  %.lobit8290.i.i.i = or i64 %212, %211
+  %.lobit8491.i.i.i = or i64 %214, %217
+  %.lobit8692.i.i.i = or i64 %216, %215
+  %cmp_eq_767.i.i.i = icmp sgt i16 %alu_33.i.i.i.i, -1
+  %cmp_eq_779.not.i.i.i = icmp samesign ugt i64 %slot_v2721.0.i.i, 549755813887
+  %alu_79093.not.not.not97.not99.i.i.i = or i1 %cmp_eq_779.not.i.i.i, %cmp_eq_641.not.not.not94.not95.not98.not100.i.i.i
+  %alu_81196.not.not.i.i.i = or i1 %cmp_eq_767.i.i.i, %alu_79093.not.not.not97.not99.i.i.i
+  %219 = shl nuw nsw i64 %call_zx_25.i.i.i, 4
+  %alu_245101.i.i.i = and i64 %219, 128
+  %arg_v4.mask.i.i.i = and i64 %slot_v2721.0.i.i, 16256
+  %alu_827.i.i.i = add nuw nsw i64 %alu_245101.i.i.i, %arg_v4.mask.i.i.i
+  %alu_831.i.i.i = or i64 %alu_212.i.i.i, %alu_827.i.i.i
+  %220 = shl nuw nsw i64 %call_zx_25.i.i.i, 7
+  %sel_285.i.i.i = and i64 %220, 16384
+  %alu_288102.i.i.i = xor i64 %sel_285.i.i.i, 16384
+  %arg_v4.mask103.i.i.i = and i64 %slot_v2721.0.i.i, 2080768
+  %alu_834.i.i.i = add nuw nsw i64 %alu_288102.i.i.i, %arg_v4.mask103.i.i.i
+  %221 = shl nuw nsw i64 %call_zx_25.i.i.i, 12
+  %alu_321104.i.i.i = and i64 %221, 2097152
+  %arg_v4.mask105.i.i.i = and i64 %slot_v2721.0.i.i, 266338304
+  %alu_841.i.i.i = add nuw nsw i64 %alu_321104.i.i.i, %arg_v4.mask105.i.i.i
+  %222 = shl nuw nsw i64 %call_zx_25.i.i.i, 18
+  %alu_354106.i.i.i = and i64 %222, 268435456
+  %arg_v4.mask107.i.i.i = and i64 %slot_v2721.0.i.i, 34091302912
+  %alu_848.i.i.i = add nuw nsw i64 %alu_354106.i.i.i, %arg_v4.mask107.i.i.i
+  %alu_653.i.i.i = shl nuw nsw i64 %.lobit8089.i.i.i, 35
+  %alu_855.i.i.i = and i64 %alu_653.i.i.i, 34359738368
+  %alu_677.i.i.i = shl nuw nsw i64 %.lobit8290.i.i.i, 36
+  %alu_862.i.i.i = and i64 %alu_677.i.i.i, 68719476736
+  %alu_701.i.i.i = shl nuw nsw i64 %.lobit8491.i.i.i, 37
+  %alu_869.i.i.i = and i64 %alu_701.i.i.i, 137438953472
+  %alu_725.i.i.i = shl nuw nsw i64 %.lobit8692.i.i.i, 38
+  %alu_876.i.i.i = and i64 %alu_725.i.i.i, 274877906944
+  %alu_883.i.i.i = select i1 %alu_81196.not.not.i.i.i, i64 549755813888, i64 0
+  %alu_838.i.i.i = or disjoint i64 %alu_831.i.i.i, %alu_841.i.i.i
+  %alu_845.i.i.i = or disjoint i64 %alu_834.i.i.i, %alu_848.i.i.i
+  %alu_852.i.i.i = or disjoint i64 %alu_862.i.i.i, %alu_855.i.i.i
+  %alu_859.i.i.i = or disjoint i64 %alu_852.i.i.i, %alu_869.i.i.i
+  %alu_866.i.i.i = or disjoint i64 %alu_859.i.i.i, %alu_876.i.i.i
+  %alu_873.i.i.i = or i64 %alu_866.i.i.i, %alu_845.i.i.i
+  %alu_880.i.i.i = or i64 %alu_873.i.i.i, %alu_838.i.i.i
+  %alu_887.i.i.i = or i64 %alu_880.i.i.i, %alu_883.i.i.i
+  br label %l___private_LeanNativeInput_0__BitcoinLedger_FreestandingKernels_msThreshChild.exit.i.i
+
+l___private_LeanNativeInput_0__BitcoinLedger_FreestandingKernels_msThreshChild.exit.i.i: ; preds = %ite_else_177.i.i.i, %ite_then_176.i.i.i, %loop_body_3508.i.i
+  %common.ret.op.i.i.i = phi i64 [ %alu_181.i.i.i, %ite_then_176.i.i.i ], [ %alu_887.i.i.i, %ite_else_177.i.i.i ], [ %slot_v2721.0.i.i, %loop_body_3508.i.i ]
+  %loop_next_3512.i.i = add nuw nsw i64 %loop_idx_3511.i.i, 1
+  br label %loop_hdr_3507.i.i
+
+loop_exit_3510.i.i:                               ; preds = %loop_hdr_3507.i.i
+  %cmp_eq_3532.i.i = icmp samesign ugt i64 %slot_v2721.0.i.i, 1099511627775
+  br i1 %cmp_eq_3532.i.i, label %l___private_LeanNativeInput_0__BitcoinLedger_FreestandingKernels_msStep.exit, label %ite_else_3948.i.i
+
+ite_else_3948.i.i:                                ; preds = %loop_exit_3510.i.i
+  %alu_3550.i.i = lshr i64 %slot_v2721.0.i.i, 21
+  %alu_3552.i.i = and i64 %alu_3550.i.i, 127
+  %cmp_eq_3616.i.i = icmp eq i64 %alu_3552.i.i, %alu_19.i.i
+  %alu_3544.i.i = lshr i64 %slot_v2721.0.i.i, 14
+  %alu_3546.i.i = and i64 %alu_3544.i.i, 127
+  %cmp_eq_3621.i.i = icmp eq i64 %alu_3546.i.i, 0
+  %alu_3632264.i.i = and i1 %cmp_eq_3616.i.i, %cmp_eq_3621.i.i
+  %alu_3829.i.i = select i1 %alu_3632264.i.i, i64 2, i64 0
+  %223 = lshr i64 %slot_v2721.0.i.i, 32
+  %224 = and i64 %223, 248
+  %alu_3836.i.i = or disjoint i64 %alu_3829.i.i, %224
+  %alu_3556.i.i = lshr i64 %slot_v2721.0.i.i, 28
+  %alu_3558.i.i = and i64 %alu_3556.i.i, 127
+  %cmp_eq_3644.i.i = icmp eq i64 %alu_3558.i.i, %alu_19.i.i
+  %cmp_le_3664.not.i.i = icmp samesign ule i64 %alu_3546.i.i, %alu_14.i.i
+  %225 = and i1 %cmp_eq_3644.i.i, %cmp_le_3664.not.i.i
+  %alu_3675266.i.i = and i1 %cmp_eq_3616.i.i, %225
+  %alu_3845.i.i = select i1 %alu_3675266.i.i, i64 4, i64 0
+  %226 = or disjoint i64 %alu_3836.i.i, %alu_3845.i.i
+  %alu_3534.i.i = and i64 %slot_v2721.0.i.i, 127
+  %cmp_eq_3566.i.i = icmp eq i64 %alu_3534.i.i, %alu_19.i.i
+  %alu_3779.i.i = select i1 %cmp_eq_3566.i.i, i8 100, i8 96
+  %alu_3570.i.i = add nuw nsw i64 %alu_19.i.i, 4294967295
+  %alu_3571.i.i = and i64 %alu_3570.i.i, 4294967295
+  %cmp_eq_3577.i.i = icmp eq i64 %alu_3534.i.i, %alu_3571.i.i
+  %227 = and i64 %slot_v2721.0.i.i, 16256
+  %cmp_eq_3582.i.i = icmp eq i64 %227, 128
+  %alu_3593263.i.i = and i1 %cmp_eq_3577.i.i, %cmp_eq_3582.i.i
+  %alu_3744.i.i = select i1 %alu_3593263.i.i, i8 8, i8 0
+  %alu_3792.i.i = or disjoint i8 %alu_3744.i.i, %alu_3779.i.i
+  %alu_3603.i.i = add nuw nsw i64 %alu_14.i.i, 4294967295
+  %alu_3604.i.i = and i64 %alu_3603.i.i, 4294967295
+  %cmp_le_3610.not.not.i.i = icmp samesign ugt i64 %alu_3546.i.i, %alu_3604.i.i
+  %alu_3801.i.i = select i1 %cmp_le_3610.not.not.i.i, i8 0, i8 -128
+  %alu_3808.i.i = or disjoint i8 %alu_3792.i.i, %alu_3801.i.i
+  %alu_5.i.i.i = shl nuw nsw i32 %call_tr_3518.i.i, 1
+  %rst_gep_13.i.i1337.i = getelementptr inbounds nuw i8, ptr %arg_v4, i32 %alu_5.i.i.i
+  store i8 %alu_3808.i.i, ptr %rst_gep_13.i.i1337.i, align 1
+  %rst_gep_33.i.i1338.i = getelementptr inbounds nuw i8, ptr %rst_gep_13.i.i1337.i, i32 1
+  %228 = trunc nuw i64 %226 to i8
+  %rst_tr8_34.i.i1339.i = xor i8 %228, -128
+  store i8 %rst_tr8_34.i.i1339.i, ptr %rst_gep_33.i.i1338.i, align 1
+  %alu_3960.i.i = shl nuw nsw i64 %alu_3501.i.i, 56
+  %alu_3969.i.i = add nuw i64 %alu_3960.i.i, 72057594037927936
+  br label %l___private_LeanNativeInput_0__BitcoinLedger_FreestandingKernels_msStep.exit
+
+l___private_LeanNativeInput_0__BitcoinLedger_FreestandingKernels_msStep.exit: ; preds = %loop_body_45, %ite_then_46.i, %ite_then_322.i, %ite_then_598.i, %ite_then_873.i, %ite_then_1148.i, %ite_then_1423.i, %ite_then_1723.i, %ite_then_2107.i, %ite_then_2156.i, %ite_then_2508.i, %ite_else_2808.i, %ite_then_2824.i, %ite_else_3143.i, %ite_then_3159.i, %ite_else_3459.i, %ite_then_3475.i, %ite_else_3775.i, %ite_then_3820.i, %ite_else_4120.i, %ite_else_3821.i, %ite_else_4426.i, %ite_then_4442.i, %ite_else_4742.i, %ite_then_4758.i, %ite_else_5077.i, %ite_then_5093.i, %ite_else_5393.i, %ite_else_5094.i, %ite_else_5736.i, %ite_then_5796.i, %ite_then_7080.i, %ite_else_7097.i, %ite_else_7795.i, %ite_then_7824.i, %ite_else_8305.i, %ite_then_8334.i, %ite_else_8699.i, %ite_then_8728.i, %ite_else_9148.i, %ite_then_9177.i, %ite_else_9540.i, %ite_then_9569.i, %ite_else_9932.i, %ite_then_9961.i, %ite_else_9972.i, %ite_else_10914.i, %ite_else_5797.i, %ite_then_10975.i, %ite_else_10992.i, %ite_else_11921.i, %ite_else_14173.i, %ite_else_37.i, %ite_then_63.i.i, %ite_then_245.i.i, %ite_else_246.i.i, %ite_then_1397.i.i, %ite_else_1398.i.i, %ite_then_2548.i.i, %ite_else_2703.i.i, %ite_else_2549.i.i, %ite_else_3123.i.i, %ite_else_2539.i.i, %loop_exit_3510.i.i, %ite_else_3948.i.i
+  %common.ret.op.i = phi i64 [ %call_313.i, %ite_then_46.i ], [ %call_589.i, %ite_then_322.i ], [ %call_864.i, %ite_then_598.i ], [ %call_1139.i, %ite_then_873.i ], [ %call_1414.i, %ite_then_1148.i ], [ %call_1689.i, %ite_then_1423.i ], [ %call_1990.i, %ite_then_1723.i ], [ %alu_2121.i, %ite_then_2107.i ], [ %slot_v1869.0, %ite_else_2808.i ], [ %slot_v1869.0, %ite_else_3143.i ], [ %slot_v1869.0, %ite_else_3459.i ], [ %slot_v1869.0, %ite_else_3775.i ], [ %slot_v1869.0, %ite_else_4120.i ], [ %slot_v1869.0, %ite_else_4426.i ], [ %slot_v1869.0, %ite_else_4742.i ], [ %slot_v1869.0, %ite_else_5077.i ], [ %slot_v1869.0, %ite_else_5393.i ], [ %slot_v1869.0, %ite_else_5736.i ], [ %alu_7814.i, %ite_else_7795.i ], [ %alu_8324.i, %ite_else_8305.i ], [ %alu_8718.i, %ite_else_8699.i ], [ %alu_9167.i, %ite_else_9148.i ], [ %alu_9559.i, %ite_else_9540.i ], [ %alu_9951.i, %ite_else_9932.i ], [ %alu_10933.i, %ite_else_10914.i ], [ %alu_14192.i, %ite_else_14173.i ], [ -9223372036854775808, %ite_then_2156.i ], [ -9223372036854775808, %ite_then_2508.i ], [ -9223372036854775808, %ite_then_2824.i ], [ -9223372036854775808, %ite_then_3159.i ], [ -9223372036854775808, %ite_then_3475.i ], [ -9223372036854775808, %ite_then_3820.i ], [ -9223372036854775808, %ite_else_3821.i ], [ -9223372036854775808, %ite_then_4442.i ], [ -9223372036854775808, %ite_then_4758.i ], [ -9223372036854775808, %ite_then_5093.i ], [ -9223372036854775808, %ite_else_5094.i ], [ -9223372036854775808, %ite_then_5796.i ], [ -9223372036854775808, %ite_then_7080.i ], [ -9223372036854775808, %ite_else_7097.i ], [ -9223372036854775808, %ite_then_7824.i ], [ -9223372036854775808, %ite_then_8334.i ], [ -9223372036854775808, %ite_then_8728.i ], [ -9223372036854775808, %ite_then_9177.i ], [ -9223372036854775808, %ite_then_9569.i ], [ -9223372036854775808, %ite_then_9961.i ], [ -9223372036854775808, %ite_else_9972.i ], [ -9223372036854775808, %ite_then_10975.i ], [ -9223372036854775808, %ite_else_10992.i ], [ -9223372036854775808, %ite_else_11921.i ], [ -9223372036854775808, %ite_else_5797.i ], [ %alu_14306.i, %ite_else_37.i ], [ %slot_v1869.0, %loop_body_45 ], [ %call_798.i.i, %ite_then_245.i.i ], [ %call_1350.i.i, %ite_else_246.i.i ], [ %call_1950.i.i, %ite_then_1397.i.i ], [ %call_2502.i.i, %ite_else_1398.i.i ], [ %call_2969.i.i, %ite_else_2703.i.i ], [ %call_3389.i.i, %ite_else_3123.i.i ], [ %alu_3969.i.i, %ite_else_3948.i.i ], [ -9223372036854775808, %ite_then_63.i.i ], [ -9223372036854775808, %ite_then_2548.i.i ], [ -9223372036854775808, %ite_else_2549.i.i ], [ -9223372036854775808, %ite_else_2539.i.i ], [ -9223372036854775808, %loop_exit_3510.i.i ]
+  %loop_next_49 = add nuw nsw i64 %loop_idx_48, 1
+  br label %loop_hdr_44
+
+loop_exit_47:                                     ; preds = %loop_hdr_44
+  %229 = and i64 %slot_v1869.0, -1125899906842624
+  %alu_12622.not = icmp eq i64 %229, 72057594037927936
+  br i1 %alu_12622.not, label %ite_else_147, label %common.ret
+
+ite_else_147:                                     ; preds = %loop_exit_47
+  %rld_i8_11.i = load i8, ptr %arg_v4, align 1
+  %rld_val_12.i = zext i8 %rld_i8_11.i to i16
+  %rld_gep_21.i = getelementptr inbounds nuw i8, ptr %arg_v4, i32 1
+  %rld_i8_22.i = load i8, ptr %rld_gep_21.i, align 1
+  %rld_val_23.i = zext i8 %rld_i8_22.i to i16
+  %alu_33.i = shl nuw i16 %rld_val_23.i, 8
+  %alu_40.i = or disjoint i16 %alu_33.i, %rld_val_12.i
+  %call_zx_156 = zext i16 %alu_40.i to i64
+  %sel_191 = xor i64 %arg_ext_v3, -1
+  %230 = lshr i64 %call_zx_156, 10
+  %alu_199 = or i64 %230, %sel_191
+  %alu_214 = lshr i64 %arg_ext_v3, 1
+  %sel_244 = xor i64 %alu_214, -1
+  %231 = lshr i64 %call_zx_156, 7
+  %alu_252 = or i64 %231, %sel_244
+  %alu_267 = and i64 %call_zx_156, 3
+  %cmp_eq_274 = icmp eq i64 %alu_267, 0
+  %232 = icmp slt i16 %alu_33.i, 0
+  %233 = and i1 %232, %cmp_eq_274
+  %alu_324 = and i64 %alu_252, 1
+  %234 = and i64 %alu_324, %alu_199
+  %cmp_eq_35025 = icmp ne i64 %234, 0
+  %cmp_eq_350 = select i1 %233, i1 %cmp_eq_35025, i1 false
+  %ret_tr_354 = zext i1 %cmp_eq_350 to i8
+  br label %common.ret
 }
 
-; Function Attrs: mustprogress nofree norecurse nosync nounwind optsize willreturn memory(none)
-define hidden noundef i64 @llb_psbt_locktime_init() local_unnamed_addr #0 {
+; Function Attrs: minsize mustprogress nofree norecurse nosync nounwind optsize willreturn memory(none)
+define hidden noundef range(i32 -2147483648, 0) i32 @llb_bip32_harden(i32 noundef %arg_v0) local_unnamed_addr #4 {
+entry:
+  %0 = or i32 %arg_v0, -2147483648
+  ret i32 %0
+}
+
+; Function Attrs: minsize mustprogress nofree norecurse nosync nounwind optsize willreturn memory(none)
+define hidden zeroext range(i8 0, 2) i8 @llb_merkle_depth_index_ok(i32 noundef %arg_v0, i32 noundef %arg_v1, i8 noundef zeroext %arg_v2) local_unnamed_addr #4 {
+entry:
+  %cmp_lt_9 = icmp ult i32 %arg_v1, %arg_v0
+  %cmp_le_13 = icmp sgt i32 %arg_v1, -1
+  %cmp_le_17 = icmp ult i8 %arg_v2, 33
+  %narrow = and i1 %cmp_le_13, %cmp_le_17
+  %narrow6 = and i1 %cmp_lt_9, %narrow
+  %ret_tr_35 = zext i1 %narrow6 to i8
+  ret i8 %ret_tr_35
+}
+
+; Function Attrs: minsize mustprogress nofree norecurse nosync nounwind optsize willreturn memory(none)
+define hidden range(i32 0, 1073741824) i32 @llb_bech32_polymod_step(i32 noundef %arg_v0, i8 noundef zeroext %arg_v1) local_unnamed_addr #4 {
+entry:
+  %arg_ext_v0 = zext i32 %arg_v0 to i64
+  %arg_ext_v1 = zext i8 %arg_v1 to i32
+  %alu_5 = shl i32 %arg_v0, 5
+  %alu_9 = and i32 %alu_5, 1073741792
+  %alu_17 = xor i32 %alu_9, %arg_ext_v1
+  %0 = and i64 %arg_ext_v0, 33554432
+  %cmp_eq_26 = icmp eq i64 %0, 0
+  %1 = and i64 %arg_ext_v0, 67108864
+  %cmp_eq_34 = icmp eq i64 %1, 0
+  %2 = and i64 %arg_ext_v0, 134217728
+  %cmp_eq_42 = icmp eq i64 %2, 0
+  %3 = and i64 %arg_ext_v0, 268435456
+  %cmp_eq_50 = icmp eq i64 %3, 0
+  %4 = and i64 %arg_ext_v0, 536870912
+  %cmp_eq_58 = icmp eq i64 %4, 0
+  %sel_86.v = select i1 %cmp_eq_58, i32 1054471160, i32 349016395
+  %sel_101.v = select i1 %cmp_eq_58, i32 60538917, i32 697279126
+  %sel_106.v = select i1 %cmp_eq_50, i32 %sel_101.v, i32 %sel_86.v
+  %sel_125.v = select i1 %cmp_eq_58, i32 544795138, i32 174885041
+  %sel_140.v = select i1 %cmp_eq_58, i32 490396127, i32 925809516
+  %sel_145.v = select i1 %cmp_eq_50, i32 %sel_140.v, i32 %sel_125.v
+  %sel_150.v = select i1 %cmp_eq_42, i32 %sel_145.v, i32 %sel_106.v
+  %sel_173.v = select i1 %cmp_eq_58, i32 411663765, i32 849157926
+  %sel_188.v = select i1 %cmp_eq_58, i32 634080840, i32 266284283
+  %sel_193.v = select i1 %cmp_eq_50, i32 %sel_188.v, i32 %sel_173.v
+  %sel_212.v = select i1 %cmp_eq_58, i32 103310447, i32 742131420
+  %sel_227.v = select i1 %cmp_eq_58, i32 996825010, i32 293483777
+  %sel_232.v = select i1 %cmp_eq_50, i32 %sel_227.v, i32 %sel_212.v
+  %sel_237.v = select i1 %cmp_eq_42, i32 %sel_232.v, i32 %sel_193.v
+  %sel_242.v = select i1 %cmp_eq_34, i32 %sel_237.v, i32 %sel_150.v
+  %sel_242 = xor i32 %sel_242.v, %alu_17
+  %sel_269.v = select i1 %cmp_eq_58, i32 95659082, i32 799524601
+  %sel_284.v = select i1 %cmp_eq_58, i32 955357079, i32 317060388
+  %sel_289.v = select i1 %cmp_eq_50, i32 %sel_284.v, i32 %sel_269.v
+  %sel_308.v = select i1 %cmp_eq_58, i32 454213040, i32 822533891
+  %sel_323.v = select i1 %cmp_eq_58, i32 642813549, i32 205843678
+  %sel_328.v = select i1 %cmp_eq_50, i32 %sel_323.v, i32 %sel_308.v
+  %sel_333.v = select i1 %cmp_eq_42, i32 %sel_328.v, i32 %sel_289.v
+  %sel_333 = xor i32 %sel_333.v, %alu_17
+  %sel_356.v = select i1 %cmp_eq_58, i32 602090023, i32 167200916
+  %sel_371.v = select i1 %cmp_eq_58, i32 513874426, i32 884308809
+  %sel_376.v = select i1 %cmp_eq_50, i32 %sel_371.v, i32 %sel_356.v
+  %sel_376 = xor i32 %sel_376.v, %alu_17
+  %sel_395.v = select i1 %cmp_eq_58, i32 1027748829, i32 391532910
+  %sel_395 = xor i32 %sel_395.v, %alu_17
+  %alu_401 = xor i32 %alu_17, 705979059
+  %sel_410 = select i1 %cmp_eq_58, i32 %alu_17, i32 %alu_401
+  %sel_415 = select i1 %cmp_eq_50, i32 %sel_410, i32 %sel_395
+  %sel_420 = select i1 %cmp_eq_42, i32 %sel_415, i32 %sel_376
+  %sel_425 = select i1 %cmp_eq_34, i32 %sel_420, i32 %sel_333
+  %sel_430 = select i1 %cmp_eq_26, i32 %sel_425, i32 %sel_242
+  ret i32 %sel_430
+}
+
+; Function Attrs: minsize nofree norecurse nosync nounwind optsize memory(argmem: read)
+define hidden zeroext range(i8 0, 2) i8 @llb_bip32_check_export_path(ptr noundef readonly captures(none) %arg_v0, i8 noundef zeroext %arg_v1, i32 noundef %arg_v2) local_unnamed_addr #1 {
+entry:
+  %cmp_le_5 = icmp ult i8 %arg_v1, 11
+  br i1 %cmp_le_5, label %ite_then_8, label %common.ret
+
+ite_then_8:                                       ; preds = %entry
+  %cmp_lt_18.not = icmp eq i8 %arg_v1, 0
+  br i1 %cmp_lt_18.not, label %llb_bip32_pubkey_export_prefix_ok.exit531, label %ite_then_20
+
+ite_then_20:                                      ; preds = %ite_then_8
+  %rld_i32_26 = load i32, ptr %arg_v0, align 4
+  %rld_val_27 = zext i32 %rld_i32_26 to i64
+  %cmp_lt_33.not = icmp eq i8 %arg_v1, 1
+  br i1 %cmp_lt_33.not, label %ite_else_960, label %ite_then_35
+
+ite_then_35:                                      ; preds = %ite_then_20
+  %rld_gep_40 = getelementptr inbounds nuw i8, ptr %arg_v0, i32 4
+  %rld_i32_41 = load i32, ptr %rld_gep_40, align 4
+  %cmp_lt_48 = icmp samesign ugt i8 %arg_v1, 2
+  br i1 %cmp_lt_48, label %ite_then_50, label %ite_else_359
+
+ite_then_50:                                      ; preds = %ite_then_35
+  %rld_gep_55 = getelementptr inbounds nuw i8, ptr %arg_v0, i32 8
+  %rld_i32_56 = load i32, ptr %rld_gep_55, align 4
+  %cmp_lt_63.not = icmp eq i8 %arg_v1, 3
+  br i1 %cmp_lt_63.not, label %ite_else_66, label %ite_then_65
+
+ite_then_65:                                      ; preds = %ite_then_50
+  %rld_gep_70 = getelementptr inbounds nuw i8, ptr %arg_v0, i32 12
+  %rld_i32_71 = load i32, ptr %rld_gep_70, align 4
+  %alu_77 = and i64 %rld_val_27, 2147483647
+  %cmp_eq_85 = icmp eq i64 %alu_77, 48
+  %call_tr_104 = zext nneg i8 %arg_v1 to i32
+  br i1 %cmp_eq_85, label %ite_then_97, label %ite_else_156
+
+common.ret:                                       ; preds = %ite_else_359, %ite_else_960, %entry, %llb_bip32_pubkey_export_prefix_ok.exit531, %ite_else_295, %ite_then_236, %ite_else_156, %ite_then_97
+  %common.ret.op = phi i8 [ %call_122, %ite_then_97 ], [ %call_207, %ite_else_156 ], [ %call_261, %ite_then_236 ], [ %call_346, %ite_else_295 ], [ 0, %llb_bip32_pubkey_export_prefix_ok.exit531 ], [ 0, %entry ], [ 0, %ite_else_960 ], [ %call_581, %ite_else_359 ]
+  ret i8 %common.ret.op
+
+ite_then_97:                                      ; preds = %ite_then_65
+  %call_105 = tail call fastcc zeroext i8 @l_BitcoinLedger_FreestandingKernels_bip32TailClear(ptr nonnull %arg_v0, i32 4, i32 %call_tr_104)
+  %call_122 = tail call zeroext i8 @llb_bip32_pubkey_export_prefix_ok(i32 %rld_i32_26, i32 %rld_i32_41, i32 %rld_i32_56, i32 %rld_i32_71, i8 zeroext %arg_v1, i32 %arg_v2, i8 zeroext %call_105)
+  br label %common.ret
+
+ite_else_156:                                     ; preds = %ite_then_65
+  %call_190 = tail call fastcc zeroext i8 @l_BitcoinLedger_FreestandingKernels_bip32TailClear(ptr nonnull %arg_v0, i32 3, i32 %call_tr_104)
+  %call_207 = tail call zeroext i8 @llb_bip32_pubkey_export_prefix_ok(i32 %rld_i32_26, i32 %rld_i32_41, i32 %rld_i32_56, i32 %rld_i32_71, i8 zeroext %arg_v1, i32 %arg_v2, i8 zeroext %call_190)
+  br label %common.ret
+
+ite_else_66:                                      ; preds = %ite_then_50
+  %alu_216 = and i64 %rld_val_27, 2147483647
+  %cmp_eq_224 = icmp eq i64 %alu_216, 48
+  br i1 %cmp_eq_224, label %ite_then_236, label %ite_else_295
+
+ite_then_236:                                     ; preds = %ite_else_66
+  %call_244 = tail call fastcc zeroext i8 @l_BitcoinLedger_FreestandingKernels_bip32TailClear(ptr nonnull %arg_v0, i32 4, i32 3)
+  %call_261 = tail call zeroext i8 @llb_bip32_pubkey_export_prefix_ok(i32 %rld_i32_26, i32 %rld_i32_41, i32 %rld_i32_56, i32 0, i8 zeroext 3, i32 %arg_v2, i8 zeroext %call_244)
+  br label %common.ret
+
+ite_else_295:                                     ; preds = %ite_else_66
+  %call_329 = tail call fastcc zeroext i8 @l_BitcoinLedger_FreestandingKernels_bip32TailClear(ptr nonnull %arg_v0, i32 3, i32 3)
+  %call_346 = tail call zeroext i8 @llb_bip32_pubkey_export_prefix_ok(i32 %rld_i32_26, i32 %rld_i32_41, i32 %rld_i32_56, i32 0, i8 zeroext 3, i32 %arg_v2, i8 zeroext %call_329)
+  br label %common.ret
+
+ite_else_359:                                     ; preds = %ite_then_35
+  %call_564 = tail call fastcc zeroext i8 @l_BitcoinLedger_FreestandingKernels_bip32TailClear(ptr nonnull %arg_v0, i32 3, i32 2)
+  %call_581 = tail call zeroext i8 @llb_bip32_pubkey_export_prefix_ok(i32 %rld_i32_26, i32 %rld_i32_41, i32 0, i32 0, i8 zeroext %arg_v1, i32 %arg_v2, i8 zeroext %call_564)
+  br label %common.ret
+
+ite_else_960:                                     ; preds = %ite_then_20
+  %call_1165 = tail call fastcc zeroext i8 @l_BitcoinLedger_FreestandingKernels_bip32TailClear(ptr nonnull %arg_v0, i32 3, i32 1)
+  br label %common.ret
+
+llb_bip32_pubkey_export_prefix_ok.exit531:        ; preds = %ite_then_8
+  %call_2440 = tail call fastcc zeroext i8 @l_BitcoinLedger_FreestandingKernels_bip32TailClear(ptr %arg_v0, i32 3, i32 0)
+  br label %common.ret
+}
+
+; Function Attrs: alwaysinline minsize mustprogress nofree norecurse nosync nounwind optsize willreturn memory(none)
+define hidden zeroext range(i8 0, 2) i8 @llb_bip32_bolos_depth_ok(i8 noundef zeroext %arg_v0) local_unnamed_addr #2 {
+entry:
+  %cmp_le_3 = icmp ult i8 %arg_v0, 11
+  %ret_tr_6 = zext i1 %cmp_le_3 to i8
+  ret i8 %ret_tr_6
+}
+
+; Function Attrs: minsize mustprogress nofree norecurse nosync nounwind optsize willreturn memory(none)
+define hidden zeroext range(i8 0, 2) i8 @llb_bip32_pubkey_export_prefix_ok(i32 noundef %arg_v0, i32 noundef %arg_v1, i32 noundef %arg_v2, i32 noundef %arg_v3, i8 noundef zeroext %arg_v4, i32 noundef %arg_v5, i8 noundef zeroext %arg_v6) local_unnamed_addr #4 {
+entry:
+  %0 = and i8 %arg_v6, 1
+  %cmp_eq_3 = icmp eq i8 %arg_v4, 2
+  br i1 %cmp_eq_3, label %ite_then_5, label %ite_else_6
+
+ite_then_5:                                       ; preds = %entry
+  %cmp_eq_11 = icmp eq i32 %arg_v0, -2142942139
+  br i1 %cmp_eq_11, label %ite_then_13, label %common.ret
+
+common.ret:                                       ; preds = %ite_else_32, %ite_else_43, %ite_then_61, %ite_then_77, %ite_then_93, %ite_then_1370, %ite_then_1378, %ite_then_1394, %ite_then_145, %ite_then_145, %ite_then_145, %ite_then_145, %ite_then_145, %ite_then_145, %ite_then_118, %ite_else_6, %ite_then_5, %ite_else_1371, %ite_else_1408, %ite_then_13
+  %common.ret.op.shrunk = phi i1 [ %cmp_eq_19, %ite_then_13 ], [ %cmp_eq_1416, %ite_else_1408 ], [ false, %ite_else_1371 ], [ false, %ite_then_5 ], [ false, %ite_else_6 ], [ false, %ite_then_118 ], [ true, %ite_then_145 ], [ true, %ite_then_145 ], [ true, %ite_then_145 ], [ true, %ite_then_145 ], [ true, %ite_then_145 ], [ true, %ite_then_145 ], [ true, %ite_then_1394 ], [ false, %ite_then_1378 ], [ false, %ite_then_1370 ], [ false, %ite_then_93 ], [ false, %ite_then_77 ], [ false, %ite_then_61 ], [ false, %ite_else_43 ], [ false, %ite_else_32 ]
+  %common.ret.op = zext i1 %common.ret.op.shrunk to i8
+  ret i8 %common.ret.op
+
+ite_then_13:                                      ; preds = %ite_then_5
+  %cmp_eq_19 = icmp eq i32 %arg_v1, -1035385550
+  br label %common.ret
+
+ite_else_6:                                       ; preds = %entry
+  %cmp_lt_29 = icmp ult i8 %arg_v4, 3
+  br i1 %cmp_lt_29, label %common.ret, label %ite_else_32
+
+ite_else_32:                                      ; preds = %ite_else_6
+  %ite_cond_37.not = icmp eq i8 %0, 0
+  br i1 %ite_cond_37.not, label %common.ret, label %ite_else_43
+
+ite_else_43:                                      ; preds = %ite_else_32
+  %ite_cond_60.not = icmp sgt i32 %arg_v0, -1
+  br i1 %ite_cond_60.not, label %common.ret, label %ite_then_61
+
+ite_then_61:                                      ; preds = %ite_else_43
+  %ite_cond_76.not = icmp sgt i32 %arg_v1, -1
+  br i1 %ite_cond_76.not, label %common.ret, label %ite_then_77
+
+ite_then_77:                                      ; preds = %ite_then_61
+  %ite_cond_92.not = icmp sgt i32 %arg_v2, -1
+  br i1 %ite_cond_92.not, label %common.ret, label %ite_then_93
+
+ite_then_93:                                      ; preds = %ite_then_77
+  %1 = and i32 %arg_v0, 2147483647
+  %2 = and i32 %arg_v1, 2147483647
+  %cmp_eq_116 = icmp eq i32 %2, %arg_v5
+  br i1 %cmp_eq_116, label %ite_then_118, label %common.ret
+
+ite_then_118:                                     ; preds = %ite_then_93
+  %3 = and i32 %arg_v2, 2147483647
+  %cmp_lt_124 = icmp samesign ugt i32 %3, 100
+  br i1 %cmp_lt_124, label %common.ret, label %ite_then_145
+
+ite_then_145:                                     ; preds = %ite_then_118
+  switch i32 %1, label %ite_else_1371 [
+    i32 44, label %common.ret
+    i32 49, label %common.ret
+    i32 84, label %common.ret
+    i32 86, label %common.ret
+    i32 87, label %common.ret
+    i32 45, label %common.ret
+    i32 48, label %ite_then_1370
+  ]
+
+ite_then_1370:                                    ; preds = %ite_then_145
+  %cmp_le_1376.not = icmp eq i8 %arg_v4, 3
+  br i1 %cmp_le_1376.not, label %common.ret, label %ite_then_1378
+
+ite_then_1378:                                    ; preds = %ite_then_1370
+  %ite_cond_1393.not = icmp sgt i32 %arg_v3, -1
+  br i1 %ite_cond_1393.not, label %common.ret, label %ite_then_1394
+
+ite_then_1394:                                    ; preds = %ite_then_1378
+  %4 = and i32 %arg_v3, 2147483647
+  %cmp_eq_1405 = icmp eq i32 %4, 1
+  br i1 %cmp_eq_1405, label %common.ret, label %ite_else_1408
+
+ite_else_1408:                                    ; preds = %ite_then_1394
+  %cmp_eq_1416 = icmp eq i32 %4, 2
+  br label %common.ret
+
+ite_else_1371:                                    ; preds = %ite_then_145
+  br label %common.ret
+}
+
+; Function Attrs: alwaysinline minsize mustprogress nofree norecurse nosync nounwind optsize willreturn memory(none)
+define hidden zeroext range(i8 0, 2) i8 @llb_sighash_type_valid(i32 noundef %arg_v0) local_unnamed_addr #2 {
+entry:
+  %cmp_le_3 = icmp ult i32 %arg_v0, 256
+  %0 = and i32 %arg_v0, 127
+  %1 = add nsw i32 %0, -1
+  %narrow = icmp ult i32 %1, 3
+  %narrow5 = select i1 %cmp_le_3, i1 %narrow, i1 false
+  %ret_tr_28 = zext i1 %narrow5 to i8
+  ret i8 %ret_tr_28
+}
+
+; Function Attrs: minsize mustprogress nofree norecurse nosync nounwind optsize willreturn memory(none)
+define hidden noundef i64 @llb_psbt_locktime_init() local_unnamed_addr #4 {
+entry:
   ret i64 -9223372036854775808
 }
 
-; Function Attrs: mustprogress nofree norecurse nosync nounwind optsize willreturn memory(none)
-define hidden i64 @llb_psbt_locktime_step(i64 noundef %0, i8 noundef zeroext %1, i32 noundef %2, i8 noundef zeroext %3, i32 noundef %4) local_unnamed_addr #0 {
-  %6 = lshr i64 %0, 61
-  %7 = and i64 %6, 3
-  %8 = icmp eq i64 %7, 1
-  %9 = lshr i64 %0, 32
-  %10 = trunc i64 %9 to i32
-  %11 = and i32 %10, 536870911
-  %12 = trunc i64 %0 to i32
-  %13 = select i1 %8, i32 %11, i32 %12
-  %14 = icmp eq i64 %0, 0
-  br i1 %14, label %73, label %15
+; Function Attrs: minsize nofree norecurse nosync nounwind optsize memory(argmem: readwrite)
+define hidden range(i32 0, -1) i32 @llb_format_sats_ascii(i64 noundef %arg_v0, ptr noundef readonly captures(none) %arg_v1, i32 noundef %arg_v2, i8 noundef zeroext %arg_v3, ptr noundef writeonly captures(none) %arg_v4, i32 noundef %arg_v5) local_unnamed_addr #0 {
+entry:
+  %arg_ext_v2 = zext i32 %arg_v2 to i64
+  %arg_ext_v5 = zext i32 %arg_v5 to i64
+  %cmp_lt_5 = icmp ugt i32 %arg_v2, 256
+  br i1 %cmp_lt_5, label %common.ret, label %ite_else_8
 
-15:                                               ; preds = %5
-  %16 = icmp ne i8 %1, 0
-  %17 = add i32 %2, -500000000
-  %or.cond = icmp ult i32 %17, -499999999
-  %or.cond5 = and i1 %16, %or.cond
-  br i1 %or.cond5, label %73, label %18
+common.ret.sink.split:                            ; preds = %ite_else_1215, %ite_else_1445, %l___private_LeanNativeInput_0__BitcoinLedger_FreestandingKernels_maybeWriteByte.exit372, %loop_exit_2044, %l___private_LeanNativeInput_0__BitcoinLedger_FreestandingKernels_maybeWriteByte.exit382, %ite_else_2507, %l___private_LeanNativeInput_0__BitcoinLedger_FreestandingKernels_maybeWriteByte.exit392, %ite_else_3033
+  %.sink = phi i32 [ %6, %ite_else_3033 ], [ %call_tr_2972, %l___private_LeanNativeInput_0__BitcoinLedger_FreestandingKernels_maybeWriteByte.exit392 ], [ %5, %ite_else_2507 ], [ %call_tr_2446, %l___private_LeanNativeInput_0__BitcoinLedger_FreestandingKernels_maybeWriteByte.exit382 ], [ %4, %loop_exit_2044 ], [ %call_tr_1910, %l___private_LeanNativeInput_0__BitcoinLedger_FreestandingKernels_maybeWriteByte.exit372 ], [ %1, %ite_else_1445 ], [ %call_tr_1394, %ite_else_1215 ]
+  %rst_gep_3224 = getelementptr inbounds nuw i8, ptr %arg_v4, i32 %.sink
+  store i8 0, ptr %rst_gep_3224, align 1
+  br label %common.ret
 
-18:                                               ; preds = %15
-  %19 = icmp ne i8 %3, 0
-  %20 = icmp ult i32 %4, 500000000
-  %21 = and i1 %19, %20
-  br i1 %21, label %73, label %22
+common.ret:                                       ; preds = %common.ret.sink.split, %ite_else_2766, %ite_then_2765, %ite_else_2240, %ite_then_2239, %ite_else_1704, %ite_then_1703, %ite_else_1178, %ite_then_1177, %entry
+  %common.ret.op = phi i32 [ 0, %entry ], [ 0, %ite_then_1177 ], [ 0, %ite_else_1178 ], [ 0, %ite_then_1703 ], [ 0, %ite_else_1704 ], [ 0, %ite_then_2239 ], [ 0, %ite_else_2240 ], [ 0, %ite_then_2765 ], [ 0, %ite_else_2766 ], [ %.sink, %common.ret.sink.split ]
+  ret i32 %common.ret.op
 
-22:                                               ; preds = %18
-  %23 = or i8 %3, %1
-  %24 = icmp eq i8 %23, 0
-  br i1 %24, label %73, label %25
+ite_else_8:                                       ; preds = %entry
+  %alu_16 = lshr i64 %arg_v0, 32
+  %m64_a0_27 = trunc i64 %arg_v0 to i32
+  %m64_a0l_33 = and i32 %m64_a0_27, 65535
+  %m64_a0h_34 = lshr i32 %m64_a0_27, 16
+  %m64_p00_37 = mul nuw i32 %m64_a0l_33, 52989
+  %m64_p01_38 = mul nuw i32 %m64_a0l_33, 33889
+  %m64_p10_39 = mul nuw i32 %m64_a0h_34, 52989
+  %m64_p11_40 = mul nuw i32 %m64_a0h_34, 33889
+  %m64_p00h_41 = lshr i32 %m64_p00_37, 16
+  %m64_p01l_42 = and i32 %m64_p01_38, 65535
+  %m64_p10l_43 = and i32 %m64_p10_39, 65535
+  %m64_m1a_44 = add nuw nsw i32 %m64_p00h_41, %m64_p01l_42
+  %m64_m1_45 = add nuw nsw i32 %m64_m1a_44, %m64_p10l_43
+  %m64_p01h_49 = lshr i32 %m64_p01_38, 16
+  %m64_p10h_50 = lshr i32 %m64_p10_39, 16
+  %m64_m1h_51 = lshr i32 %m64_m1_45, 16
+  %m64_c1_52 = add nuw i32 %m64_p01h_49, %m64_p11_40
+  %m64_c2_53 = add nuw i32 %m64_c1_52, %m64_p10h_50
+  %m64_hib_54 = add nuw i32 %m64_c2_53, %m64_m1h_51
+  %m64_hi64_60 = zext i32 %m64_hib_54 to i64
+  %m64_p00_80 = mul nuw nsw i32 %m64_a0l_33, 30481
+  %m64_p01_81 = mul nuw i32 %m64_a0l_33, 43980
+  %m64_p10_82 = mul nuw nsw i32 %m64_a0h_34, 30481
+  %m64_p11_83 = mul nuw i32 %m64_a0h_34, 43980
+  %m64_p00h_84 = lshr i32 %m64_p00_80, 16
+  %m64_p01l_85 = and i32 %m64_p01_81, 65532
+  %m64_p10l_86 = and i32 %m64_p10_82, 65535
+  %m64_m1a_87 = add nuw nsw i32 %m64_p00h_84, %m64_p01l_85
+  %m64_m1_88 = add nuw nsw i32 %m64_m1a_87, %m64_p10l_86
+  %m64_p00l_89 = and i32 %m64_p00_80, 65535
+  %m64_m1sh_90 = shl i32 %m64_m1_88, 16
+  %m64_lo32_91 = or disjoint i32 %m64_m1sh_90, %m64_p00l_89
+  %m64_p01h_92 = lshr i32 %m64_p01_81, 16
+  %m64_p10h_93 = lshr i32 %m64_p10_82, 16
+  %m64_m1h_94 = lshr i32 %m64_m1_88, 16
+  %m64_c1_95 = add nuw i32 %m64_p01h_92, %m64_p11_83
+  %m64_c2_96 = add nuw i32 %m64_c1_95, %m64_p10h_93
+  %m64_hib_97 = add nuw i32 %m64_c2_96, %m64_m1h_94
+  %m64_lo64_102 = zext i32 %m64_lo32_91 to i64
+  %m64_hi64_103 = zext i32 %m64_hib_97 to i64
+  %m64_a0_113 = trunc nuw i64 %alu_16 to i32
+  %m64_a0l_119 = and i32 %m64_a0_113, 65535
+  %m64_a0h_120 = lshr i32 %m64_a0_113, 16
+  %m64_p00_123 = mul nuw i32 %m64_a0l_119, 52989
+  %m64_p01_124 = mul nuw i32 %m64_a0l_119, 33889
+  %m64_p10_125 = mul nuw i32 %m64_a0h_120, 52989
+  %m64_p11_126 = mul nuw i32 %m64_a0h_120, 33889
+  %m64_p00h_127 = lshr i32 %m64_p00_123, 16
+  %m64_p01l_128 = and i32 %m64_p01_124, 65535
+  %m64_p10l_129 = and i32 %m64_p10_125, 65535
+  %m64_m1a_130 = add nuw nsw i32 %m64_p00h_127, %m64_p01l_128
+  %m64_m1_131 = add nuw nsw i32 %m64_m1a_130, %m64_p10l_129
+  %m64_p00l_132 = and i32 %m64_p00_123, 65535
+  %m64_m1sh_133 = shl i32 %m64_m1_131, 16
+  %m64_lo32_134 = or disjoint i32 %m64_m1sh_133, %m64_p00l_132
+  %m64_p01h_135 = lshr i32 %m64_p01_124, 16
+  %m64_p10h_136 = lshr i32 %m64_p10_125, 16
+  %m64_m1h_137 = lshr i32 %m64_m1_131, 16
+  %m64_c1_138 = add nuw i32 %m64_p01h_135, %m64_p11_126
+  %m64_c2_139 = add nuw i32 %m64_c1_138, %m64_p10h_136
+  %m64_hib_140 = add nuw i32 %m64_c2_139, %m64_m1h_137
+  %m64_lo64_145 = zext i32 %m64_lo32_134 to i64
+  %m64_hi64_146 = zext i32 %m64_hib_140 to i64
+  %m64_p00_166 = mul nuw nsw i32 %m64_a0l_119, 30481
+  %m64_p01_167 = mul nuw i32 %m64_a0l_119, 43980
+  %m64_p10_168 = mul nuw nsw i32 %m64_a0h_120, 30481
+  %m64_p11_169 = mul nuw i32 %m64_a0h_120, 43980
+  %m64_p00h_170 = lshr i32 %m64_p00_166, 16
+  %m64_p01l_171 = and i32 %m64_p01_167, 65532
+  %m64_p10l_172 = and i32 %m64_p10_168, 65535
+  %m64_m1a_173 = add nuw nsw i32 %m64_p00h_170, %m64_p01l_171
+  %m64_m1_174 = add nuw nsw i32 %m64_m1a_173, %m64_p10l_172
+  %m64_p00l_175 = and i32 %m64_p00_166, 65535
+  %m64_m1sh_176 = shl i32 %m64_m1_174, 16
+  %m64_lo32_177 = or disjoint i32 %m64_m1sh_176, %m64_p00l_175
+  %m64_p01h_178 = lshr i32 %m64_p01_167, 16
+  %m64_p10h_179 = lshr i32 %m64_p10_168, 16
+  %m64_m1h_180 = lshr i32 %m64_m1_174, 16
+  %m64_c1_181 = add nuw i32 %m64_p01h_178, %m64_p11_169
+  %m64_c2_182 = add nuw i32 %m64_c1_181, %m64_p10h_179
+  %m64_hib_183 = add nuw i32 %m64_c2_182, %m64_m1h_180
+  %m64_lo64_188 = zext i32 %m64_lo32_177 to i64
+  %m64_hi64_189 = zext i32 %m64_hib_183 to i64
+  %m64_hish_190 = shl nuw i64 %m64_hi64_189, 32
+  %alu_202 = add nuw nsw i64 %m64_hi64_60, %m64_lo64_102
+  %alu_209 = add nuw nsw i64 %alu_202, %m64_lo64_145
+  %alu_226 = lshr i64 %alu_209, 32
+  %alu_155 = add nuw nsw i64 %m64_lo64_188, %m64_hi64_103
+  %alu_216 = add nuw nsw i64 %alu_155, %m64_hi64_146
+  %alu_223 = add nuw i64 %alu_216, %m64_hish_190
+  %alu_230 = add nuw i64 %alu_223, %alu_226
+  %alu_234 = lshr i64 %alu_230, 26
+  %m64_a0_471 = trunc i64 %alu_234 to i32
+  %m64_a0l_477 = and i32 %m64_a0_471, 65535
+  %m64_a0h_478 = lshr i32 %m64_a0_471, 16
+  %m64_p00_481 = mul nuw i32 %m64_a0l_477, 57600
+  %m64_p01_482 = mul i32 %m64_a0_471, 1525
+  %m64_p10_483 = mul nuw i32 %m64_a0h_478, 57600
+  %m64_m1a_488 = add i32 %m64_p10_483, %m64_p01_482
+  %m64_p00l_490 = and i32 %m64_p00_481, 65280
+  %m64_m1_489397 = shl i32 %m64_m1a_488, 16
+  %m64_p00h_485398 = add i32 %m64_p00_481, %m64_m1_489397
+  %m64_m1sh_491 = and i32 %m64_p00h_485398, -65536
+  %m64_lo32_492 = or disjoint i32 %m64_m1sh_491, %m64_p00l_490
+  %alu_511.narrow = sub i32 %m64_a0_27, %m64_lo32_492
+  %alu_518 = lshr i64 %alu_230, 58
+  %m64_p00_539 = mul nuw i32 %m64_a0l_477, 52989
+  %m64_p01_540 = mul nuw i32 %m64_a0l_477, 33889
+  %m64_p10_541 = mul nuw i32 %m64_a0h_478, 52989
+  %m64_p11_542 = mul nuw i32 %m64_a0h_478, 33889
+  %m64_p00h_543 = lshr i32 %m64_p00_539, 16
+  %m64_p01l_544 = and i32 %m64_p01_540, 65535
+  %m64_p10l_545 = and i32 %m64_p10_541, 65535
+  %m64_m1a_546 = add nuw nsw i32 %m64_p00h_543, %m64_p01l_544
+  %m64_m1_547 = add nuw nsw i32 %m64_m1a_546, %m64_p10l_545
+  %m64_p01h_551 = lshr i32 %m64_p01_540, 16
+  %m64_p10h_552 = lshr i32 %m64_p10_541, 16
+  %m64_m1h_553 = lshr i32 %m64_m1_547, 16
+  %m64_c1_554 = add nuw i32 %m64_p01h_551, %m64_p11_542
+  %m64_c2_555 = add nuw i32 %m64_c1_554, %m64_p10h_552
+  %m64_hib_556 = add nuw i32 %m64_c2_555, %m64_m1h_553
+  %m64_hi64_562 = zext i32 %m64_hib_556 to i64
+  %m64_p00_582 = mul nuw nsw i32 %m64_a0l_477, 30481
+  %m64_p01_583 = mul nuw i32 %m64_a0l_477, 43980
+  %m64_p10_584 = mul nuw nsw i32 %m64_a0h_478, 30481
+  %m64_p11_585 = mul nuw i32 %m64_a0h_478, 43980
+  %m64_p00h_586 = lshr i32 %m64_p00_582, 16
+  %m64_p01l_587 = and i32 %m64_p01_583, 65532
+  %m64_p10l_588 = and i32 %m64_p10_584, 65535
+  %m64_m1a_589 = add nuw nsw i32 %m64_p00h_586, %m64_p01l_587
+  %m64_m1_590 = add nuw nsw i32 %m64_m1a_589, %m64_p10l_588
+  %m64_p00l_591 = and i32 %m64_p00_582, 65535
+  %m64_m1sh_592 = shl i32 %m64_m1_590, 16
+  %m64_lo32_593 = or disjoint i32 %m64_m1sh_592, %m64_p00l_591
+  %m64_p01h_594 = lshr i32 %m64_p01_583, 16
+  %m64_p10h_595 = lshr i32 %m64_p10_584, 16
+  %m64_m1h_596 = lshr i32 %m64_m1_590, 16
+  %m64_c1_597 = add nuw i32 %m64_p01h_594, %m64_p11_585
+  %m64_c2_598 = add nuw i32 %m64_c1_597, %m64_p10h_595
+  %m64_hib_599 = add nuw i32 %m64_c2_598, %m64_m1h_596
+  %m64_lo64_604 = zext i32 %m64_lo32_593 to i64
+  %m64_hi64_605 = zext i32 %m64_hib_599 to i64
+  %m64_a0_615 = trunc nuw nsw i64 %alu_518 to i32
+  %m64_p00_625 = mul nuw nsw i32 %m64_a0_615, 52989
+  %m64_p01_626 = mul nuw nsw i32 %m64_a0_615, 33889
+  %m64_p00h_629 = lshr i32 %m64_p00_625, 16
+  %m64_p01l_630 = and i32 %m64_p01_626, 65535
+  %m64_m1a_632 = add nuw nsw i32 %m64_p00h_629, %m64_p01l_630
+  %m64_p00l_634 = and i32 %m64_p00_625, 65535
+  %m64_m1sh_635 = shl i32 %m64_m1a_632, 16
+  %m64_lo32_636 = or disjoint i32 %m64_m1sh_635, %m64_p00l_634
+  %m64_p01h_637 = lshr i32 %m64_p01_626, 16
+  %m64_m1h_639 = lshr i32 %m64_m1a_632, 16
+  %m64_hib_642 = add nuw nsw i32 %m64_m1h_639, %m64_p01h_637
+  %m64_lo64_647 = zext i32 %m64_lo32_636 to i64
+  %m64_hi64_648 = zext nneg i32 %m64_hib_642 to i64
+  %m64_p00_668 = mul nuw nsw i32 %m64_a0_615, 30481
+  %m64_p01_669 = mul nuw nsw i32 %m64_a0_615, 43980
+  %m64_p00h_672 = lshr i32 %m64_p00_668, 16
+  %m64_p01l_673 = and i32 %m64_p01_669, 65532
+  %m64_m1a_675 = add nuw nsw i32 %m64_p00h_672, %m64_p01l_673
+  %m64_p00l_677 = and i32 %m64_p00_668, 65535
+  %m64_m1sh_678 = shl i32 %m64_m1a_675, 16
+  %m64_lo32_679 = or disjoint i32 %m64_m1sh_678, %m64_p00l_677
+  %m64_p01h_680 = lshr i32 %m64_p01_669, 16
+  %m64_m1h_682 = lshr i32 %m64_m1a_675, 16
+  %m64_hib_685 = add nuw nsw i32 %m64_m1h_682, %m64_p01h_680
+  %m64_lo64_690 = zext i32 %m64_lo32_679 to i64
+  %m64_hi64_691 = zext nneg i32 %m64_hib_685 to i64
+  %m64_hish_692 = shl nuw nsw i64 %m64_hi64_691, 32
+  %alu_704 = add nuw nsw i64 %m64_lo64_604, %m64_lo64_647
+  %alu_711 = add nuw nsw i64 %alu_704, %m64_hi64_562
+  %alu_728 = lshr i64 %alu_711, 32
+  %alu_657 = add nuw nsw i64 %m64_hi64_648, %m64_lo64_690
+  %alu_718 = add nuw nsw i64 %alu_657, %m64_hish_692
+  %alu_725 = add nuw nsw i64 %alu_718, %m64_hi64_605
+  %alu_732 = add nuw nsw i64 %alu_725, %alu_728
+  %alu_736 = lshr i64 %alu_732, 26
+  %m64_a0_975 = trunc nuw nsw i64 %alu_736 to i32
+  %m64_p00_985 = mul nuw nsw i32 %m64_a0_975, 57600
+  %m64_p00l_994 = and i32 %m64_p00_985, 65280
+  %m64_p00h_989361 = mul i32 %m64_a0_975, 100000000
+  %m64_m1sh_995 = and i32 %m64_p00h_989361, -65536
+  %m64_lo32_996 = or disjoint i32 %m64_p00l_994, %m64_m1sh_995
+  %alu_1015.narrow = sub i32 %m64_a0_471, %m64_lo32_996
+  %cmp_eq_1023 = icmp samesign ult i64 %alu_732, 67108864
+  %call_1026 = tail call fastcc i32 @l_BitcoinLedger_FreestandingKernels_decLenU32(i32 %m64_a0_975)
+  %call_zx_1027 = zext i32 %call_1026 to i64
+  %alu_1036 = select i1 %cmp_eq_1023, i64 4294967295, i64 0
+  %alu_1047362 = xor i64 %alu_1036, -1
+  %alu_1053 = and i64 %call_zx_1027, %alu_1047362
+  %call_1058 = tail call fastcc i32 @l_BitcoinLedger_FreestandingKernels_decLenU32(i32 %alu_1015.narrow)
+  %0 = xor i32 %call_1058, 8
+  %alu_1073 = zext i32 %0 to i64
+  %alu_1079 = and i64 %alu_1036, %alu_1073
+  %alu_1085 = xor i64 %alu_1079, 8
+  %alu_1092 = add nuw nsw i64 %alu_1085, %alu_1053
+  %cmp_eq_1099 = icmp eq i8 %arg_v3, 0
+  %cmp_eq_1109 = icmp eq i32 %m64_lo32_492, %m64_a0_27
+  %cmp_eq_1175 = icmp eq i32 %arg_v2, 0
+  br i1 %cmp_eq_1099, label %ite_then_1101, label %ite_else_1102
 
-25:                                               ; preds = %22
-  %26 = and i1 %16, %19
-  %27 = icmp eq i64 %7, 0
-  br i1 %26, label %28, label %54
+ite_then_1101:                                    ; preds = %ite_else_8
+  br i1 %cmp_eq_1109, label %ite_then_1111, label %ite_else_1112
 
-28:                                               ; preds = %25
-  br i1 %27, label %29, label %35
+ite_then_1111:                                    ; preds = %ite_then_1101
+  %call_1137 = tail call fastcc i32 @l_BitcoinLedger_FreestandingKernels_fracSigLen(i32 0)
+  %call_zx_1138 = zext i32 %call_1137 to i64
+  %alu_1193 = add nuw nsw i64 %alu_1092, %call_zx_1138
+  br i1 %cmp_eq_1175, label %ite_then_1177, label %ite_else_1178
 
-29:                                               ; preds = %28
-  %30 = zext i32 %2 to i64
-  %31 = shl nuw i64 %30, 32
-  %32 = zext i32 %4 to i64
-  %33 = or disjoint i64 %31, %32
-  %34 = or i64 %33, -6917529027641081856
-  br label %73
+ite_then_1177:                                    ; preds = %ite_then_1111
+  %alu_1194 = and i64 %alu_1193, 4294967295
+  %cmp_le_1212.not = icmp samesign ult i64 %alu_1194, %arg_ext_v5
+  br i1 %cmp_le_1212.not, label %ite_else_1215, label %common.ret
 
-35:                                               ; preds = %28
-  br i1 %8, label %36, label %44
+ite_else_1215:                                    ; preds = %ite_then_1177
+  %call_tr_1221 = trunc nuw i64 %alu_1053 to i32
+  tail call fastcc void @l___private_LeanNativeInput_0__BitcoinLedger_FreestandingKernels_emitDec(ptr %arg_v4, i32 %call_tr_1221, i32 %m64_a0_975, i32 %call_tr_1221)
+  %call_tr_1234 = trunc i64 %alu_1092 to i32
+  %call_tr_1238 = trunc nuw i64 %alu_1085 to i32
+  tail call fastcc void @l___private_LeanNativeInput_0__BitcoinLedger_FreestandingKernels_emitDec(ptr %arg_v4, i32 %call_tr_1234, i32 %alu_1015.narrow, i32 %call_tr_1238)
+  %call_tr_1384 = add i32 %call_tr_1234, 1
+  tail call fastcc void @l___private_LeanNativeInput_0__BitcoinLedger_FreestandingKernels_emitDec(ptr %arg_v4, i32 %call_tr_1384, i32 0, i32 0)
+  %call_tr_1394 = trunc i64 %alu_1193 to i32
+  tail call fastcc void @l___private_LeanNativeInput_0__BitcoinLedger_FreestandingKernels_copyTicker(ptr %arg_v1, i32 0, ptr %arg_v4, i32 %call_tr_1394)
+  br label %common.ret.sink.split
 
-36:                                               ; preds = %35
-  %37 = tail call i32 @llvm.umax.i32(i32 %11, i32 %2)
-  %38 = zext i32 %37 to i64
-  %39 = shl nuw i64 %38, 32
-  %40 = tail call i32 @llvm.umax.i32(i32 %12, i32 %4)
-  %41 = zext i32 %40 to i64
-  %42 = or disjoint i64 %39, %41
-  %43 = or i64 %42, -6917529027641081856
-  br label %73
+ite_else_1178:                                    ; preds = %ite_then_1111
+  %alu_1429 = add nuw nsw i64 %alu_1193, 1
+  %alu_1435 = add nuw nsw i64 %alu_1429, %arg_ext_v2
+  %alu_1436 = and i64 %alu_1435, 4294967295
+  %cmp_le_1442.not = icmp samesign ult i64 %alu_1436, %arg_ext_v5
+  br i1 %cmp_le_1442.not, label %ite_else_1445, label %common.ret
 
-44:                                               ; preds = %35
-  %45 = icmp eq i64 %7, 2
-  br i1 %45, label %46, label %50
+ite_else_1445:                                    ; preds = %ite_else_1178
+  %call_tr_1451 = trunc nuw i64 %alu_1053 to i32
+  tail call fastcc void @l___private_LeanNativeInput_0__BitcoinLedger_FreestandingKernels_emitDec(ptr %arg_v4, i32 %call_tr_1451, i32 %m64_a0_975, i32 %call_tr_1451)
+  %call_tr_1464 = trunc i64 %alu_1092 to i32
+  %call_tr_1468 = trunc nuw i64 %alu_1085 to i32
+  tail call fastcc void @l___private_LeanNativeInput_0__BitcoinLedger_FreestandingKernels_emitDec(ptr %arg_v4, i32 %call_tr_1464, i32 %alu_1015.narrow, i32 %call_tr_1468)
+  %call_tr_1614 = add i32 %call_tr_1464, 1
+  tail call fastcc void @l___private_LeanNativeInput_0__BitcoinLedger_FreestandingKernels_emitDec(ptr %arg_v4, i32 %call_tr_1614, i32 0, i32 0)
+  %call_tr_1624 = trunc i64 %alu_1193 to i32
+  %rst_gep_7.i366 = getelementptr inbounds nuw i8, ptr %arg_v4, i32 %call_tr_1624
+  store i8 32, ptr %rst_gep_7.i366, align 1
+  %call_tr_1632 = trunc i64 %alu_1429 to i32
+  tail call fastcc void @l___private_LeanNativeInput_0__BitcoinLedger_FreestandingKernels_copyTicker(ptr %arg_v1, i32 %arg_v2, ptr %arg_v4, i32 %call_tr_1632)
+  %1 = trunc i64 %alu_1435 to i32
+  br label %common.ret.sink.split
 
-46:                                               ; preds = %44
-  %47 = tail call i32 @llvm.umax.i32(i32 %12, i32 %2)
-  %48 = zext i32 %47 to i64
-  %49 = or disjoint i64 %48, -4611686018427387904
-  br label %73
+ite_else_1112:                                    ; preds = %ite_then_1101
+  %call_1663 = tail call fastcc i32 @l_BitcoinLedger_FreestandingKernels_fracSigLen(i32 %alu_511.narrow)
+  %call_zx_1664 = zext i32 %call_1663 to i64
+  %alu_1713 = add nuw nsw i64 %alu_1092, 1
+  %alu_1719 = add nuw nsw i64 %alu_1713, %call_zx_1664
+  br i1 %cmp_eq_1175, label %ite_then_1703, label %ite_else_1704
 
-50:                                               ; preds = %44
-  %51 = tail call i32 @llvm.umax.i32(i32 %12, i32 %4)
-  %52 = zext i32 %51 to i64
-  %53 = or disjoint i64 %52, -2305843009213693952
-  br label %73
+ite_then_1703:                                    ; preds = %ite_else_1112
+  %alu_1720 = and i64 %alu_1719, 4294967295
+  %cmp_le_1738.not = icmp samesign ult i64 %alu_1720, %arg_ext_v5
+  br i1 %cmp_le_1738.not, label %ite_else_1741, label %common.ret
 
-54:                                               ; preds = %25
-  br i1 %16, label %55, label %64
+ite_else_1741:                                    ; preds = %ite_then_1703
+  %call_tr_1747 = trunc nuw i64 %alu_1053 to i32
+  tail call fastcc void @l___private_LeanNativeInput_0__BitcoinLedger_FreestandingKernels_emitDec(ptr %arg_v4, i32 %call_tr_1747, i32 %m64_a0_975, i32 %call_tr_1747)
+  %call_tr_1760 = trunc i64 %alu_1092 to i32
+  %call_tr_1764 = trunc nuw i64 %alu_1085 to i32
+  tail call fastcc void @l___private_LeanNativeInput_0__BitcoinLedger_FreestandingKernels_emitDec(ptr %arg_v4, i32 %call_tr_1760, i32 %alu_1015.narrow, i32 %call_tr_1764)
+  %rst_gep_7.i368 = getelementptr inbounds nuw i8, ptr %arg_v4, i32 %call_tr_1760
+  store i8 46, ptr %rst_gep_7.i368, align 1
+  %alu_1777 = sub nsw i64 8, %call_zx_1664
+  %alu_1778 = and i64 %alu_1777, 4294967295
+  br label %loop_hdr_1811
 
-55:                                               ; preds = %54
-  br i1 %27, label %56, label %59
+loop_hdr_1811:                                    ; preds = %loop_body_1812, %ite_else_1741
+  %slot_v18810.0.off0 = phi i32 [ %alu_511.narrow, %ite_else_1741 ], [ %2, %loop_body_1812 ]
+  %loop_idx_1815 = phi i64 [ 0, %ite_else_1741 ], [ %loop_next_1816, %loop_body_1812 ]
+  %loop_cmp_1817 = icmp samesign ult i64 %loop_idx_1815, %alu_1778
+  br i1 %loop_cmp_1817, label %loop_body_1812, label %l___private_LeanNativeInput_0__BitcoinLedger_FreestandingKernels_maybeWriteByte.exit372
 
-56:                                               ; preds = %55
-  %57 = zext i32 %2 to i64
-  %58 = or disjoint i64 %57, -4611686018427387904
-  br label %73
+loop_body_1812:                                   ; preds = %loop_hdr_1811
+  %m64_a0l_1831 = and i32 %slot_v18810.0.off0, 65535
+  %m64_a0h_1832 = lshr i32 %slot_v18810.0.off0, 16
+  %m64_p00_1835 = mul nuw i32 %m64_a0l_1831, 52429
+  %m64_p01_1836 = mul nuw i32 %m64_a0l_1831, 52428
+  %m64_p10_1837 = mul nuw i32 %m64_a0h_1832, 52429
+  %m64_p11_1838 = mul nuw i32 %m64_a0h_1832, 52428
+  %m64_p00h_1839 = lshr i32 %m64_p00_1835, 16
+  %m64_p01l_1840 = and i32 %m64_p01_1836, 65532
+  %m64_p10l_1841 = and i32 %m64_p10_1837, 65535
+  %m64_m1a_1842 = add nuw nsw i32 %m64_p00h_1839, %m64_p01l_1840
+  %m64_m1_1843 = add nuw nsw i32 %m64_m1a_1842, %m64_p10l_1841
+  %m64_p01h_1847 = lshr i32 %m64_p01_1836, 16
+  %m64_p10h_1848 = lshr i32 %m64_p10_1837, 16
+  %m64_m1h_1849 = lshr i32 %m64_m1_1843, 16
+  %m64_c1_1850 = add nuw i32 %m64_p01h_1847, %m64_p11_1838
+  %m64_c2_1851 = add nuw i32 %m64_c1_1850, %m64_p10h_1848
+  %m64_hib_1852 = add nuw i32 %m64_c2_1851, %m64_m1h_1849
+  %2 = lshr i32 %m64_hib_1852, 3
+  %loop_next_1816 = add nuw nsw i64 %loop_idx_1815, 1
+  br label %loop_hdr_1811
 
-59:                                               ; preds = %55
-  %trunc4 = trunc i64 %6 to i2
-  %trunc4.off = add i2 %trunc4, -1
-  %switch = icmp sgt i2 %trunc4.off, -1
-  br i1 %switch, label %60, label %73
+l___private_LeanNativeInput_0__BitcoinLedger_FreestandingKernels_maybeWriteByte.exit372: ; preds = %loop_hdr_1811
+  %call_tr_1910 = trunc i64 %alu_1719 to i32
+  tail call fastcc void @l___private_LeanNativeInput_0__BitcoinLedger_FreestandingKernels_emitDec(ptr %arg_v4, i32 %call_tr_1910, i32 %slot_v18810.0.off0, i32 %call_1663)
+  tail call fastcc void @l___private_LeanNativeInput_0__BitcoinLedger_FreestandingKernels_copyTicker(ptr %arg_v1, i32 0, ptr %arg_v4, i32 %call_tr_1910)
+  br label %common.ret.sink.split
 
-60:                                               ; preds = %59
-  %61 = tail call i32 @llvm.umax.i32(i32 %13, i32 %2)
-  %62 = zext i32 %61 to i64
-  %63 = or disjoint i64 %62, -4611686018427387904
-  br label %73
+ite_else_1704:                                    ; preds = %ite_else_1112
+  %alu_1955 = add nuw nsw i64 %alu_1719, 1
+  %alu_1961 = add nuw nsw i64 %alu_1955, %arg_ext_v2
+  %alu_1962 = and i64 %alu_1961, 4294967295
+  %cmp_le_1968.not = icmp samesign ult i64 %alu_1962, %arg_ext_v5
+  br i1 %cmp_le_1968.not, label %ite_else_1971, label %common.ret
 
-64:                                               ; preds = %54
-  br i1 %27, label %65, label %68
+ite_else_1971:                                    ; preds = %ite_else_1704
+  %call_tr_1977 = trunc nuw i64 %alu_1053 to i32
+  tail call fastcc void @l___private_LeanNativeInput_0__BitcoinLedger_FreestandingKernels_emitDec(ptr %arg_v4, i32 %call_tr_1977, i32 %m64_a0_975, i32 %call_tr_1977)
+  %call_tr_1990 = trunc i64 %alu_1092 to i32
+  %call_tr_1994 = trunc nuw i64 %alu_1085 to i32
+  tail call fastcc void @l___private_LeanNativeInput_0__BitcoinLedger_FreestandingKernels_emitDec(ptr %arg_v4, i32 %call_tr_1990, i32 %alu_1015.narrow, i32 %call_tr_1994)
+  %rst_gep_7.i374 = getelementptr inbounds nuw i8, ptr %arg_v4, i32 %call_tr_1990
+  store i8 46, ptr %rst_gep_7.i374, align 1
+  %alu_2007 = sub nsw i64 8, %call_zx_1664
+  %alu_2008 = and i64 %alu_2007, 4294967295
+  br label %loop_hdr_2041
 
-65:                                               ; preds = %64
-  %66 = zext i32 %4 to i64
-  %67 = or disjoint i64 %66, -2305843009213693952
-  br label %73
+loop_hdr_2041:                                    ; preds = %loop_body_2042, %ite_else_1971
+  %slot_v18855.0.off0 = phi i32 [ %alu_511.narrow, %ite_else_1971 ], [ %3, %loop_body_2042 ]
+  %loop_idx_2045 = phi i64 [ 0, %ite_else_1971 ], [ %loop_next_2046, %loop_body_2042 ]
+  %loop_cmp_2047 = icmp samesign ult i64 %loop_idx_2045, %alu_2008
+  br i1 %loop_cmp_2047, label %loop_body_2042, label %loop_exit_2044
 
-68:                                               ; preds = %64
-  %trunc = trunc i64 %6 to i2
-  switch i2 %trunc, label %73 [
-    i2 -1, label %69
-    i2 1, label %69
-  ]
+loop_body_2042:                                   ; preds = %loop_hdr_2041
+  %m64_a0l_2061 = and i32 %slot_v18855.0.off0, 65535
+  %m64_a0h_2062 = lshr i32 %slot_v18855.0.off0, 16
+  %m64_p00_2065 = mul nuw i32 %m64_a0l_2061, 52429
+  %m64_p01_2066 = mul nuw i32 %m64_a0l_2061, 52428
+  %m64_p10_2067 = mul nuw i32 %m64_a0h_2062, 52429
+  %m64_p11_2068 = mul nuw i32 %m64_a0h_2062, 52428
+  %m64_p00h_2069 = lshr i32 %m64_p00_2065, 16
+  %m64_p01l_2070 = and i32 %m64_p01_2066, 65532
+  %m64_p10l_2071 = and i32 %m64_p10_2067, 65535
+  %m64_m1a_2072 = add nuw nsw i32 %m64_p00h_2069, %m64_p01l_2070
+  %m64_m1_2073 = add nuw nsw i32 %m64_m1a_2072, %m64_p10l_2071
+  %m64_p01h_2077 = lshr i32 %m64_p01_2066, 16
+  %m64_p10h_2078 = lshr i32 %m64_p10_2067, 16
+  %m64_m1h_2079 = lshr i32 %m64_m1_2073, 16
+  %m64_c1_2080 = add nuw i32 %m64_p01h_2077, %m64_p11_2068
+  %m64_c2_2081 = add nuw i32 %m64_c1_2080, %m64_p10h_2078
+  %m64_hib_2082 = add nuw i32 %m64_c2_2081, %m64_m1h_2079
+  %3 = lshr i32 %m64_hib_2082, 3
+  %loop_next_2046 = add nuw nsw i64 %loop_idx_2045, 1
+  br label %loop_hdr_2041
 
-69:                                               ; preds = %68, %68
-  %70 = tail call i32 @llvm.umax.i32(i32 %12, i32 %4)
-  %71 = zext i32 %70 to i64
-  %72 = or disjoint i64 %71, -2305843009213693952
-  br label %73
+loop_exit_2044:                                   ; preds = %loop_hdr_2041
+  %call_tr_2140 = trunc i64 %alu_1719 to i32
+  tail call fastcc void @l___private_LeanNativeInput_0__BitcoinLedger_FreestandingKernels_emitDec(ptr %arg_v4, i32 %call_tr_2140, i32 %slot_v18855.0.off0, i32 %call_1663)
+  %rst_gep_7.i376 = getelementptr inbounds nuw i8, ptr %arg_v4, i32 %call_tr_2140
+  store i8 32, ptr %rst_gep_7.i376, align 1
+  %call_tr_2158 = trunc i64 %alu_1955 to i32
+  tail call fastcc void @l___private_LeanNativeInput_0__BitcoinLedger_FreestandingKernels_copyTicker(ptr %arg_v1, i32 %arg_v2, ptr %arg_v4, i32 %call_tr_2158)
+  %4 = trunc i64 %alu_1961 to i32
+  br label %common.ret.sink.split
 
-73:                                               ; preds = %59, %15, %68, %69, %65, %60, %56, %50, %46, %36, %29, %22, %18, %5
-  %74 = phi i64 [ %34, %29 ], [ %43, %36 ], [ %49, %46 ], [ %53, %50 ], [ %58, %56 ], [ %63, %60 ], [ %67, %65 ], [ %72, %69 ], [ 0, %5 ], [ 0, %18 ], [ %0, %22 ], [ 0, %59 ], [ 0, %68 ], [ 0, %15 ]
-  ret i64 %74
+ite_else_1102:                                    ; preds = %ite_else_8
+  br i1 %cmp_eq_1109, label %ite_then_2173, label %ite_else_2174
+
+ite_then_2173:                                    ; preds = %ite_else_1102
+  %call_2199 = tail call fastcc i32 @l_BitcoinLedger_FreestandingKernels_fracSigLen(i32 0)
+  br i1 %cmp_eq_1175, label %ite_then_2239, label %ite_else_2240
+
+ite_then_2239:                                    ; preds = %ite_then_2173
+  %alu_2255 = add nuw nsw i64 %alu_1092, 9
+  %alu_2256 = and i64 %alu_2255, 4294967295
+  %cmp_le_2274.not = icmp samesign ult i64 %alu_2256, %arg_ext_v5
+  br i1 %cmp_le_2274.not, label %l___private_LeanNativeInput_0__BitcoinLedger_FreestandingKernels_maybeWriteByte.exit382, label %common.ret
+
+l___private_LeanNativeInput_0__BitcoinLedger_FreestandingKernels_maybeWriteByte.exit382: ; preds = %ite_then_2239
+  %call_tr_2283 = trunc nuw i64 %alu_1053 to i32
+  tail call fastcc void @l___private_LeanNativeInput_0__BitcoinLedger_FreestandingKernels_emitDec(ptr %arg_v4, i32 %call_tr_2283, i32 %m64_a0_975, i32 %call_tr_2283)
+  %call_tr_2296 = trunc i64 %alu_1092 to i32
+  %call_tr_2300 = trunc nuw i64 %alu_1085 to i32
+  tail call fastcc void @l___private_LeanNativeInput_0__BitcoinLedger_FreestandingKernels_emitDec(ptr %arg_v4, i32 %call_tr_2296, i32 %alu_1015.narrow, i32 %call_tr_2300)
+  %rst_gep_7.i378 = getelementptr inbounds nuw i8, ptr %arg_v4, i32 %call_tr_2296
+  store i8 46, ptr %rst_gep_7.i378, align 1
+  %call_tr_2446 = trunc i64 %alu_2255 to i32
+  tail call fastcc void @l___private_LeanNativeInput_0__BitcoinLedger_FreestandingKernels_emitDec(ptr %arg_v4, i32 %call_tr_2446, i32 0, i32 8)
+  tail call fastcc void @l___private_LeanNativeInput_0__BitcoinLedger_FreestandingKernels_copyTicker(ptr %arg_v1, i32 0, ptr %arg_v4, i32 %call_tr_2446)
+  br label %common.ret.sink.split
+
+ite_else_2240:                                    ; preds = %ite_then_2173
+  %alu_2491 = add nuw nsw i64 %alu_1092, 10
+  %alu_2497 = add nuw nsw i64 %alu_2491, %arg_ext_v2
+  %alu_2498 = and i64 %alu_2497, 4294967295
+  %cmp_le_2504.not = icmp samesign ult i64 %alu_2498, %arg_ext_v5
+  br i1 %cmp_le_2504.not, label %ite_else_2507, label %common.ret
+
+ite_else_2507:                                    ; preds = %ite_else_2240
+  %call_tr_2513 = trunc nuw i64 %alu_1053 to i32
+  tail call fastcc void @l___private_LeanNativeInput_0__BitcoinLedger_FreestandingKernels_emitDec(ptr %arg_v4, i32 %call_tr_2513, i32 %m64_a0_975, i32 %call_tr_2513)
+  %call_tr_2526 = trunc i64 %alu_1092 to i32
+  %call_tr_2530 = trunc nuw i64 %alu_1085 to i32
+  tail call fastcc void @l___private_LeanNativeInput_0__BitcoinLedger_FreestandingKernels_emitDec(ptr %arg_v4, i32 %call_tr_2526, i32 %alu_1015.narrow, i32 %call_tr_2530)
+  %rst_gep_7.i384 = getelementptr inbounds nuw i8, ptr %arg_v4, i32 %call_tr_2526
+  store i8 46, ptr %rst_gep_7.i384, align 1
+  %call_tr_2676 = add i32 %call_tr_2526, 9
+  tail call fastcc void @l___private_LeanNativeInput_0__BitcoinLedger_FreestandingKernels_emitDec(ptr %arg_v4, i32 %call_tr_2676, i32 0, i32 8)
+  %rst_gep_7.i386 = getelementptr inbounds nuw i8, ptr %arg_v4, i32 %call_tr_2676
+  store i8 32, ptr %rst_gep_7.i386, align 1
+  %call_tr_2694 = trunc i64 %alu_2491 to i32
+  tail call fastcc void @l___private_LeanNativeInput_0__BitcoinLedger_FreestandingKernels_copyTicker(ptr %arg_v1, i32 %arg_v2, ptr %arg_v4, i32 %call_tr_2694)
+  %5 = trunc i64 %alu_2497 to i32
+  br label %common.ret.sink.split
+
+ite_else_2174:                                    ; preds = %ite_else_1102
+  %call_2725 = tail call fastcc i32 @l_BitcoinLedger_FreestandingKernels_fracSigLen(i32 %alu_511.narrow)
+  br i1 %cmp_eq_1175, label %ite_then_2765, label %ite_else_2766
+
+ite_then_2765:                                    ; preds = %ite_else_2174
+  %alu_2781 = add nuw nsw i64 %alu_1092, 9
+  %alu_2782 = and i64 %alu_2781, 4294967295
+  %cmp_le_2800.not = icmp samesign ult i64 %alu_2782, %arg_ext_v5
+  br i1 %cmp_le_2800.not, label %l___private_LeanNativeInput_0__BitcoinLedger_FreestandingKernels_maybeWriteByte.exit392, label %common.ret
+
+l___private_LeanNativeInput_0__BitcoinLedger_FreestandingKernels_maybeWriteByte.exit392: ; preds = %ite_then_2765
+  %call_tr_2809 = trunc nuw i64 %alu_1053 to i32
+  tail call fastcc void @l___private_LeanNativeInput_0__BitcoinLedger_FreestandingKernels_emitDec(ptr %arg_v4, i32 %call_tr_2809, i32 %m64_a0_975, i32 %call_tr_2809)
+  %call_tr_2822 = trunc i64 %alu_1092 to i32
+  %call_tr_2826 = trunc nuw i64 %alu_1085 to i32
+  tail call fastcc void @l___private_LeanNativeInput_0__BitcoinLedger_FreestandingKernels_emitDec(ptr %arg_v4, i32 %call_tr_2822, i32 %alu_1015.narrow, i32 %call_tr_2826)
+  %rst_gep_7.i388 = getelementptr inbounds nuw i8, ptr %arg_v4, i32 %call_tr_2822
+  store i8 46, ptr %rst_gep_7.i388, align 1
+  %call_tr_2972 = trunc i64 %alu_2781 to i32
+  tail call fastcc void @l___private_LeanNativeInput_0__BitcoinLedger_FreestandingKernels_emitDec(ptr %arg_v4, i32 %call_tr_2972, i32 %alu_511.narrow, i32 8)
+  tail call fastcc void @l___private_LeanNativeInput_0__BitcoinLedger_FreestandingKernels_copyTicker(ptr %arg_v1, i32 0, ptr %arg_v4, i32 %call_tr_2972)
+  br label %common.ret.sink.split
+
+ite_else_2766:                                    ; preds = %ite_else_2174
+  %alu_3017 = add nuw nsw i64 %alu_1092, 10
+  %alu_3023 = add nuw nsw i64 %alu_3017, %arg_ext_v2
+  %alu_3024 = and i64 %alu_3023, 4294967295
+  %cmp_le_3030.not = icmp samesign ult i64 %alu_3024, %arg_ext_v5
+  br i1 %cmp_le_3030.not, label %ite_else_3033, label %common.ret
+
+ite_else_3033:                                    ; preds = %ite_else_2766
+  %call_tr_3039 = trunc nuw i64 %alu_1053 to i32
+  tail call fastcc void @l___private_LeanNativeInput_0__BitcoinLedger_FreestandingKernels_emitDec(ptr %arg_v4, i32 %call_tr_3039, i32 %m64_a0_975, i32 %call_tr_3039)
+  %call_tr_3052 = trunc i64 %alu_1092 to i32
+  %call_tr_3056 = trunc nuw i64 %alu_1085 to i32
+  tail call fastcc void @l___private_LeanNativeInput_0__BitcoinLedger_FreestandingKernels_emitDec(ptr %arg_v4, i32 %call_tr_3052, i32 %alu_1015.narrow, i32 %call_tr_3056)
+  %rst_gep_7.i394 = getelementptr inbounds nuw i8, ptr %arg_v4, i32 %call_tr_3052
+  store i8 46, ptr %rst_gep_7.i394, align 1
+  %call_tr_3202 = add i32 %call_tr_3052, 9
+  tail call fastcc void @l___private_LeanNativeInput_0__BitcoinLedger_FreestandingKernels_emitDec(ptr %arg_v4, i32 %call_tr_3202, i32 %alu_511.narrow, i32 8)
+  %rst_gep_7.i396 = getelementptr inbounds nuw i8, ptr %arg_v4, i32 %call_tr_3202
+  store i8 32, ptr %rst_gep_7.i396, align 1
+  %call_tr_3220 = trunc i64 %alu_3017 to i32
+  tail call fastcc void @l___private_LeanNativeInput_0__BitcoinLedger_FreestandingKernels_copyTicker(ptr %arg_v1, i32 %arg_v2, ptr %arg_v4, i32 %call_tr_3220)
+  %6 = trunc i64 %alu_3023 to i32
+  br label %common.ret.sink.split
 }
 
-; Function Attrs: mustprogress nofree norecurse nosync nounwind optsize willreturn memory(none)
-define hidden i64 @llb_psbt_locktime_finalize(i64 noundef %0, i32 noundef %1) local_unnamed_addr #0 {
-  %3 = icmp eq i64 %0, 0
-  br i1 %3, label %17, label %4
+; Function Attrs: minsize nofree norecurse nosync nounwind optsize memory(none)
+define internal fastcc range(i32 1, 0) i32 @l_BitcoinLedger_FreestandingKernels_decLenU32(i32 noundef %arg_v0) unnamed_addr #7 {
+entry:
+  %arg_ext_v0 = zext i32 %arg_v0 to i64
+  br label %loop_hdr_6
 
-4:                                                ; preds = %2
-  %5 = lshr i64 %0, 61
-  %6 = trunc i64 %5 to i2
-  switch i2 %6, label %11 [
-    i2 0, label %13
-    i2 1, label %7
-  ]
+loop_hdr_6:                                       ; preds = %loop_latch_8, %entry
+  %slot_v20.0 = phi i64 [ %arg_ext_v0, %entry ], [ %slot_v20.1, %loop_latch_8 ]
+  %loop_idx_10 = phi i64 [ 0, %entry ], [ %loop_next_11, %loop_latch_8 ]
+  %loop_cmp_12 = icmp samesign ult i64 %loop_idx_10, 10
+  br i1 %loop_cmp_12, label %loop_body_7, label %loop_exit_9
 
-7:                                                ; preds = %4
-  %8 = lshr i64 %0, 32
-  %9 = trunc i64 %8 to i32
-  %10 = and i32 %9, 536870911
-  br label %13
+loop_body_7:                                      ; preds = %loop_hdr_6
+  %alu_16 = and i64 %slot_v20.0, 4294967295
+  %cmp_eq_24 = icmp eq i64 %alu_16, 0
+  br i1 %cmp_eq_24, label %loop_latch_8, label %ite_else_27
 
-11:                                               ; preds = %4
-  %12 = trunc i64 %0 to i32
-  br label %13
+ite_else_27:                                      ; preds = %loop_body_7
+  %0 = and i64 %slot_v20.0, -4294967296
+  %alu_37 = add i64 %0, 4294967296
+  %m64_a0_42 = trunc i64 %slot_v20.0 to i32
+  %m64_a0l_48 = and i32 %m64_a0_42, 65535
+  %m64_a0h_49 = lshr i32 %m64_a0_42, 16
+  %m64_p00_52 = mul nuw i32 %m64_a0l_48, 52429
+  %m64_p01_53 = mul nuw i32 %m64_a0l_48, 52428
+  %m64_p10_54 = mul nuw i32 %m64_a0h_49, 52429
+  %m64_p11_55 = mul nuw i32 %m64_a0h_49, 52428
+  %m64_p00h_56 = lshr i32 %m64_p00_52, 16
+  %m64_p01l_57 = and i32 %m64_p01_53, 65532
+  %m64_p10l_58 = and i32 %m64_p10_54, 65535
+  %m64_m1a_59 = add nuw nsw i32 %m64_p00h_56, %m64_p01l_57
+  %m64_m1_60 = add nuw nsw i32 %m64_m1a_59, %m64_p10l_58
+  %m64_p01h_64 = lshr i32 %m64_p01_53, 16
+  %m64_p10h_65 = lshr i32 %m64_p10_54, 16
+  %m64_m1h_66 = lshr i32 %m64_m1_60, 16
+  %m64_c1_67 = add nuw i32 %m64_p01h_64, %m64_p11_55
+  %m64_c2_68 = add nuw i32 %m64_c1_67, %m64_p10h_65
+  %m64_hib_69 = add nuw i32 %m64_c2_68, %m64_m1h_66
+  %1 = lshr i32 %m64_hib_69, 3
+  %alu_78 = zext nneg i32 %1 to i64
+  %alu_86 = or disjoint i64 %alu_37, %alu_78
+  br label %loop_latch_8
 
-13:                                               ; preds = %11, %7, %4
-  %14 = phi i32 [ %10, %7 ], [ %12, %11 ], [ %1, %4 ]
-  %15 = zext i32 %14 to i64
-  %16 = or disjoint i64 %15, 4294967296
-  br label %17
+loop_latch_8:                                     ; preds = %loop_body_7, %ite_else_27
+  %slot_v20.1 = phi i64 [ %alu_86, %ite_else_27 ], [ %slot_v20.0, %loop_body_7 ]
+  %loop_next_11 = add nuw nsw i64 %loop_idx_10, 1
+  br label %loop_hdr_6
 
-17:                                               ; preds = %13, %2
-  %18 = phi i64 [ %16, %13 ], [ 0, %2 ]
-  ret i64 %18
+loop_exit_9:                                      ; preds = %loop_hdr_6
+  %cmp_eq_95 = icmp ult i64 %slot_v20.0, 4294967296
+  %alu_89 = lshr i64 %slot_v20.0, 32
+  %ret_tr_103 = trunc nuw i64 %alu_89 to i32
+  %common.ret.op = select i1 %cmp_eq_95, i32 1, i32 %ret_tr_103
+  ret i32 %common.ret.op
 }
 
-; Function Attrs: nofree norecurse nosync nounwind optsize memory(argmem: read)
-define hidden i64 @llb_psbt_determine_locktime(ptr noundef readonly %0, i32 noundef %1, i32 noundef %2) local_unnamed_addr #4 {
-  %4 = icmp eq ptr %0, null
-  %5 = icmp ne i32 %1, 0
-  %6 = and i1 %4, %5
-  %7 = icmp ugt i32 %1, 429496729
-  %or.cond = or i1 %7, %6
-  br i1 %or.cond, label %.loopexit, label %.preheader
-
-.preheader:                                       ; preds = %3, %11
-  %8 = phi i32 [ %55, %11 ], [ 0, %3 ]
-  %9 = phi i64 [ %53, %11 ], [ -9223372036854775808, %3 ]
-  %10 = icmp eq i32 %8, %1
-  br i1 %10, label %56, label %11
-
-11:                                               ; preds = %.preheader
-  %12 = mul nuw i32 %8, 10
-  %13 = getelementptr inbounds i8, ptr %0, i32 %12
-  %14 = load i8, ptr %13, align 1, !tbaa !5
-  %15 = getelementptr inbounds i8, ptr %13, i32 1
-  %16 = load i8, ptr %15, align 1, !tbaa !5
-  %17 = zext i8 %16 to i32
-  %18 = getelementptr inbounds i8, ptr %13, i32 2
-  %19 = load i8, ptr %18, align 1, !tbaa !5
-  %20 = zext i8 %19 to i32
-  %21 = shl nuw nsw i32 %20, 8
-  %22 = or disjoint i32 %21, %17
-  %23 = getelementptr inbounds i8, ptr %13, i32 3
-  %24 = load i8, ptr %23, align 1, !tbaa !5
-  %25 = zext i8 %24 to i32
-  %26 = shl nuw nsw i32 %25, 16
-  %27 = or disjoint i32 %22, %26
-  %28 = getelementptr inbounds i8, ptr %13, i32 4
-  %29 = load i8, ptr %28, align 1, !tbaa !5
-  %30 = zext i8 %29 to i32
-  %31 = shl nuw i32 %30, 24
-  %32 = or disjoint i32 %27, %31
-  %33 = getelementptr inbounds i8, ptr %13, i32 5
-  %34 = load i8, ptr %33, align 1, !tbaa !5
-  %35 = getelementptr inbounds i8, ptr %13, i32 6
-  %36 = load i8, ptr %35, align 1, !tbaa !5
-  %37 = zext i8 %36 to i32
-  %38 = getelementptr inbounds i8, ptr %13, i32 7
-  %39 = load i8, ptr %38, align 1, !tbaa !5
-  %40 = zext i8 %39 to i32
-  %41 = shl nuw nsw i32 %40, 8
-  %42 = or disjoint i32 %41, %37
-  %43 = getelementptr inbounds i8, ptr %13, i32 8
-  %44 = load i8, ptr %43, align 1, !tbaa !5
-  %45 = zext i8 %44 to i32
-  %46 = shl nuw nsw i32 %45, 16
-  %47 = or disjoint i32 %42, %46
-  %48 = getelementptr inbounds i8, ptr %13, i32 9
-  %49 = load i8, ptr %48, align 1, !tbaa !5
-  %50 = zext i8 %49 to i32
-  %51 = shl nuw i32 %50, 24
-  %52 = or disjoint i32 %47, %51
-  %53 = tail call i64 @llb_psbt_locktime_step(i64 noundef %9, i8 noundef zeroext %14, i32 noundef %32, i8 noundef zeroext %34, i32 noundef %52) #8
-  %54 = icmp eq i64 %53, 0
-  %55 = add nuw nsw i32 %8, 1
-  br i1 %54, label %.loopexit, label %.preheader
-
-56:                                               ; preds = %.preheader
-  %57 = tail call i64 @llb_psbt_locktime_finalize(i64 noundef %9, i32 noundef %2) #8, !range !8
-  br label %.loopexit
-
-.loopexit:                                        ; preds = %11, %56, %3
-  %58 = phi i64 [ %57, %56 ], [ 0, %3 ], [ 0, %11 ]
-  ret i64 %58
+; Function Attrs: minsize mustprogress nofree norecurse nosync nounwind optsize willreturn memory(none)
+define hidden zeroext range(i8 0, 2) i8 @llb_bip32_vanadium_depth_ok(i8 noundef zeroext %arg_v0) local_unnamed_addr #4 {
+entry:
+  %cmp_le_3 = icmp ult i8 %arg_v0, 17
+  %ret_tr_6 = zext i1 %cmp_le_3 to i8
+  ret i8 %ret_tr_6
 }
 
-; Function Attrs: nofree norecurse nosync nounwind optsize memory(argmem: read)
-define hidden zeroext i8 @llb_bytes_eq(ptr noundef readonly %0, ptr noundef readonly %1, i32 noundef %2) local_unnamed_addr #4 {
-  %4 = icmp eq i32 %2, 0
-  br i1 %4, label %22, label %5
-
-5:                                                ; preds = %3
-  %6 = icmp eq ptr %0, null
-  %7 = icmp eq ptr %1, null
-  %or.cond = or i1 %6, %7
-  br i1 %or.cond, label %22, label %.preheader
-
-.preheader:                                       ; preds = %5, %11
-  %8 = phi i32 [ %18, %11 ], [ 0, %5 ]
-  %9 = phi i8 [ %17, %11 ], [ 0, %5 ]
-  %10 = icmp eq i32 %8, %2
-  br i1 %10, label %19, label %11
-
-11:                                               ; preds = %.preheader
-  %12 = getelementptr inbounds i8, ptr %0, i32 %8
-  %13 = load i8, ptr %12, align 1, !tbaa !5
-  %14 = getelementptr inbounds i8, ptr %1, i32 %8
-  %15 = load i8, ptr %14, align 1, !tbaa !5
-  %16 = xor i8 %15, %13
-  %17 = or i8 %16, %9
-  %18 = add i32 %8, 1
-  br label %.preheader
-
-19:                                               ; preds = %.preheader
-  %20 = icmp eq i8 %9, 0
-  %21 = zext i1 %20 to i8
-  br label %22
-
-22:                                               ; preds = %19, %5, %3
-  %23 = phi i8 [ %21, %19 ], [ 1, %3 ], [ 0, %5 ]
-  ret i8 %23
+; Function Attrs: minsize mustprogress nofree norecurse nosync nounwind optsize willreturn memory(none)
+define hidden zeroext range(i16 26368, -20471) i16 @llb_bolos_sw_for_error(i8 noundef zeroext %arg_v0) local_unnamed_addr #4 {
+entry:
+  %cmp_eq_3 = icmp eq i8 %arg_v0, 0
+  %cmp_eq_7 = icmp eq i8 %arg_v0, 1
+  %cmp_eq_11 = icmp eq i8 %arg_v0, 2
+  %cmp_eq_15 = icmp eq i8 %arg_v0, 3
+  %cmp_eq_19 = icmp eq i8 %arg_v0, 4
+  %cmp_eq_23 = icmp eq i8 %arg_v0, 5
+  %cmp_eq_27 = icmp eq i8 %arg_v0, 6
+  %cmp_eq_31 = icmp eq i8 %arg_v0, 7
+  %cmp_eq_71 = icmp eq i8 %arg_v0, 17
+  %cmp_eq_75 = icmp eq i8 %arg_v0, 18
+  %0 = and i8 %arg_v0, -2
+  %1 = and i8 %arg_v0, -4
+  %2 = icmp eq i8 %1, 12
+  %3 = icmp eq i8 %0, 10
+  %4 = icmp eq i8 %0, 8
+  %5 = select i1 %cmp_eq_75, i16 -20472, i16 -20473
+  %6 = select i1 %cmp_eq_71, i16 -20480, i16 %5
+  %7 = select i1 %2, i16 27264, i16 %6
+  %8 = select i1 %3, i16 27266, i16 %7
+  %9 = select i1 %4, i16 27264, i16 %8
+  %10 = select i1 %cmp_eq_31, i16 27392, i16 %9
+  %11 = select i1 %cmp_eq_27, i16 27010, i16 %10
+  %12 = select i1 %cmp_eq_23, i16 27013, i16 %11
+  %13 = select i1 %cmp_eq_19, i16 27270, i16 %12
+  %14 = select i1 %cmp_eq_15, i16 28160, i16 %13
+  %15 = select i1 %cmp_eq_11, i16 27904, i16 %14
+  %16 = select i1 %cmp_eq_7, i16 27271, i16 %15
+  %ret_tr_152 = select i1 %cmp_eq_3, i16 26368, i16 %16
+  ret i16 %ret_tr_152
 }
 
-; Function Attrs: nofree norecurse nosync nounwind optsize memory(argmem: read)
-define hidden zeroext i8 @llb_check_dual_utxo(i64 noundef %0, ptr noundef readonly %1, i32 noundef %2, i64 noundef %3, ptr noundef readonly %4, i32 noundef %5) local_unnamed_addr #4 {
-  %7 = icmp ult i64 %0, 2100000000000001
-  %8 = icmp eq i64 %0, %3
-  %9 = and i1 %7, %8
-  %10 = icmp eq i32 %2, %5
-  %11 = and i1 %9, %10
-  br i1 %11, label %12, label %14
-
-12:                                               ; preds = %6
-  %13 = tail call zeroext i8 @llb_bytes_eq(ptr noundef %1, ptr noundef %4, i32 noundef %2) #8, !range !3
-  br label %14
-
-14:                                               ; preds = %12, %6
-  %15 = phi i8 [ %13, %12 ], [ 0, %6 ]
-  ret i8 %15
+; Function Attrs: alwaysinline minsize mustprogress nofree norecurse nosync nounwind optsize willreturn memory(none)
+define hidden noundef i64 @llb_checked_add_sats_val(i64 noundef %arg_v0, i64 noundef %arg_v1) local_unnamed_addr #2 {
+entry:
+  %cmp_le_2 = icmp ult i64 %arg_v0, 2100000000000001
+  %alu_4 = sub i64 2100000000000000, %arg_v0
+  %cmp_le_8 = icmp ule i64 %arg_v1, %alu_4
+  %narrow = and i1 %cmp_le_2, %cmp_le_8
+  %alu_21 = add i64 %arg_v1, %arg_v0
+  %common.ret.op = select i1 %narrow, i64 %alu_21, i64 0
+  ret i64 %common.ret.op
 }
 
-; Function Attrs: nofree norecurse nosync nounwind optsize memory(argmem: read)
-define hidden i64 @llb_sum_amounts_le64(ptr noundef readonly %0, i32 noundef %1) local_unnamed_addr #4 {
-  %3 = icmp eq ptr %0, null
-  %4 = icmp ne i32 %1, 0
-  %5 = and i1 %3, %4
-  %6 = icmp ugt i32 %1, 536870911
-  %or.cond = or i1 %6, %5
-  br i1 %or.cond, label %.loopexit, label %.preheader
+; Function Attrs: minsize nofree norecurse nosync nounwind optsize memory(argmem: read)
+define hidden range(i64 -9223372036854775808, 1) i64 @llb_sum_amounts_le64(ptr noundef readonly captures(none) %arg_v0, i32 noundef %arg_v1) local_unnamed_addr #1 {
+entry:
+  %arg_ext_v1 = zext i32 %arg_v1 to i64
+  br label %loop_hdr_4
 
-.preheader:                                       ; preds = %2, %54
-  %7 = phi i32 [ %56, %54 ], [ 0, %2 ]
-  %8 = phi i64 [ %55, %54 ], [ 0, %2 ]
-  %9 = icmp eq i32 %7, %1
-  br i1 %9, label %57, label %10
+loop_hdr_4:                                       ; preds = %loop_latch_6, %entry
+  %slot_v20.0 = phi i64 [ -9223372036854775808, %entry ], [ %slot_v20.1, %loop_latch_6 ]
+  %loop_idx_8 = phi i64 [ 0, %entry ], [ %loop_next_9, %loop_latch_6 ]
+  %loop_cmp_10 = icmp samesign ult i64 %loop_idx_8, %arg_ext_v1
+  br i1 %loop_cmp_10, label %loop_body_5, label %loop_exit_7
 
-10:                                               ; preds = %.preheader
-  %11 = shl nuw i32 %7, 3
-  %12 = getelementptr inbounds i8, ptr %0, i32 %11
-  %13 = load i8, ptr %12, align 1, !tbaa !5
-  %14 = zext i8 %13 to i64
-  %15 = getelementptr inbounds i8, ptr %12, i32 1
-  %16 = load i8, ptr %15, align 1, !tbaa !5
-  %17 = zext i8 %16 to i64
-  %18 = shl nuw nsw i64 %17, 8
-  %19 = or disjoint i64 %18, %14
-  %20 = getelementptr inbounds i8, ptr %12, i32 2
-  %21 = load i8, ptr %20, align 1, !tbaa !5
-  %22 = zext i8 %21 to i64
-  %23 = shl nuw nsw i64 %22, 16
-  %24 = or disjoint i64 %19, %23
-  %25 = getelementptr inbounds i8, ptr %12, i32 3
-  %26 = load i8, ptr %25, align 1, !tbaa !5
-  %27 = zext i8 %26 to i64
-  %28 = shl nuw nsw i64 %27, 24
-  %29 = or disjoint i64 %24, %28
-  %30 = getelementptr inbounds i8, ptr %12, i32 4
-  %31 = load i8, ptr %30, align 1, !tbaa !5
-  %32 = zext i8 %31 to i64
-  %33 = shl nuw nsw i64 %32, 32
-  %34 = or disjoint i64 %29, %33
-  %35 = getelementptr inbounds i8, ptr %12, i32 5
-  %36 = load i8, ptr %35, align 1, !tbaa !5
-  %37 = zext i8 %36 to i64
-  %38 = shl nuw nsw i64 %37, 40
-  %39 = or i64 %34, %38
-  %40 = getelementptr inbounds i8, ptr %12, i32 6
-  %41 = load i8, ptr %40, align 1, !tbaa !5
-  %42 = zext i8 %41 to i64
-  %43 = shl nuw nsw i64 %42, 48
-  %44 = or i64 %39, %43
-  %45 = getelementptr inbounds i8, ptr %12, i32 7
-  %46 = load i8, ptr %45, align 1, !tbaa !5
-  %47 = zext i8 %46 to i64
-  %48 = shl nuw i64 %47, 56
-  %49 = or i64 %44, %48
-  %50 = icmp ugt i64 %8, 2100000000000000
-  %51 = sub nuw nsw i64 2100000000000000, %8
-  %52 = icmp ult i64 %51, %49
-  %53 = select i1 %50, i1 true, i1 %52
-  br i1 %53, label %.loopexit, label %54
+loop_body_5:                                      ; preds = %loop_hdr_4
+  %cmp_eq_16 = icmp eq i64 %slot_v20.0, 0
+  br i1 %cmp_eq_16, label %loop_latch_6, label %ite_else_19
 
-54:                                               ; preds = %10
-  %55 = add nuw nsw i64 %49, %8
-  %56 = add nuw nsw i32 %7, 1
-  br label %.preheader
+ite_else_19:                                      ; preds = %loop_body_5
+  %loop_idx_8.tr = trunc i64 %loop_idx_8 to i32
+  %call_tr_32 = shl i32 %loop_idx_8.tr, 3
+  %rld_gep_2.i = getelementptr inbounds nuw i8, ptr %arg_v0, i32 %call_tr_32
+  %rld_i8_3.i = load i8, ptr %rld_gep_2.i, align 1
+  %rld_val_4.i = zext i8 %rld_i8_3.i to i64
+  %rld_gep_15.i = getelementptr i8, ptr %rld_gep_2.i, i32 1
+  %rld_i8_16.i = load i8, ptr %rld_gep_15.i, align 1
+  %rld_val_17.i = zext i8 %rld_i8_16.i to i64
+  %alu_22.i = shl nuw nsw i64 %rld_val_17.i, 8
+  %alu_26.i = or disjoint i64 %alu_22.i, %rld_val_4.i
+  %rld_gep_35.i = getelementptr i8, ptr %rld_gep_2.i, i32 2
+  %rld_i8_36.i = load i8, ptr %rld_gep_35.i, align 1
+  %rld_val_37.i = zext i8 %rld_i8_36.i to i64
+  %alu_42.i = shl nuw nsw i64 %rld_val_37.i, 16
+  %alu_46.i = or disjoint i64 %alu_26.i, %alu_42.i
+  %rld_gep_55.i = getelementptr i8, ptr %rld_gep_2.i, i32 3
+  %rld_i8_56.i = load i8, ptr %rld_gep_55.i, align 1
+  %rld_val_57.i = zext i8 %rld_i8_56.i to i64
+  %alu_62.i = shl nuw nsw i64 %rld_val_57.i, 24
+  %alu_66.i = or disjoint i64 %alu_46.i, %alu_62.i
+  %rld_gep_75.i = getelementptr i8, ptr %rld_gep_2.i, i32 4
+  %rld_i8_76.i = load i8, ptr %rld_gep_75.i, align 1
+  %rld_val_77.i = zext i8 %rld_i8_76.i to i64
+  %alu_82.i = shl nuw nsw i64 %rld_val_77.i, 32
+  %alu_86.i = or disjoint i64 %alu_66.i, %alu_82.i
+  %rld_gep_95.i = getelementptr i8, ptr %rld_gep_2.i, i32 5
+  %rld_i8_96.i = load i8, ptr %rld_gep_95.i, align 1
+  %rld_val_97.i = zext i8 %rld_i8_96.i to i64
+  %alu_102.i = shl nuw nsw i64 %rld_val_97.i, 40
+  %alu_106.i = or i64 %alu_86.i, %alu_102.i
+  %rld_gep_115.i = getelementptr i8, ptr %rld_gep_2.i, i32 6
+  %rld_i8_116.i = load i8, ptr %rld_gep_115.i, align 1
+  %rld_val_117.i = zext i8 %rld_i8_116.i to i64
+  %alu_122.i = shl nuw nsw i64 %rld_val_117.i, 48
+  %alu_126.i = or i64 %alu_106.i, %alu_122.i
+  %rld_gep_135.i = getelementptr i8, ptr %rld_gep_2.i, i32 7
+  %rld_i8_136.i = load i8, ptr %rld_gep_135.i, align 1
+  %rld_val_137.i = zext i8 %rld_i8_136.i to i64
+  %alu_142.i = shl nuw i64 %rld_val_137.i, 56
+  %alu_146.i = or i64 %alu_126.i, %alu_142.i
+  %alu_36 = and i64 %slot_v20.0, 9223372036854775807
+  %cmp_le_39 = icmp samesign ult i64 %alu_36, 2100000000000001
+  %alu_41 = sub nsw i64 2100000000000000, %alu_36
+  %cmp_le_45 = icmp ule i64 %alu_146.i, %alu_41
+  %narrow = select i1 %cmp_le_39, i1 %cmp_le_45, i1 false
+  br i1 %narrow, label %ite_then_53, label %loop_latch_6
 
-57:                                               ; preds = %.preheader
-  %58 = or i64 %8, -9223372036854775808
-  br label %.loopexit
+ite_then_53:                                      ; preds = %ite_else_19
+  %alu_58 = add i64 %alu_146.i, %slot_v20.0
+  %alu_61 = or i64 %alu_58, -9223372036854775808
+  br label %loop_latch_6
 
-.loopexit:                                        ; preds = %10, %57, %2
-  %59 = phi i64 [ %58, %57 ], [ 0, %2 ], [ 0, %10 ]
-  ret i64 %59
+loop_latch_6:                                     ; preds = %ite_else_19, %loop_body_5, %ite_then_53
+  %slot_v20.1 = phi i64 [ %alu_61, %ite_then_53 ], [ 0, %loop_body_5 ], [ 0, %ite_else_19 ]
+  %loop_next_9 = add nuw nsw i64 %loop_idx_8, 1
+  br label %loop_hdr_4
+
+loop_exit_7:                                      ; preds = %loop_hdr_4
+  ret i64 %slot_v20.0
 }
 
-; Function Attrs: nofree norecurse nosync nounwind optsize memory(argmem: read)
-define hidden zeroext i8 @llb_bip32_check_export_path(ptr noundef readonly %0, i8 noundef zeroext %1, i32 noundef %2) local_unnamed_addr #4 {
-  %4 = icmp eq ptr %0, null
-  %5 = zext i8 %1 to i32
-  %6 = add i8 %1, -11
-  %7 = icmp ult i8 %6, -9
-  %or.cond1 = or i1 %4, %7
-  br i1 %or.cond1, label %.loopexit, label %8
-
-8:                                                ; preds = %3
-  %9 = icmp eq i8 %1, 2
-  br i1 %9, label %10, label %20
-
-10:                                               ; preds = %8
-  %11 = load i32, ptr %0, align 4, !tbaa !9
-  %12 = icmp eq i32 %11, -2142942139
-  br i1 %12, label %13, label %17
-
-13:                                               ; preds = %10
-  %14 = getelementptr inbounds i32, ptr %0, i32 1
-  %15 = load i32, ptr %14, align 4, !tbaa !9
-  %16 = icmp eq i32 %15, -1035385550
-  br label %17
-
-17:                                               ; preds = %13, %10
-  %18 = phi i1 [ false, %10 ], [ %16, %13 ]
-  %19 = zext i1 %18 to i8
-  br label %.loopexit
-
-20:                                               ; preds = %8
-  %21 = icmp ugt i8 %1, 3
-  br i1 %21, label %22, label %25
-
-22:                                               ; preds = %20
-  %23 = getelementptr inbounds i32, ptr %0, i32 3
-  %24 = load i32, ptr %23, align 4, !tbaa !9
-  br label %25
-
-25:                                               ; preds = %22, %20
-  %26 = phi i32 [ %24, %22 ], [ 0, %20 ]
-  %27 = load i32, ptr %0, align 4, !tbaa !9
-  %28 = getelementptr inbounds i32, ptr %0, i32 1
-  %29 = load i32, ptr %28, align 4, !tbaa !9
-  %30 = getelementptr inbounds i32, ptr %0, i32 2
-  %31 = load i32, ptr %30, align 4, !tbaa !9
-  %32 = tail call zeroext i8 @llb_bip32_pubkey_export_prefix_ok(i32 noundef %27, i32 noundef %29, i32 noundef %31, i32 noundef %26, i8 noundef zeroext %1, i32 noundef %2, i8 noundef zeroext 1) #8, !range !3
-  %33 = icmp eq i8 %32, 0
-  br i1 %33, label %.loopexit, label %34
-
-34:                                               ; preds = %25
-  %35 = and i32 %27, 2147483647
-  %36 = icmp eq i32 %35, 48
-  %37 = select i1 %36, i32 4, i32 3
-  %umax = tail call i32 @llvm.umax.i32(i32 %37, i32 %5)
-  br label %38
-
-38:                                               ; preds = %40, %34
-  %39 = phi i32 [ %37, %34 ], [ %44, %40 ]
-  %exitcond.not = icmp eq i32 %39, %umax
-  br i1 %exitcond.not, label %.loopexit, label %40
-
-40:                                               ; preds = %38
-  %41 = getelementptr inbounds i32, ptr %0, i32 %39
-  %42 = load i32, ptr %41, align 4, !tbaa !9
-  %43 = icmp sgt i32 %42, -1
-  %44 = add nuw nsw i32 %39, 1
-  br i1 %43, label %38, label %.loopexit
-
-.loopexit:                                        ; preds = %40, %38, %25, %17, %3
-  %45 = phi i8 [ %19, %17 ], [ 0, %3 ], [ 0, %25 ], [ 0, %40 ], [ 1, %38 ]
-  ret i8 %45
+; Function Attrs: alwaysinline minsize mustprogress nofree norecurse nosync nounwind optsize willreturn memory(none)
+define hidden zeroext range(i8 0, 2) i8 @llb_segwit_program_valid(i8 noundef zeroext %arg_v0, i8 noundef zeroext %arg_v1) local_unnamed_addr #2 {
+entry:
+  %cmp_eq_3 = icmp eq i8 %arg_v0, 0
+  %alu_2 = zext i1 %cmp_eq_3 to i8
+  %cmp_eq_7 = icmp eq i8 %arg_v1, 20
+  %cmp_eq_11 = icmp eq i8 %arg_v1, 32
+  %alu_10 = zext i1 %cmp_eq_11 to i8
+  %sel_16 = select i1 %cmp_eq_7, i8 %alu_2, i8 %alu_10
+  %cmp_le_20 = icmp ult i8 %arg_v0, 17
+  %cmp_le_24 = icmp ugt i8 %arg_v1, 1
+  %cmp_le_28 = icmp ult i8 %arg_v1, 41
+  %alu_27 = zext i1 %cmp_le_28 to i8
+  %sel_33 = select i1 %cmp_le_24, i8 %alu_27, i8 %alu_2
+  %sel_38 = select i1 %cmp_le_20, i8 %sel_33, i8 0
+  %sel_43 = select i1 %cmp_eq_3, i8 %sel_16, i8 %sel_38
+  ret i8 %sel_43
 }
 
-; Function Attrs: mustprogress nofree norecurse nosync nounwind optsize willreturn memory(argmem: read)
-define hidden i64 @llb_read_compact_size_checked(ptr noundef readonly %0, i32 noundef %1, i32 noundef %2) local_unnamed_addr #5 {
-  %4 = icmp eq ptr %0, null
-  %5 = icmp eq i32 %1, 0
-  %or.cond = or i1 %4, %5
-  br i1 %or.cond, label %55, label %6
-
-6:                                                ; preds = %3
-  %7 = load i8, ptr %0, align 1, !tbaa !5
-  %8 = icmp ult i8 %7, -3
-  br i1 %8, label %9, label %11
-
-9:                                                ; preds = %6
-  %10 = zext i8 %7 to i64
-  br label %44
-
-11:                                               ; preds = %6
-  switch i8 %7, label %55 [
-    i8 -3, label %12
-    i8 -2, label %23
-  ]
-
-12:                                               ; preds = %11
-  %13 = icmp ult i32 %1, 3
-  br i1 %13, label %55, label %14
-
-14:                                               ; preds = %12
-  %15 = getelementptr inbounds i8, ptr %0, i32 1
-  %16 = load i8, ptr %15, align 1, !tbaa !5
-  %17 = zext i8 %16 to i64
-  %18 = getelementptr inbounds i8, ptr %0, i32 2
-  %19 = load i8, ptr %18, align 1, !tbaa !5
-  %20 = zext i8 %19 to i64
-  %21 = shl nuw nsw i64 %20, 8
-  %22 = or disjoint i64 %21, %17
-  br label %44
-
-23:                                               ; preds = %11
-  %24 = icmp ult i32 %1, 5
-  br i1 %24, label %55, label %25
-
-25:                                               ; preds = %23
-  %26 = getelementptr inbounds i8, ptr %0, i32 1
-  %27 = load i8, ptr %26, align 1, !tbaa !5
-  %28 = zext i8 %27 to i64
-  %29 = getelementptr inbounds i8, ptr %0, i32 2
-  %30 = load i8, ptr %29, align 1, !tbaa !5
-  %31 = zext i8 %30 to i64
-  %32 = shl nuw nsw i64 %31, 8
-  %33 = or disjoint i64 %32, %28
-  %34 = getelementptr inbounds i8, ptr %0, i32 3
-  %35 = load i8, ptr %34, align 1, !tbaa !5
-  %36 = zext i8 %35 to i64
-  %37 = shl nuw nsw i64 %36, 16
-  %38 = or disjoint i64 %33, %37
-  %39 = getelementptr inbounds i8, ptr %0, i32 4
-  %40 = load i8, ptr %39, align 1, !tbaa !5
-  %41 = zext i8 %40 to i64
-  %42 = shl nuw nsw i64 %41, 24
-  %43 = or disjoint i64 %38, %42
-  br label %44
-
-44:                                               ; preds = %25, %14, %9
-  %45 = phi i64 [ %10, %9 ], [ %22, %14 ], [ %43, %25 ]
-  %46 = phi i32 [ 1, %9 ], [ 3, %14 ], [ 5, %25 ]
-  %47 = tail call zeroext i8 @llb_varint_prefix_is_canonical(i8 noundef zeroext %7, i64 noundef %45) #8, !range !3
-  %48 = icmp eq i8 %47, 0
-  %49 = zext i32 %2 to i64
-  %50 = icmp ugt i64 %45, %49
-  %or.cond2 = or i1 %50, %48
-  br i1 %or.cond2, label %55, label %51
-
-51:                                               ; preds = %44
-  %52 = zext nneg i32 %46 to i64
-  %53 = shl nuw nsw i64 %52, 32
-  %54 = add nuw nsw i64 %53, %45
-  br label %55
-
-55:                                               ; preds = %51, %44, %23, %12, %11, %3
-  %56 = phi i64 [ %54, %51 ], [ 0, %3 ], [ 0, %12 ], [ 0, %23 ], [ 0, %11 ], [ 0, %44 ]
-  ret i64 %56
+; Function Attrs: minsize mustprogress nofree norecurse nosync nounwind optsize willreturn memory(none)
+define hidden noundef zeroext range(i8 1, 10) i8 @llb_varint_encoded_len(i64 noundef %arg_v0) local_unnamed_addr #4 {
+entry:
+  %cmp_le_2 = icmp ult i64 %arg_v0, 253
+  %cmp_le_5 = icmp ult i64 %arg_v0, 65536
+  %cmp_le_8 = icmp ult i64 %arg_v0, 4294967296
+  %0 = select i1 %cmp_le_8, i8 5, i8 9
+  %1 = select i1 %cmp_le_5, i8 3, i8 %0
+  %ret_tr_21 = select i1 %cmp_le_2, i8 1, i8 %1
+  ret i8 %ret_tr_21
 }
 
-; Function Attrs: nofree norecurse nosync nounwind optsize memory(argmem: readwrite)
-define hidden void @llb_sort_fixed_bytes(ptr noundef %0, i32 noundef %1, i32 noundef %2) local_unnamed_addr #3 {
-  %4 = icmp eq ptr %0, null
-  %5 = icmp eq i32 %2, 0
-  %or.cond = or i1 %4, %5
-  %6 = icmp ult i32 %1, 2
-  %or.cond1 = or i1 %6, %or.cond
-  br i1 %or.cond1, label %.loopexit7, label %.preheader6
+; Function Attrs: alwaysinline minsize mustprogress nofree norecurse nosync nounwind optsize willreturn memory(none)
+define hidden zeroext range(i8 0, 2) i8 @llb_wallet_name_char_ok(i8 noundef zeroext %arg_v0, i8 noundef zeroext %arg_v1) local_unnamed_addr #2 {
+entry:
+  %0 = and i8 %arg_v1, 1
+  %ite_cond_0.not = icmp eq i8 %0, 0
+  br i1 %ite_cond_0.not, label %ite_else_2, label %ite_then_1
 
-.preheader6:                                      ; preds = %3, %43
-  %7 = phi i32 [ %44, %43 ], [ 1, %3 ]
-  %8 = icmp eq i32 %7, %1
-  br i1 %8, label %.loopexit7, label %.preheader5
+ite_then_1:                                       ; preds = %entry
+  %cmp_le_7 = icmp ugt i8 %arg_v0, 32
+  br i1 %cmp_le_7, label %ite_then_9, label %common.ret
 
-.preheader5:                                      ; preds = %.preheader, %.preheader6
-  %9 = phi i32 [ %7, %.preheader6 ], [ %12, %.preheader ]
-  %10 = icmp eq i32 %9, 0
-  br i1 %10, label %43, label %11
+common.ret:                                       ; preds = %ite_else_2, %ite_then_1, %ite_then_27, %ite_then_9
+  %common.ret.op.shrunk = phi i1 [ %cmp_le_15, %ite_then_9 ], [ %cmp_le_33, %ite_then_27 ], [ false, %ite_then_1 ], [ false, %ite_else_2 ]
+  %common.ret.op = zext i1 %common.ret.op.shrunk to i8
+  ret i8 %common.ret.op
 
-11:                                               ; preds = %.preheader5
-  %12 = add i32 %9, -1
-  %13 = mul i32 %12, %2
-  %14 = mul i32 %9, %2
-  %15 = getelementptr i8, ptr %0, i32 %13
-  %16 = getelementptr i8, ptr %0, i32 %14
-  br label %17
+ite_then_9:                                       ; preds = %ite_then_1
+  %cmp_le_15 = icmp ult i8 %arg_v0, 127
+  br label %common.ret
 
-17:                                               ; preds = %21, %11
-  %18 = phi i8 [ 0, %11 ], [ %30, %21 ]
-  %19 = phi i32 [ 0, %11 ], [ %31, %21 ]
-  %20 = icmp eq i32 %19, %2
-  br i1 %20, label %32, label %21
+ite_else_2:                                       ; preds = %entry
+  %cmp_le_25 = icmp ugt i8 %arg_v0, 31
+  br i1 %cmp_le_25, label %ite_then_27, label %common.ret
 
-21:                                               ; preds = %17
-  %22 = getelementptr i8, ptr %15, i32 %19
-  %23 = load i8, ptr %22, align 1, !tbaa !5
-  %24 = getelementptr i8, ptr %16, i32 %19
-  %25 = load i8, ptr %24, align 1, !tbaa !5
-  %26 = icmp ult i8 %23, %25
-  %27 = icmp ugt i8 %23, %25
-  %28 = select i1 %27, i8 1, i8 %18
-  %29 = icmp eq i8 %23, %25
-  %30 = select i1 %26, i8 0, i8 %28
-  %31 = add i32 %19, 1
-  br i1 %29, label %17, label %32
-
-32:                                               ; preds = %21, %17
-  %33 = phi i8 [ %30, %21 ], [ %18, %17 ]
-  %34 = icmp eq i8 %33, 0
-  br i1 %34, label %43, label %.preheader
-
-.preheader:                                       ; preds = %32, %37
-  %35 = phi i32 [ %42, %37 ], [ 0, %32 ]
-  %36 = icmp eq i32 %35, %2
-  br i1 %36, label %.preheader5, label %37
-
-37:                                               ; preds = %.preheader
-  %38 = getelementptr i8, ptr %15, i32 %35
-  %39 = load i8, ptr %38, align 1, !tbaa !5
-  %40 = getelementptr i8, ptr %16, i32 %35
-  %41 = load i8, ptr %40, align 1, !tbaa !5
-  store i8 %41, ptr %38, align 1, !tbaa !5
-  store i8 %39, ptr %40, align 1, !tbaa !5
-  %42 = add i32 %35, 1
-  br label %.preheader
-
-43:                                               ; preds = %32, %.preheader5
-  %44 = add i32 %7, 1
-  br label %.preheader6
-
-.loopexit7:                                       ; preds = %.preheader6, %3
-  ret void
+ite_then_27:                                      ; preds = %ite_else_2
+  %cmp_le_33 = icmp ult i8 %arg_v0, 127
+  br label %common.ret
 }
 
-; Function Attrs: nofree norecurse nosync nounwind optsize memory(argmem: readwrite)
-define hidden void @llb_sort_u16(ptr noundef %0, i32 noundef %1) local_unnamed_addr #3 {
-  %3 = icmp eq ptr %0, null
-  %4 = icmp ult i32 %1, 2
-  %or.cond = or i1 %3, %4
-  br i1 %or.cond, label %.loopexit, label %.preheader
-
-.preheader:                                       ; preds = %2, %20
-  %5 = phi i32 [ %22, %20 ], [ 1, %2 ]
-  %6 = icmp eq i32 %5, %1
-  br i1 %6, label %.loopexit, label %7
-
-7:                                                ; preds = %.preheader
-  %8 = getelementptr inbounds i16, ptr %0, i32 %5
-  %9 = load i16, ptr %8, align 2, !tbaa !11
-  br label %10
-
-10:                                               ; preds = %18, %7
-  %11 = phi i32 [ %5, %7 ], [ %19, %18 ]
-  %12 = icmp eq i32 %11, 0
-  br i1 %12, label %20, label %13
-
-13:                                               ; preds = %10
-  %14 = getelementptr i16, ptr %0, i32 %11
-  %15 = getelementptr i16, ptr %14, i32 -1
-  %16 = load i16, ptr %15, align 2, !tbaa !11
-  %17 = icmp ugt i16 %16, %9
-  br i1 %17, label %18, label %20
-
-18:                                               ; preds = %13
-  store i16 %16, ptr %14, align 2, !tbaa !11
-  %19 = add i32 %11, -1
-  br label %10
-
-20:                                               ; preds = %13, %10
-  %21 = getelementptr inbounds i16, ptr %0, i32 %11
-  store i16 %9, ptr %21, align 2, !tbaa !11
-  %22 = add i32 %5, 1
-  br label %.preheader
-
-.loopexit:                                        ; preds = %.preheader, %2
-  ret void
+; Function Attrs: minsize mustprogress nofree norecurse nosync nounwind optsize willreturn memory(none)
+define hidden noundef i32 @llb_version_packed() local_unnamed_addr #4 {
+entry:
+  ret i32 132097
 }
 
-; Function Attrs: nofree norecurse nosync nounwind optsize memory(argmem: readwrite)
-define hidden i32 @llb_format_sats_ascii(i64 noundef %0, ptr noundef readonly %1, i32 noundef %2, i8 noundef zeroext %3, ptr noundef writeonly %4, i32 noundef %5) local_unnamed_addr #3 {
-  %7 = alloca [12 x i8], align 1
-  %8 = alloca [10 x i8], align 1
-  %9 = alloca [8 x i8], align 1
-  %10 = tail call i64 @llb_sats_div_1e8(i64 noundef %0) #8, !range !4
-  %11 = tail call i32 @llb_sats_mod_1e8(i64 noundef %0) #8
-  %12 = tail call i64 @llb_sats_div_1e8(i64 noundef %10) #8, !range !4
-  %13 = trunc i64 %12 to i32
-  %14 = tail call i32 @llb_sats_mod_1e8(i64 noundef %10) #8
-  call void @llvm.lifetime.start.p0(i64 12, ptr nonnull %7) #9
-  call void @llvm.lifetime.start.p0(i64 10, ptr nonnull %8) #9
-  %15 = icmp eq ptr %4, null
-  br i1 %15, label %206, label %16
-
-16:                                               ; preds = %6
-  %17 = icmp eq ptr %1, null
-  %18 = icmp ne i32 %2, 0
-  %19 = and i1 %17, %18
-  br i1 %19, label %206, label %20
-
-20:                                               ; preds = %16
-  %21 = icmp eq i32 %13, 0
-  br i1 %21, label %24, label %22
-
-22:                                               ; preds = %20
-  %23 = call fastcc i32 @llb_dec_digits(i32 noundef %13, ptr noundef nonnull %7) #8
-  br label %26
-
-24:                                               ; preds = %20
-  %25 = call fastcc i32 @llb_dec_digits(i32 noundef %14, ptr noundef nonnull %8) #8
-  br label %.loopexit16
-
-26:                                               ; preds = %30, %22
-  %27 = phi i32 [ %53, %30 ], [ 0, %22 ]
-  %28 = phi i32 [ %47, %30 ], [ %14, %22 ]
-  %29 = icmp eq i32 %27, 8
-  br i1 %29, label %.loopexit16, label %30
-
-30:                                               ; preds = %26
-  %31 = and i32 %28, 65535
-  %32 = lshr i32 %28, 16
-  %33 = mul nuw i32 %31, 52429
-  %34 = zext i32 %33 to i64
-  %35 = mul nuw i32 %31, 52428
-  %36 = zext i32 %35 to i64
-  %37 = mul nuw i32 %32, 52429
-  %38 = zext i32 %37 to i64
-  %39 = mul nuw i32 %32, 52428
-  %40 = zext i32 %39 to i64
-  %41 = add nuw nsw i64 %36, %38
-  %42 = shl nuw nsw i64 %41, 16
-  %43 = shl nuw i64 %40, 32
-  %44 = or disjoint i64 %43, %34
-  %45 = add nuw i64 %44, %42
-  %46 = lshr i64 %45, 35
-  %47 = trunc i64 %46 to i32
-  %48 = mul i32 %47, 246
-  %49 = add i32 %48, %28
-  %50 = trunc i32 %49 to i8
-  %51 = add i8 %50, 48
-  %52 = getelementptr inbounds [10 x i8], ptr %8, i32 0, i32 %27
-  store i8 %51, ptr %52, align 1, !tbaa !5
-  %53 = add nuw nsw i32 %27, 1
-  br label %26
-
-.loopexit16:                                      ; preds = %26, %24
-  %54 = phi i32 [ 0, %24 ], [ %23, %26 ]
-  %55 = phi i32 [ %25, %24 ], [ 8, %26 ]
-  %56 = icmp ne i8 %3, 0
-  %57 = icmp ne i32 %11, 0
-  %58 = select i1 %56, i1 true, i1 %57
-  %59 = zext i1 %58 to i32
-  %60 = icmp eq i8 %3, 0
-  br i1 %60, label %.preheader15, label %92
-
-.preheader15:                                     ; preds = %.loopexit16, %66
-  %61 = phi i32 [ %83, %66 ], [ %11, %.loopexit16 ]
-  %62 = phi i32 [ %87, %66 ], [ 0, %.loopexit16 ]
-  %63 = icmp ult i32 %62, 8
-  %64 = icmp ne i32 %61, 0
-  %65 = select i1 %63, i1 %64, i1 false
-  br i1 %65, label %66, label %88
-
-66:                                               ; preds = %.preheader15
-  %67 = and i32 %61, 65535
-  %68 = lshr i32 %61, 16
-  %69 = mul nuw i32 %67, 52429
-  %70 = zext i32 %69 to i64
-  %71 = mul nuw i32 %67, 52428
-  %72 = zext i32 %71 to i64
-  %73 = mul nuw i32 %68, 52429
-  %74 = zext i32 %73 to i64
-  %75 = mul nuw i32 %68, 52428
-  %76 = zext i32 %75 to i64
-  %77 = add nuw nsw i64 %72, %74
-  %78 = shl nuw nsw i64 %77, 16
-  %79 = shl nuw i64 %76, 32
-  %80 = or disjoint i64 %79, %70
-  %81 = add nuw i64 %80, %78
-  %82 = lshr i64 %81, 35
-  %83 = trunc i64 %82 to i32
-  %84 = mul i32 %83, -10
-  %85 = sub i32 0, %61
-  %86 = icmp eq i32 %84, %85
-  %87 = add nuw nsw i32 %62, 1
-  br i1 %86, label %.preheader15, label %88
-
-88:                                               ; preds = %66, %.preheader15
-  %89 = icmp eq i32 %11, 0
-  %90 = sub nsw i32 8, %62
-  %91 = select i1 %89, i32 0, i32 %90
-  br label %92
-
-92:                                               ; preds = %88, %.loopexit16
-  %93 = phi i32 [ %91, %88 ], [ 8, %.loopexit16 ]
-  %94 = select i1 %58, i32 %93, i32 0
-  %95 = icmp eq i32 %2, 0
-  %96 = add i32 %2, 2
-  %97 = select i1 %95, i32 1, i32 %96
-  %98 = add i32 %97, %59
-  %99 = add i32 %98, %54
-  %100 = add i32 %99, %55
-  %101 = add i32 %100, %94
-  %102 = icmp ugt i32 %101, %5
-  br i1 %102, label %206, label %.preheader14
-
-.preheader14:                                     ; preds = %92, %106
-  %103 = phi i32 [ %110, %106 ], [ 0, %92 ]
-  %104 = phi i32 [ %107, %106 ], [ %54, %92 ]
-  %105 = icmp eq i32 %104, 0
-  br i1 %105, label %.preheader, label %106
-
-106:                                              ; preds = %.preheader14
-  %107 = add i32 %104, -1
-  %108 = getelementptr inbounds [12 x i8], ptr %7, i32 0, i32 %107
-  %109 = load i8, ptr %108, align 1, !tbaa !5
-  %110 = add i32 %103, 1
-  %111 = getelementptr inbounds i8, ptr %4, i32 %103
-  store i8 %109, ptr %111, align 1, !tbaa !5
-  br label %.preheader14
-
-.preheader:                                       ; preds = %.preheader14, %115
-  %112 = phi i32 [ %119, %115 ], [ %54, %.preheader14 ]
-  %113 = phi i32 [ %116, %115 ], [ %55, %.preheader14 ]
-  %114 = icmp eq i32 %113, 0
-  br i1 %114, label %121, label %115
-
-115:                                              ; preds = %.preheader
-  %116 = add i32 %113, -1
-  %117 = getelementptr inbounds [10 x i8], ptr %8, i32 0, i32 %116
-  %118 = load i8, ptr %117, align 1, !tbaa !5
-  %119 = add i32 %112, 1
-  %120 = getelementptr inbounds i8, ptr %4, i32 %112
-  store i8 %118, ptr %120, align 1, !tbaa !5
-  br label %.preheader
-
-121:                                              ; preds = %.preheader
-  br i1 %58, label %122, label %190
-
-122:                                              ; preds = %121
-  call void @llvm.lifetime.start.p0(i64 8, ptr nonnull %9) #9
-  br i1 %60, label %123, label %.loopexit13.preheader
-
-.loopexit13.preheader:                            ; preds = %125, %122
-  %.ph = phi i32 [ %11, %122 ], [ %127, %125 ]
-  br label %.loopexit13
-
-123:                                              ; preds = %122
-  %124 = sub i32 8, %93
-  br label %125
-
-125:                                              ; preds = %129, %123
-  %126 = phi i32 [ %147, %129 ], [ 0, %123 ]
-  %127 = phi i32 [ %146, %129 ], [ %11, %123 ]
-  %128 = icmp eq i32 %126, %124
-  br i1 %128, label %.loopexit13.preheader, label %129
-
-129:                                              ; preds = %125
-  %130 = and i32 %127, 65535
-  %131 = lshr i32 %127, 16
-  %132 = mul nuw i32 %130, 52429
-  %133 = zext i32 %132 to i64
-  %134 = mul nuw i32 %130, 52428
-  %135 = zext i32 %134 to i64
-  %136 = mul nuw i32 %131, 52429
-  %137 = zext i32 %136 to i64
-  %138 = mul nuw i32 %131, 52428
-  %139 = zext i32 %138 to i64
-  %140 = add nuw nsw i64 %135, %137
-  %141 = shl nuw nsw i64 %140, 16
-  %142 = shl nuw i64 %139, 32
-  %143 = or disjoint i64 %142, %133
-  %144 = add nuw i64 %143, %141
-  %145 = lshr i64 %144, 35
-  %146 = trunc i64 %145 to i32
-  %147 = add i32 %126, 1
-  br label %125
-
-.loopexit13:                                      ; preds = %.loopexit13.preheader, %151
-  %148 = phi i32 [ %176, %151 ], [ 0, %.loopexit13.preheader ]
-  %149 = phi i32 [ %168, %151 ], [ %.ph, %.loopexit13.preheader ]
-  %150 = icmp eq i32 %148, %93
-  br i1 %150, label %177, label %151
-
-151:                                              ; preds = %.loopexit13
-  %152 = and i32 %149, 65535
-  %153 = lshr i32 %149, 16
-  %154 = mul nuw i32 %152, 52429
-  %155 = zext i32 %154 to i64
-  %156 = mul nuw i32 %152, 52428
-  %157 = zext i32 %156 to i64
-  %158 = mul nuw i32 %153, 52429
-  %159 = zext i32 %158 to i64
-  %160 = mul nuw i32 %153, 52428
-  %161 = zext i32 %160 to i64
-  %162 = add nuw nsw i64 %157, %159
-  %163 = shl nuw nsw i64 %162, 16
-  %164 = shl nuw i64 %161, 32
-  %165 = or disjoint i64 %164, %155
-  %166 = add nuw i64 %165, %163
-  %167 = lshr i64 %166, 35
-  %168 = trunc i64 %167 to i32
-  %169 = mul i32 %168, 246
-  %170 = add i32 %169, %149
-  %171 = trunc i32 %170 to i8
-  %172 = add i8 %171, 48
-  %173 = xor i32 %148, -1
-  %174 = add i32 %93, %173
-  %175 = getelementptr inbounds [8 x i8], ptr %9, i32 0, i32 %174
-  store i8 %172, ptr %175, align 1, !tbaa !5
-  %176 = add i32 %148, 1
-  br label %.loopexit13
-
-177:                                              ; preds = %.loopexit13
-  %178 = getelementptr inbounds i8, ptr %4, i32 %112
-  store i8 46, ptr %178, align 1, !tbaa !5
-  br label %179
-
-179:                                              ; preds = %184, %177
-  %180 = phi i32 [ %112, %177 ], [ %182, %184 ]
-  %181 = phi i32 [ 0, %177 ], [ %188, %184 ]
-  %182 = add i32 %180, 1
-  %183 = icmp eq i32 %181, %93
-  br i1 %183, label %189, label %184
-
-184:                                              ; preds = %179
-  %185 = getelementptr inbounds [8 x i8], ptr %9, i32 0, i32 %181
-  %186 = load i8, ptr %185, align 1, !tbaa !5
-  %187 = getelementptr inbounds i8, ptr %4, i32 %182
-  store i8 %186, ptr %187, align 1, !tbaa !5
-  %188 = add i32 %181, 1
-  br label %179
-
-189:                                              ; preds = %179
-  call void @llvm.lifetime.end.p0(i64 8, ptr nonnull %9) #9
-  br label %190
-
-190:                                              ; preds = %189, %121
-  %191 = phi i32 [ %182, %189 ], [ %112, %121 ]
-  br i1 %18, label %192, label %.loopexit
-
-192:                                              ; preds = %190
-  %193 = getelementptr inbounds i8, ptr %4, i32 %191
-  store i8 32, ptr %193, align 1, !tbaa !5
-  br label %194
-
-194:                                              ; preds = %199, %192
-  %195 = phi i32 [ %191, %192 ], [ %197, %199 ]
-  %196 = phi i32 [ 0, %192 ], [ %203, %199 ]
-  %197 = add i32 %195, 1
-  %198 = icmp eq i32 %196, %2
-  br i1 %198, label %.loopexit, label %199
-
-199:                                              ; preds = %194
-  %200 = getelementptr inbounds i8, ptr %1, i32 %196
-  %201 = load i8, ptr %200, align 1, !tbaa !5
-  %202 = getelementptr inbounds i8, ptr %4, i32 %197
-  store i8 %201, ptr %202, align 1, !tbaa !5
-  %203 = add i32 %196, 1
-  br label %194
-
-.loopexit:                                        ; preds = %194, %190
-  %204 = phi i32 [ %191, %190 ], [ %197, %194 ]
-  %205 = getelementptr inbounds i8, ptr %4, i32 %204
-  store i8 0, ptr %205, align 1, !tbaa !5
-  br label %206
-
-206:                                              ; preds = %.loopexit, %92, %16, %6
-  %207 = phi i32 [ %204, %.loopexit ], [ 0, %6 ], [ 0, %16 ], [ 0, %92 ]
-  call void @llvm.lifetime.end.p0(i64 10, ptr nonnull %8) #9
-  call void @llvm.lifetime.end.p0(i64 12, ptr nonnull %7) #9
-  ret i32 %207
+; Function Attrs: minsize mustprogress nofree norecurse nosync nounwind optsize willreturn memory(none)
+define hidden zeroext range(i8 0, 2) i8 @llb_checked_sub_sats_ok(i64 noundef %arg_v0, i64 noundef %arg_v1) local_unnamed_addr #4 {
+entry:
+  %cmp_le_2 = icmp ult i64 %arg_v0, 2100000000000001
+  %cmp_le_6 = icmp ule i64 %arg_v1, %arg_v0
+  %narrow = and i1 %cmp_le_2, %cmp_le_6
+  %ret_tr_14 = zext i1 %narrow to i8
+  ret i8 %ret_tr_14
 }
 
-; Function Attrs: nofree norecurse nosync nounwind optsize memory(argmem: write)
-define hidden fastcc i32 @llb_dec_digits(i32 noundef %0, ptr nocapture noundef writeonly %1) unnamed_addr #6 {
-  br label %3
-
-3:                                                ; preds = %3, %2
-  %4 = phi i32 [ 0, %2 ], [ %27, %3 ]
-  %5 = phi i32 [ %0, %2 ], [ %22, %3 ]
-  %6 = and i32 %5, 65535
-  %7 = lshr i32 %5, 16
-  %8 = mul nuw i32 %6, 52429
-  %9 = zext i32 %8 to i64
-  %10 = mul nuw i32 %6, 52428
-  %11 = zext i32 %10 to i64
-  %12 = mul nuw i32 %7, 52429
-  %13 = zext i32 %12 to i64
-  %14 = mul nuw i32 %7, 52428
-  %15 = zext i32 %14 to i64
-  %16 = add nuw nsw i64 %11, %13
-  %17 = shl nuw nsw i64 %16, 16
-  %18 = shl nuw i64 %15, 32
-  %19 = or disjoint i64 %18, %9
-  %20 = add nuw i64 %19, %17
-  %21 = lshr i64 %20, 35
-  %22 = trunc i64 %21 to i32
-  %23 = mul i32 %22, 246
-  %24 = add i32 %23, %5
-  %25 = trunc i32 %24 to i8
-  %26 = add i8 %25, 48
-  %27 = add i32 %4, 1
-  %28 = getelementptr inbounds i8, ptr %1, i32 %4
-  store i8 %26, ptr %28, align 1, !tbaa !5
-  %29 = icmp eq i32 %22, 0
-  br i1 %29, label %30, label %3
-
-30:                                               ; preds = %3
-  ret i32 %27
+; Function Attrs: minsize mustprogress nofree norecurse nosync nounwind optsize willreturn memory(none)
+define hidden i64 @llb_checked_sub_sats_val(i64 noundef %arg_v0, i64 noundef %arg_v1) local_unnamed_addr #4 {
+entry:
+  %cmp_le_2 = icmp ult i64 %arg_v0, 2100000000000001
+  %cmp_le_6 = icmp ule i64 %arg_v1, %arg_v0
+  %narrow = and i1 %cmp_le_2, %cmp_le_6
+  %alu_19 = sub nuw i64 %arg_v0, %arg_v1
+  %common.ret.op = select i1 %narrow, i64 %alu_19, i64 0
+  ret i64 %common.ret.op
 }
 
-; Function Attrs: mustprogress nocallback nofree nosync nounwind speculatable willreturn memory(none)
-declare i32 @llvm.umax.i32(i32, i32) #7
-
-attributes #0 = { mustprogress nofree norecurse nosync nounwind optsize willreturn memory(none) "no-builtins" "no-trapping-math"="true" "use-soft-float"="true" }
-attributes #1 = { alwaysinline mustprogress nofree norecurse nosync nounwind optsize willreturn memory(none) "no-builtins" "no-trapping-math"="true" "use-soft-float"="true" }
-attributes #2 = { mustprogress nocallback nofree nosync nounwind willreturn memory(argmem: readwrite) }
-attributes #3 = { nofree norecurse nosync nounwind optsize memory(argmem: readwrite) "no-builtins" "no-trapping-math"="true" "use-soft-float"="true" }
-attributes #4 = { nofree norecurse nosync nounwind optsize memory(argmem: read) "no-builtins" "no-trapping-math"="true" "use-soft-float"="true" }
-attributes #5 = { mustprogress nofree norecurse nosync nounwind optsize willreturn memory(argmem: read) "no-builtins" "no-trapping-math"="true" "use-soft-float"="true" }
-attributes #6 = { nofree norecurse nosync nounwind optsize memory(argmem: write) "no-builtins" "no-trapping-math"="true" "use-soft-float"="true" }
-attributes #7 = { mustprogress nocallback nofree nosync nounwind speculatable willreturn memory(none) }
-attributes #8 = { nobuiltin optsize "no-builtins" }
-attributes #9 = { nounwind }
-
-!llvm.module.flags = !{!0, !1, !2}
-
-!0 = !{i32 1, !"wchar_size", i32 4}
-!1 = !{i32 1, !"min_enum_size", i32 4}
-!2 = !{i32 7, !"frame-pointer", i32 2}
-!3 = !{i8 0, i8 2}
-!4 = !{i64 0, i64 219903164404}
-!5 = !{!6, !6, i64 0}
-!6 = !{!"omnipotent char", !7, i64 0}
-!7 = !{!"Simple C/C++ TBAA"}
-!8 = !{i64 0, i64 8589934592}
-!9 = !{!10, !10, i64 0}
-!10 = !{!"int", !6, i64 0}
-!11 = !{!12, !12, i64 0}
-!12 = !{!"short", !6, i64 0}
+attributes #0 = { minsize nofree norecurse nosync nounwind optsize memory(argmem: readwrite) }
+attributes #1 = { minsize nofree norecurse nosync nounwind optsize memory(argmem: read) }
+attributes #2 = { alwaysinline minsize mustprogress nofree norecurse nosync nounwind optsize willreturn memory(none) }
+attributes #3 = { minsize nofree norecurse nosync nounwind optsize memory(argmem: write) }
+attributes #4 = { minsize mustprogress nofree norecurse nosync nounwind optsize willreturn memory(none) }
+attributes #5 = { minsize mustprogress nofree norecurse nosync nounwind optsize willreturn memory(argmem: read) }
+attributes #6 = { minsize mustprogress nofree norecurse nosync nounwind optsize willreturn memory(argmem: write) }
+attributes #7 = { minsize nofree norecurse nosync nounwind optsize memory(none) }
