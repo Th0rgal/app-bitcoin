@@ -79,8 +79,10 @@ class RaggerClient(NewClient):
     def last_async_response(self) -> Tuple[int, bytes]:
         return self.transport_client.last_async_response.status, self.transport_client.last_async_response.data
 
-    def ragger_navigate(self, navigator: Navigator, apdu: dict, instructions: Instructions, testname: str, index: int, sub_index: int = 0) -> Tuple[int, bytes, int, int]:
+    def ragger_navigate(self, navigator: Navigator, apdu: dict, instructions: Instructions, testname: str, index: int, sub_index: int = 0, navigation_state: Optional[dict] = None) -> Tuple[int, bytes, int, int]:
 
+        if navigation_state is None:
+            navigation_state = {}
         if instructions:
             text = instructions.data['text']
             instruction_until_text = instructions.data['instruction_until_text']
@@ -113,13 +115,16 @@ class RaggerClient(NewClient):
                                                                       Path(
                                                                           f"{testname}_{index}_{sub_index}"),
                                                                       screen_change_after_last_instruction=False,
-                                                                      screen_change_before_first_instruction=True)
+                                                                      screen_change_before_first_instruction=True,
+                                                                      resume_state=navigation_state)
                         else:
                             navigator.navigate_until_text(instr_next,
                                                           [instr_approve],
                                                           t,
                                                           screen_change_after_last_instruction=False,
-                                                          screen_change_before_first_instruction=True)
+                                                          screen_change_before_first_instruction=True,
+                                                          resume_state=navigation_state)
+                        navigation_state.clear()
                         sub_index += 1
                     index += 1
                     sub_index = 0
@@ -138,9 +143,10 @@ class RaggerClient(NewClient):
 
         index = 0
         sub_index = 0
+        navigation_state = {}
 
         sw, response, index, sub_index = self.ragger_navigate(
-            navigator, apdu, instructions, testname, index, sub_index)
+            navigator, apdu, instructions, testname, index, sub_index, navigation_state)
 
         while sw == 0xE000:
             if not client_intepreter:
@@ -151,7 +157,7 @@ class RaggerClient(NewClient):
             apdu = self.builder.continue_interrupted(command_response)
 
             sw, response, index, sub_index = self.ragger_navigate(
-                navigator, apdu, instructions, testname, index, sub_index)
+                navigator, apdu, instructions, testname, index, sub_index, navigation_state)
 
         # A request that succeeds without showing all the expected screens skipped the review.
         # A final status screen (e.g. "Transaction signed") does not block the APDU, so it is only
