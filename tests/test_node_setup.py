@@ -1,0 +1,45 @@
+from unittest.mock import Mock
+
+import pytest
+
+import conftest as node_setup
+from test_utils.authproxy import JSONRPCException
+
+
+def test_setup_node_propagates_permanent_wallet_error(monkeypatch):
+    error = JSONRPCException({"code": -4, "message": "Database already exists"})
+    rpc = Mock()
+    # Bound the regression on the original implementation: a second RPC is a bug.
+    rpc.createwallet.side_effect = [error, AssertionError("retried permanent error")]
+    sleep = Mock()
+    monkeypatch.setattr(node_setup, "get_rpc", lambda: rpc)
+    monkeypatch.setattr(node_setup, "sleep", sleep)
+
+    with pytest.raises(JSONRPCException) as raised:
+        node_setup.setup_node()
+
+    assert raised.value is error
+    rpc.createwallet.assert_called_once_with(wallet_name="test_wallet", descriptors=True)
+    rpc.getnewaddress.assert_not_called()
+    rpc.generatetoaddress.assert_not_called()
+    sleep.assert_not_called()
+
+
+@pytest.mark.parametrize("error", [
+    ConnectionError("node starting"),
+    JSONRPCException({"code": -4, "message": "Loading wallet..."}),
+])
+def test_setup_node_retries_transient_startup_error(monkeypatch, error):
+    rpc = Mock()
+    rpc.createwallet.side_effect = [error, {"name": "test_wallet"}]
+    rpc.getnewaddress.return_value = "test-address"
+    sleep = Mock()
+    monkeypatch.setattr(node_setup, "get_rpc", lambda: rpc)
+    monkeypatch.setattr(node_setup, "sleep", sleep)
+
+    node_setup.setup_node()
+
+    assert rpc.createwallet.call_count == 2
+    sleep.assert_called_once_with(1)
+    rpc.getnewaddress.assert_called_once_with()
+    rpc.generatetoaddress.assert_called_once_with(105, "test-address")

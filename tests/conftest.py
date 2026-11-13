@@ -107,6 +107,8 @@ def setup_node():
         except JSONRPCException as e:
             if "Loading wallet..." in str(e):
                 sleep(1)
+            else:
+                raise
 
     # Mine enough blocks so coinbases are mature and we have enough funds to run everything
     rpc.generatetoaddress(105, btc_addr)
